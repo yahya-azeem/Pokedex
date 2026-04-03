@@ -1,0 +1,29 @@
+[package]
+name = "pokedex-commands"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+pokedex-core = { workspace = true }
+pokedex-api = { workspace = true }
+pokedex-tools = { workspace = true }
+pokedex-query = { workspace = true }
+pokedex-mcp = { workspace = true }
+pokedex-tui = { workspace = true }
+pokedex-plugins = { workspace = true }
+tokio = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+anyhow = { workspace = true }
+tracing = { workspace = true }
+async-trait = { workspace = true }
+chrono = { workspace = true }
+dirs = { workspace = true }
+regex = { workspace = true }
+reqwest = { workspace = true }
+arboard = { version = "3", default-features = false }
+urlencoding = { workspace = true }
+open = { workspace = true }
+qrcode = { workspace = true }
+pokedex-bridge = { workspace = true }
+hostname = "0.4"
