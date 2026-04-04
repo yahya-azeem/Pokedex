@@ -9,6 +9,15 @@ Specification [`spec/`](https://github.com/kuberwastaken/pokedex-code/tree/main/
 
 Implementation [`src-rust/`](https://github.com/kuberwastaken/pokedex-code/tree/main/src-rust)- A separate AI agent implemented from the spec alone, never referencing the original TypeScript. The output is idiomatic Rust that reproduces the behavior, not the expression.
 
+### Integrated Libraries [`library/`](https://github.com/kuberwastaken/pokedex-code/tree/main/library)
+
+To enhance Pokedex's default capabilities, we have integrated two legendary community-built Agent and Skill libraries:
+
+- **Agency-Agents** ([msitarzewski/agency-agents](https://github.com/msitarzewski/agency-agents)) - A comprehensive collection of specialized agent personas (e.g. testing, project management, sales) that can be invoked to handle specific domains.
+- **Impeccable** ([pbakaus/impeccable](https://github.com/pbakaus/impeccable)) - A high-quality suite of advanced agentic skills focusing on frontend design, optimization, and system hardening.
+
+These libraries are included by default in the `/library/` folder and can be referenced by the AI to perform complex, domain-specific tasks with higher precision.
+
 This mirrors the legal precedent established by Phoenix Technologies v. IBM (1984) — clean-room engineering of the BIOS — and the principle from Baker v. Selden (1879) that copyright protects expression, not ideas or behavior.
 
 The analysis below is commentary on publicly available software, protected under fair use (17 U.S.C. § 107). Code excerpts are quoted to illustrate technical points from a public source - no unauthorized access was involved in this process or research.
