@@ -1,4 +1,4 @@
-/// Plugin discovery and loading — ported from `pluginLoader.ts` / `pluginDirectories.ts`.
+﻿/// Plugin discovery and loading — ported from `pluginLoader.ts` / `pluginDirectories.ts`.
 ///
 /// Scan order (matches TS precedence):
 /// 1. `~/.pokedex/plugins/<name>/`  — user-global plugins
@@ -307,7 +307,7 @@ fn collect_markdown_commands(
 
 /// Derive a slash-command name from a markdown file path.
 ///
-/// e.g. `<plugin_dir>/commands/build/deploy.md` → `myplugin:build:deploy`
+/// e.g. `<plugin_dir>/commands/build/deploy.md` â†’ `myplugin:build:deploy`
 fn command_name_from_file(path: &Path, plugin_name: &str) -> String {
     let stem = path
         .file_stem()

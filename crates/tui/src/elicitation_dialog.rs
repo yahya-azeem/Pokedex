@@ -1,4 +1,4 @@
-// elicitation_dialog.rs — MCP Elicitation dialog.
+﻿// elicitation_dialog.rs — MCP Elicitation dialog.
 //
 // Mirrors src/components/mcp/ElicitationDialog.tsx.
 //
@@ -420,7 +420,7 @@ pub fn render_elicitation_dialog(state: &ElicitationDialogState, area: Rect, buf
         }
         if let Some(err) = &field.error {
             label_spans.push(Span::styled(
-                format!("  ← {err}"),
+                format!("  â† {err}"),
                 Style::default().fg(Color::Red),
             ));
         }
@@ -488,7 +488,7 @@ fn render_field_value_line<'a>(field: &'a ElicitationField, focused: bool, width
                 .find(|(v, _)| *v == field.value)
                 .map(|(_, l)| l.as_str())
                 .unwrap_or(field.value.as_str());
-            let hint = if focused { " ◀ ▶ arrows to change" } else { "" };
+            let hint = if focused { " â—€ —¶ arrows to change" } else { "" };
             Line::from(vec![
                 Span::styled("   ", Style::default()),
                 Span::styled(

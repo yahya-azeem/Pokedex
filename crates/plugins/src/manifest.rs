@@ -1,16 +1,16 @@
-/// Plugin manifest types — ported from the TypeScript `schemas.ts` / `plugin.json` format.
+﻿/// Plugin manifest types — ported from the TypeScript `schemas.ts` / `plugin.json` format.
 ///
 /// A plugin directory looks like:
 ///
 /// ```text
 /// my-plugin/
-/// ├── plugin.json     ← this manifest (also supports plugin.toml)
-/// ├── commands/       ← *.md slash command definitions
-/// ├── agents/         ← *.md agent definitions
-/// ├── skills/         ← subdirs with SKILL.md
-/// ├── hooks/          ← hooks.json
-/// ├── output-styles/  ← *.md or *.json style definitions
-/// └── .mcp.json       ← MCP server config (optional)
+/// â”œâ”€â”€ plugin.json     â† this manifest (also supports plugin.toml)
+/// â”œâ”€â”€ commands/       â† *.md slash command definitions
+/// â”œâ”€â”€ agents/         â† *.md agent definitions
+/// â”œâ”€â”€ skills/         â† subdirs with SKILL.md
+/// â”œâ”€â”€ hooks/          â† hooks.json
+/// â”œâ”€â”€ output-styles/  â† *.md or *.json style definitions
+/// â””â”€â”€ .mcp.json       â† MCP server config (optional)
 /// ```
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
@@ -64,7 +64,7 @@ pub struct PluginLspServer {
     pub command: String,
     #[serde(default)]
     pub args: Vec<String>,
-    /// Map of file extension → LSP language ID, e.g. `{ ".ts": "typescript" }`.
+    /// Map of file extension â†’ LSP language ID, e.g. `{ ".ts": "typescript" }`.
     #[serde(default)]
     pub extension_to_language: HashMap<String, String>,
     #[serde(default = "default_transport")]
@@ -189,7 +189,7 @@ pub struct PluginHookMatcher {
 pub struct PluginHooksConfig {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub description: Option<String>,
-    /// Map of event name → list of matchers.
+    /// Map of event name â†’ list of matchers.
     #[serde(flatten)]
     pub events: HashMap<String, Vec<PluginHookMatcher>>,
 }
@@ -343,7 +343,7 @@ fn normalize_manifest_json(mut v: serde_json::Value) -> serde_json::Value {
         None => return v,
     };
 
-    // Promote `mcpServers` (TS camelCase object) → `mcp_servers` (array).
+    // Promote `mcpServers` (TS camelCase object) â†’ `mcp_servers` (array).
     if let Some(mcp) = obj.remove("mcpServers") {
         if mcp.is_object() {
             let arr: Vec<serde_json::Value> = mcp
@@ -367,7 +367,7 @@ fn normalize_manifest_json(mut v: serde_json::Value) -> serde_json::Value {
         }
     }
 
-    // Promote `lspServers` (TS camelCase object) → `lsp_servers` (array).
+    // Promote `lspServers` (TS camelCase object) â†’ `lsp_servers` (array).
     if let Some(lsp) = obj.remove("lspServers") {
         if lsp.is_object() {
             let arr: Vec<serde_json::Value> = lsp
@@ -391,7 +391,7 @@ fn normalize_manifest_json(mut v: serde_json::Value) -> serde_json::Value {
         }
     }
 
-    // Camel → snake for other top-level keys the Rust struct uses.
+    // Camel â†’ snake for other top-level keys the Rust struct uses.
     let renames: &[(&str, &str)] = &[
         ("outputStyles", "output_styles"),
         ("userConfig", "user_config"),

@@ -1,4 +1,4 @@
-﻿// render.rs â€” All ratatui rendering logic.
+﻿// render.rs — All ratatui rendering logic.
 
 use std::cell::RefCell;
 
@@ -47,7 +47,7 @@ use unicode_width::UnicodeWidthStr;
 
 // Spinner frames matching the TypeScript SpinnerGlyph: platform-specific base
 // characters mirrored (forward + reverse) for a smooth pulse effect.
-// Windows uses '*' instead of '✳'/'✽' for better font coverage.
+// Windows uses '*' instead of '?'/'?' for better font coverage.
 #[cfg(target_os = "windows")]
 const SPINNER: &[char] = &['\u{00b7}', '\u{2722}', '*', '\u{2736}', '\u{273b}', '\u{273d}',
                             '\u{273d}', '\u{273b}', '\u{2736}', '*', '\u{2722}', '\u{00b7}'];
@@ -385,7 +385,7 @@ pub fn render_app(frame: &mut Frame, app: &App) {
     if app.help_overlay.visible {
         render_help_overlay(frame, &app.help_overlay, size);
     } else if app.show_help {
-        // Legacy fallback â€” render the simple help overlay
+        // Legacy fallback — render the simple help overlay
         render_simple_help_overlay(frame, size);
     }
 
@@ -572,7 +572,7 @@ fn apply_selection_highlight(frame: &mut Frame, app: &App, size: Rect) {
         return;
     }
 
-    // Normalise so start ≤ end (row-major order).
+    // Normalise so start = end (row-major order).
     let (start, end) = if (anchor.1, anchor.0) <= (focus.1, focus.0) {
         (anchor, focus)
     } else {
@@ -1016,7 +1016,7 @@ fn render_welcome_box(frame: &mut Frame, app: &App, area: Rect) {
 
 // â”€â”€ Per-message rendering â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
-/// Build a tool_use_id → tool_name lookup from all messages in the transcript.
+/// Build a tool_use_id ? tool_name lookup from all messages in the transcript.
 /// This allows ToolResult blocks to dispatch to tool-specific renderers.
 fn build_tool_names(messages: &[pokedex_core::types::Message]) -> std::collections::HashMap<String, String> {
     let mut map = std::collections::HashMap::new();
@@ -1048,7 +1048,7 @@ fn render_message_lines(
         },
     );
 
-    // Truncate very long outputs with a "â€¦ N more lines" notice
+    // Truncate very long outputs with a "… N more lines" notice
     const MAX_LINES_PER_MSG: usize = 200;
     if rendered.len() > MAX_LINES_PER_MSG {
         lines.extend(rendered[..MAX_LINES_PER_MSG].iter().cloned());
@@ -1125,7 +1125,7 @@ fn render_system_annotation_lines(
 // â”€â”€ Tool use block â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 fn render_tool_block_lines(lines: &mut Vec<Line<'static>>, block: &crate::app::ToolUseBlock, frame_count: u64) {
-    // ● icon: blinks Yellow↔DarkGray when running, solid Green/Red when done/error
+    // ? icon: blinks Yellow?DarkGray when running, solid Green/Red when done/error
     let (icon_color, name_color) = match block.status {
         ToolStatus::Running => {
             let blink_on = (frame_count / 4) % 2 == 0;
@@ -1141,7 +1141,7 @@ fn render_tool_block_lines(lines: &mut Vec<Line<'static>>, block: &crate::app::T
         serde_json::from_str(&block.input_json).unwrap_or(serde_json::Value::Null);
     let summary = crate::messages::extract_tool_summary(&block.name, &input_val);
 
-    // Header: ● ToolName (summary)
+    // Header: ? ToolName (summary)
     let mut header_spans = vec![
         Span::styled("  \u{25cf} ".to_string(), Style::default().fg(icon_color)),
         Span::styled(
@@ -1275,7 +1275,7 @@ fn render_status_row(frame: &mut Frame, app: &App, area: Rect) {
         s.extend(shimmer_spans(&label, app.frame_count));
         s
     } else if let (Some(verb), Some(elapsed)) = (app.last_turn_verb, app.last_turn_elapsed.as_deref()) {
-        // "✽ Worked for 2m 5s" — mirrors TS TeammateSpinnerLine idle state
+        // "? Worked for 2m 5s" — mirrors TS TeammateSpinnerLine idle state
         vec![Span::styled(
             format!("{} {} for {}", figures::TEARDROP_ASTERISK, verb, elapsed),
             Style::default().fg(Color::DarkGray).add_modifier(Modifier::DIM),
@@ -1296,7 +1296,7 @@ fn render_status_row(frame: &mut Frame, app: &App, area: Rect) {
 /// Build spans for a text string with a right-to-left glimmer sweep, matching
 /// the TS `GlimmerMessage` behaviour (glimmerSpeed=200ms, 3-char shimmer window).
 ///
-/// At ~50ms per frame a 4-frame step ≈ 200ms, giving the same cadence as TS.
+/// At ~50ms per frame a 4-frame step ˜ 200ms, giving the same cadence as TS.
 fn shimmer_spans(text: &str, frame_count: u64) -> Vec<Span<'static>> {
     let chars: Vec<char> = text.chars().collect();
     let len = chars.len();
@@ -1308,7 +1308,7 @@ fn shimmer_spans(text: &str, frame_count: u64) -> Vec<Span<'static>> {
     let cycle_len = len + 20;
     // One step every 4 frames (~200ms at 50ms/frame)
     let cycle_pos = (frame_count as usize / 4) % cycle_len;
-    // Glimmer sweeps right→left: starts at len+10 (off right), ends at -10 (off left)
+    // Glimmer sweeps right?left: starts at len+10 (off right), ends at -10 (off left)
     let glimmer_center = (len + 10).saturating_sub(cycle_pos) as isize;
 
     let base = Style::default().fg(Color::DarkGray);
@@ -1388,7 +1388,7 @@ fn render_footer(frame: &mut Frame, app: &App, area: Rect) {
             ));
         }
 
-        // Background task status pill — shows "⟳ N tasks" when count > 0.
+        // Background task status pill — shows "? N tasks" when count > 0.
         // Falls back to background_task_status pre-formatted string if set.
         if app.background_task_count > 0 {
             if !spans.is_empty() {
@@ -2130,7 +2130,7 @@ pub fn render_coordinator_status_lines(
         ),
         Span::styled(
             if completed > 0 {
-                format!("  ✔ {} done", completed)
+                format!("  ? {} done", completed)
             } else {
                 String::new()
             },
@@ -2153,7 +2153,7 @@ pub fn render_coordinator_status_lines(
 
 /// Render a single header line for a teammate's message block.
 ///
-/// Format: `┤ teammate: <id> ├` in magenta, optional `· <session_info>` in dim
+/// Format: `¦ teammate: <id> +` in magenta, optional `· <session_info>` in dim
 ///
 /// # Arguments
 /// * `teammate_id`  — teammate identifier string
@@ -2164,7 +2164,7 @@ pub fn render_teammate_header(
 ) -> Line<'static> {
     let mut spans = vec![
         Span::styled(
-            "┤ teammate: ".to_string(),
+            "¦ teammate: ".to_string(),
             Style::default().fg(Color::Magenta),
         ),
         Span::styled(
@@ -2174,7 +2174,7 @@ pub fn render_teammate_header(
                 .add_modifier(Modifier::BOLD),
         ),
         Span::styled(
-            " ├".to_string(),
+            " +".to_string(),
             Style::default().fg(Color::Magenta),
         ),
     ];

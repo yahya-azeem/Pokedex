@@ -1,8 +1,8 @@
-//! Diff viewer TUI component.
+﻿//! Diff viewer TUI component.
 //! Mirrors src/components/diff/ and src/components/StructuredDiff.tsx.
 //!
 //! Shows a two-pane diff dialog: file list (left) + unified diff detail (right).
-//! Keyboard: ↑↓ navigate files, Tab switch pane, t toggle diff type, Esc close.
+//! Keyboard: â†‘â†“ navigate files, Tab switch pane, t toggle diff type, Esc close.
 
 use pokedex_core::file_history::FileHistory;
 use once_cell::sync::Lazy;
@@ -112,7 +112,7 @@ pub struct DiffViewerState {
     pub diff_type: DiffType,
     /// Scroll offset for the detail pane (in lines).
     pub detail_scroll: u16,
-    /// Rendered line cache: (file_index, terminal_width) → lines.
+    /// Rendered line cache: (file_index, terminal_width) â†’ lines.
     render_cache: HashMap<(usize, u16), Vec<String>>,
     /// Whether the dialog is open.
     pub open: bool,
@@ -626,7 +626,7 @@ fn render_file_list(state: &DiffViewerState, area: Rect, buf: &mut Buffer) {
         };
 
         let is_collapsed = *state.collapsed.get(abs_idx).unwrap_or(&false);
-        let collapse_char = if is_collapsed { "\u{25b8}" } else { "\u{25be}" }; // ▸ / ▾
+        let collapse_char = if is_collapsed { "\u{25b8}" } else { "\u{25be}" }; // —¸ / —¾
         let (stats, stats_color) = if file.binary {
             ("[binary]".to_string(), Color::DarkGray)
         } else if file.is_new_file {
@@ -677,7 +677,7 @@ fn render_file_list(state: &DiffViewerState, area: Rect, buf: &mut Buffer) {
     // Pagination indicators
     if start > 0 {
         let ind_area = Rect { x: inner.x, y: inner.y, width: inner.width, height: 1 };
-        Paragraph::new(format!("↑ {} more", start))
+        Paragraph::new(format!("â†‘ {} more", start))
             .style(Style::default().fg(Color::DarkGray))
             .render(ind_area, buf);
     }
@@ -685,7 +685,7 @@ fn render_file_list(state: &DiffViewerState, area: Rect, buf: &mut Buffer) {
         let remaining = state.files.len() - end;
         let y = inner.y + inner.height.saturating_sub(1);
         let ind_area = Rect { x: inner.x, y, width: inner.width, height: 1 };
-        Paragraph::new(format!("↓ {} more", remaining))
+        Paragraph::new(format!("â†“ {} more", remaining))
             .style(Style::default().fg(Color::DarkGray))
             .render(ind_area, buf);
     }
@@ -774,13 +774,13 @@ fn render_diff_detail(state: &DiffViewerState, area: Rect, buf: &mut Buffer) {
         for row in 0..bar_h {
             let y = inner.y + row as u16;
             let ch = if row == 0 {
-                '\u{25b2}'  // ▲
+                '\u{25b2}'  // —²
             } else if row == bar_h - 1 {
-                '\u{25bc}'  // ▼
+                '\u{25bc}'  // —¼
             } else if row >= thumb_top + 1 && row < thumb_top + thumb_size + 1 {
                 '\u{2588}'  // █ (thumb)
             } else {
-                '\u{2502}'  // │ (track)
+                '\u{2502}'  // â”‚ (track)
             };
             let cell_area = Rect { x: bar_x, y, width: 1, height: 1 };
             Paragraph::new(Line::from(Span::styled(
@@ -805,7 +805,7 @@ fn format_gutter(old_no: Option<u32>, new_no: Option<u32>) -> String {
     }
 }
 
-/// Truncate a list of owned spans so the total character count ≤ `max_chars`.
+/// Truncate a list of owned spans so the total character count â‰¤ `max_chars`.
 fn truncate_spans_to_width(spans: Vec<Span<'static>>, max_chars: usize) -> Vec<Span<'static>> {
     let mut remaining = max_chars;
     let mut result = Vec::new();
@@ -931,7 +931,7 @@ fn build_diff_lines(file: &FileDiffStats, width: u16) -> Vec<Line<'static>> {
         while i < hunk_lines.len() {
             let diff_line = &hunk_lines[i];
 
-            // Detect adjacent Removed → Added pair for inline word-level diff
+            // Detect adjacent Removed â†’ Added pair for inline word-level diff
             if diff_line.kind == DiffLineKind::Removed {
                 if let Some(next_line) = hunk_lines.get(i + 1) {
                     if next_line.kind == DiffLineKind::Added {
@@ -1189,7 +1189,7 @@ mod tests {
 
     #[test]
     fn file_stats_binary_renders_badge() {
-        // Verify the binary badge logic in render_file_list: binary=true → "[binary]"
+        // Verify the binary badge logic in render_file_list: binary=true â†’ "[binary]"
         let file = FileDiffStats {
             path: "image.png".to_string(),
             added: 0,

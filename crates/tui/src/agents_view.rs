@@ -1,4 +1,4 @@
-//! Agent / coordinator progress views for the TUI.
+﻿//! Agent / coordinator progress views for the TUI.
 //! Mirrors src/components/agents/ (13 files).
 
 use ratatui::{
@@ -565,7 +565,7 @@ pub fn render_agents_menu(state: &AgentsMenuState, area: Rect, buf: &mut Buffer)
 
 fn render_agents_list(state: &AgentsMenuState, area: Rect, buf: &mut Buffer) {
     Block::default()
-        .title(" Agents [↑↓ navigate, Enter: select, Esc: close] ")
+        .title(" Agents [â†‘â†“ navigate, Enter: select, Esc: close] ")
         .borders(Borders::ALL)
         .style(Style::default().fg(Color::Cyan))
         .render(area, buf);
@@ -622,7 +622,7 @@ fn render_agents_list(state: &AgentsMenuState, area: Rect, buf: &mut Buffer) {
         };
 
         let model_str = def.model.as_deref().unwrap_or("default");
-        let shadow_suffix = if def.shadowed_by.is_some() { " ⚠" } else { "" };
+        let shadow_suffix = if def.shadowed_by.is_some() { " âš " } else { "" };
 
         let line = Line::from(vec![
             Span::styled(prefix, base),
@@ -704,7 +704,7 @@ fn render_agent_detail(def: &AgentDefinition, area: Rect, buf: &mut Buffer) {
     if let Some(shadow) = &def.shadowed_by {
         lines.push(Line::default());
         lines.push(Line::from(vec![Span::styled(
-            format!("⚠ Shadowed by: {}", shadow),
+            format!("âš  Shadowed by: {}", shadow),
             Style::default().fg(Color::Yellow),
         )]));
     }
@@ -806,7 +806,7 @@ fn render_agent_editor(state: &AgentsMenuState, area: Rect, buf: &mut Buffer) {
 
     lines.push(Line::default());
     lines.push(Line::from(vec![Span::styled(
-        "Tab/Up/Down move • Enter adds newline for text fields • Ctrl+S save • Esc back",
+        "Tab/Up/Down move â€¢ Enter adds newline for text fields â€¢ Ctrl+S save â€¢ Esc back",
         Style::default().fg(Color::DarkGray),
     )]));
 
@@ -866,11 +866,11 @@ pub fn render_coordinator_status(agents: &[AgentInfo], area: Rect, buf: &mut Buf
             height: 1,
         };
 
-        let prefix = if agent.is_coordinator { "● " } else { "  ○ " };
+        let prefix = if agent.is_coordinator { "â— " } else { "  â—‹ " };
         let tool_str = agent
             .current_tool
             .as_deref()
-            .map(|t| format!(" → {}", t))
+            .map(|t| format!(" â†’ {}", t))
             .unwrap_or_default();
 
         let line = Line::from(vec![

@@ -1,4 +1,4 @@
-// plugin_views.rs — Plugin hint/recommendation UI elements and plugin list widget.
+﻿// plugin_views.rs — Plugin hint/recommendation UI elements and plugin list widget.
 
 use ratatui::layout::{Constraint, Direction, Layout, Rect};
 use ratatui::style::{Color, Modifier, Style};
@@ -321,7 +321,7 @@ pub fn render_plugin_detail(frame: &mut Frame, item: &PluginListItem, area: Rect
         Line::from(vec![
             Span::styled("  Counts:  ", Style::default().fg(Color::Cyan)),
             Span::styled(
-                format!("{} {}  •  {} {}", item.command_count, cmd_label, item.hook_count, hook_label),
+                format!("{} {}  â€¢  {} {}", item.command_count, cmd_label, item.hook_count, hook_label),
                 Style::default().fg(Color::White),
             ),
         ]),

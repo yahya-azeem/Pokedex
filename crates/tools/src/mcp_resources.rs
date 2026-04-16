@@ -1,7 +1,7 @@
-// MCP resource tools: list and read resources from connected MCP servers.
+﻿// MCP resource tools: list and read resources from connected MCP servers.
 //
-// ListMcpResourcesTool – enumerate all resources available from MCP servers
-// ReadMcpResourceTool  – read a specific resource by server name + URI
+// ListMcpResourcesTool â€“ enumerate all resources available from MCP servers
+// ReadMcpResourceTool  â€“ read a specific resource by server name + URI
 //
 // These require an MCP manager to be configured in ToolContext.mcp_manager.
 
@@ -33,7 +33,7 @@ impl Tool for ListMcpResourcesTool {
          Resources represent data that MCP servers expose (files, database records, etc.)."
     }
 
-    fn permission_level(&self) -> PermissionLevel { PermissionLevel::ReadOnly }
+    fn permission_level(&self) -> PermissionLevel { PermissionLevel::Read }
 
     fn input_schema(&self) -> Value {
         json!({
@@ -98,7 +98,7 @@ impl Tool for ReadMcpResourceTool {
          Use ListMcpResources to discover available resource URIs."
     }
 
-    fn permission_level(&self) -> PermissionLevel { PermissionLevel::ReadOnly }
+    fn permission_level(&self) -> PermissionLevel { PermissionLevel::Read }
 
     fn input_schema(&self) -> Value {
         json!({

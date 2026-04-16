@@ -1,4 +1,4 @@
-// McpAuthTool: pseudo-tool surfaced for MCP servers that require OAuth.
+﻿// McpAuthTool: pseudo-tool surfaced for MCP servers that require OAuth.
 //
 // Tool name: "mcp__auth"
 //
@@ -38,7 +38,7 @@ impl Tool for McpAuthTool {
     }
 
     fn permission_level(&self) -> PermissionLevel {
-        PermissionLevel::None
+        PermissionLevel::Read
     }
 
     fn input_schema(&self) -> Value {

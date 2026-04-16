@@ -1,4 +1,4 @@
-// pokedex-mcp: Model Context Protocol (MCP) client implementation.
+﻿// pokedex-mcp: Model Context Protocol (MCP) client implementation.
 //
 // MCP is a JSON-RPC 2.0 based protocol for connecting Claude to external
 // tool/resource servers. This crate implements:
@@ -741,7 +741,7 @@ pub struct McpManager {
     failed_servers: Vec<(String, String)>, // (name, error)
     /// Original (unexpanded) server configs — needed for OAuth initiation.
     server_configs: HashMap<String, McpServerConfig>,
-    /// Active resource subscriptions: (server_name, uri) → change event sender.
+    /// Active resource subscriptions: (server_name, uri) â†’ change event sender.
     pub resource_subscriptions: DashMap<(String, String), tokio::sync::mpsc::Sender<ResourceChangedEvent>>,
 }
 
@@ -1213,15 +1213,15 @@ impl Default for McpManager {
 }
 
 // ---------------------------------------------------------------------------
-// MCP result → string conversion
+// MCP result â†’ string conversion
 // ---------------------------------------------------------------------------
 
 /// Convert an MCP tool call result to a string for the model.
 ///
 /// Content type handling:
-/// - `text`     → the text itself
-/// - `image`    → `[Image: <mime_type>]` with a short base64 preview
-/// - `resource` → `[Resource: <uri>]` plus text content if present
+/// - `text`     â†’ the text itself
+/// - `image`    â†’ `[Image: <mime_type>]` with a short base64 preview
+/// - `resource` â†’ `[Resource: <uri>]` plus text content if present
 ///
 /// Mixed content is joined with newlines.
 /// If all content is empty, returns an empty string.
@@ -1290,7 +1290,7 @@ mod tests {
     #[test]
     fn test_expand_env_vars_missing_no_default() {
         std::env::remove_var("_CC_REALLY_MISSING");
-        // Missing with no default → keep original
+        // Missing with no default â†’ keep original
         let out = expand_env_vars("${_CC_REALLY_MISSING}");
         assert_eq!(out, "${_CC_REALLY_MISSING}");
     }
@@ -1337,7 +1337,7 @@ mod tests {
         assert!(json.contains("\"method\":\"tools/list\""));
     }
 
-    // ---- McpTool → ToolDefinition ------------------------------------------
+    // ---- McpTool â†’ ToolDefinition ------------------------------------------
 
     #[test]
     fn test_mcp_tool_to_definition() {

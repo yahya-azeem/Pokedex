@@ -1,4 +1,4 @@
-// SendMessageTool: send a message to another agent or broadcast to all.
+﻿// SendMessageTool: send a message to another agent or broadcast to all.
 //
 // In the TypeScript version this uses a complex mailbox/swarm system with
 // process-level sockets. The Rust port uses a simpler in-process DashMap
@@ -27,7 +27,7 @@ pub struct AgentMessage {
     pub timestamp: u64,
 }
 
-/// Global inbox: recipient_id → queued messages.
+/// Global inbox: recipient_id â†’ queued messages.
 static INBOX: Lazy<DashMap<String, Vec<AgentMessage>>> = Lazy::new(DashMap::new);
 
 /// Remove and return all messages queued for `recipient`.
@@ -67,7 +67,7 @@ impl Tool for SendMessageTool {
          Use this for coordination between concurrent sub-agents."
     }
 
-    fn permission_level(&self) -> PermissionLevel { PermissionLevel::None }
+    fn permission_level(&self) -> PermissionLevel { PermissionLevel::Read }
 
     fn input_schema(&self) -> Value {
         json!({
@@ -83,7 +83,7 @@ impl Tool for SendMessageTool {
                 },
                 "summary": {
                     "type": "string",
-                    "description": "5–10 word preview for the UI (optional)"
+                    "description": "5â€“10 word preview for the UI (optional)"
                 }
             },
             "required": ["to", "message"]

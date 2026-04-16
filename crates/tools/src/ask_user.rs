@@ -1,4 +1,4 @@
-// AskUserQuestion tool: ask the human operator a question and wait for a response.
+﻿// AskUserQuestion tool: ask the human operator a question and wait for a response.
 
 use crate::{PermissionLevel, Tool, ToolContext, ToolResult};
 use async_trait::async_trait;
@@ -28,7 +28,7 @@ impl Tool for AskUserQuestionTool {
     }
 
     fn permission_level(&self) -> PermissionLevel {
-        PermissionLevel::None
+        PermissionLevel::Read
     }
 
     fn input_schema(&self) -> Value {

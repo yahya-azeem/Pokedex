@@ -1,4 +1,4 @@
-// PowerShell tool: execute PowerShell commands (Windows-native).
+﻿// PowerShell tool: execute PowerShell commands (Windows-native).
 //
 // On Windows, PowerShell provides richer scripting than cmd.exe.
 // On non-Windows platforms, attempts to use `pwsh` (PowerShell Core).

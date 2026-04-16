@@ -1,4 +1,4 @@
-//! Language Server Protocol client.
+﻿//! Language Server Protocol client.
 //!
 //! Implements the client side of the LSP JSON-RPC protocol over the LSP
 //! server's stdin/stdout.  Each [`LspClient`] manages one server process;
@@ -695,9 +695,9 @@ pub struct LspManager {
     configs: Vec<LspServerConfig>,
     /// Running clients keyed by server name
     clients: HashMap<String, LspClient>,
-    /// Map of file extension → list of server names that handle it
+    /// Map of file extension â†’ list of server names that handle it
     extension_map: HashMap<String, Vec<String>>,
-    /// Set of file URIs that have been opened on a specific server (URI → server name)
+    /// Set of file URIs that have been opened on a specific server (URI â†’ server name)
     opened_files: HashMap<String, String>,
 }
 
@@ -713,7 +713,7 @@ impl LspManager {
 
     /// Register an LSP server configuration.
     pub fn register_server(&mut self, config: LspServerConfig) {
-        // Build extension → server mapping
+        // Build extension â†’ server mapping
         for ext in config.extension_to_language.keys() {
             let normalized = ext.to_lowercase();
             self.extension_map
@@ -721,7 +721,7 @@ impl LspManager {
                 .or_default()
                 .push(config.name.clone());
         }
-        // Also handle glob patterns like "*.rs" → ".rs"
+        // Also handle glob patterns like "*.rs" â†’ ".rs"
         for pattern in &config.file_patterns {
             if let Some(ext) = pattern.strip_prefix("*.") {
                 let normalized = format!(".{}", ext.to_lowercase());
@@ -1155,7 +1155,7 @@ mod tests {
             "code": "E0308"
         });
         let d = parse_diagnostic(&raw, "src/main.rs", "rust-analyzer").unwrap();
-        assert_eq!(d.line, 5); // 0-based → 1-based
+        assert_eq!(d.line, 5); // 0-based â†’ 1-based
         assert_eq!(d.column, 3);
         assert_eq!(d.message, "type mismatch");
         assert_eq!(d.severity, DiagnosticSeverity::Error);

@@ -1,4 +1,4 @@
-// TodoWrite tool: task / todo list management.
+﻿// TodoWrite tool: task / todo list management.
 
 use crate::{PermissionLevel, Tool, ToolContext, ToolResult};
 use async_trait::async_trait;
@@ -54,7 +54,7 @@ impl Tool for TodoWriteTool {
     }
 
     fn permission_level(&self) -> PermissionLevel {
-        PermissionLevel::None
+        PermissionLevel::Read
     }
 
     fn input_schema(&self) -> Value {

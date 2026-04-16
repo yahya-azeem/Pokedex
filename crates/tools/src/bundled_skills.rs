@@ -1,4 +1,4 @@
-//! Bundled skill definitions for the Skill tool.
+﻿//! Bundled skill definitions for the Skill tool.
 //!
 //! Each entry in `BUNDLED_SKILLS` mirrors one of the TypeScript
 //! `registerXxxSkill()` calls under `src/skills/bundled/`.  Only publicly
@@ -126,9 +126,9 @@ Your auto-memory content is already in your system prompt — review it there.
 | **Stay in auto-memory** | Working notes, temporary context, uncertain patterns |
 
 ### 3. Identify cleanup opportunities
-- **Duplicates**: auto-memory entries already in CLAUDE.md → propose removing
-- **Outdated**: CLAUDE.md entries contradicted by newer auto-memory → propose updating
-- **Conflicts**: contradictions between layers → propose resolution
+- **Duplicates**: auto-memory entries already in CLAUDE.md â†’ propose removing
+- **Outdated**: CLAUDE.md entries contradicted by newer auto-memory â†’ propose updating
+- **Conflicts**: contradictions between layers â†’ propose resolution
 
 ### 4. Present the report
 Output a structured report grouped by: Promotions, Cleanup, Ambiguous, No action needed.
@@ -163,7 +163,7 @@ $ARGUMENTS
 
 1. **Reproduce** — Confirm the exact error / behaviour.
 2. **Locate** — Find the relevant code (read files, grep for error messages).
-3. **Hypothesize** — Form 2–3 hypotheses about the root cause.
+3. **Hypothesize** — Form 2â€“3 hypotheses about the root cause.
 4. **Test** — Verify each hypothesis systematically.
 5. **Fix** — Implement the fix for the confirmed root cause.
 6. **Verify** — Confirm the fix resolves the issue.
@@ -193,7 +193,7 @@ Read the relevant files before making any changes."#,
 
 1. Clarify what they are trying to achieve (if unclear).
 2. Identify why they might be stuck (missing context, unclear requirements, technical blocker).
-3. Suggest 2–3 concrete next steps in order of likelihood of success.
+3. Suggest 2â€“3 concrete next steps in order of likelihood of success.
 4. If a technical blocker: propose specific debugging steps or workarounds.
 5. Ask clarifying questions if needed.
 
@@ -226,7 +226,7 @@ Enter plan mode, then:
 1. **Understand the scope.** Launch subagents to deeply research what this instruction
    touches. Find all files, patterns, and call sites that need to change.
 
-2. **Decompose into independent units.** Break the work into 5–30 self-contained units.
+2. **Decompose into independent units.** Break the work into 5â€“30 self-contained units.
    Each unit must be independently implementable in an isolated git worktree and
    mergeable on its own without depending on another unit's PR landing first.
 
@@ -292,7 +292,7 @@ Modify Pokedex configuration by updating settings.json files.
 | `.pokedex/settings.json` | Project | Team-wide hooks, permissions, plugins |
 | `.pokedex/settings.local.json` | Project (local) | Personal overrides for this project |
 
-Settings load in order: user → project → local (later overrides earlier).
+Settings load in order: user â†’ project â†’ local (later overrides earlier).
 
 ## CRITICAL: Read Before Write
 
@@ -385,12 +385,12 @@ Parse the input below into `[interval] <prompt…>` and schedule it with CronCre
 
 If the resulting prompt is empty, show usage `/loop [interval] <prompt>` and stop.
 
-## Interval → Cron
+## Interval â†’ Cron
 
 | Pattern | Cron | Notes |
 |---------|------|-------|
-| `Nm` (N ≤ 59) | `*/N * * * *` | every N minutes |
-| `Nh` (N ≤ 23) | `0 */N * * *` | every N hours |
+| `Nm` (N â‰¤ 59) | `*/N * * * *` | every N minutes |
+| `Nh` (N â‰¤ 23) | `0 */N * * *` | every N hours |
 | `Nd` | `0 0 */N * *` | every N days at midnight |
 | `Ns` | round up to nearest minute | cron min granularity is 1 min |
 
@@ -432,8 +432,8 @@ pub fn user_invocable_skills() -> Vec<(&'static str, &'static str)> {
 /// Expand a skill's prompt template, substituting `$ARGUMENTS` and
 /// `$ARGUMENTS_SUFFIX`.
 ///
-/// - `$ARGUMENTS`        → replaced by `args` verbatim (or `""` when empty)
-/// - `$ARGUMENTS_SUFFIX` → replaced by `": <args>"` when non-empty, else `""`
+/// - `$ARGUMENTS`        â†’ replaced by `args` verbatim (or `""` when empty)
+/// - `$ARGUMENTS_SUFFIX` â†’ replaced by `": <args>"` when non-empty, else `""`
 pub fn expand_prompt(skill: &BundledSkill, args: &str) -> String {
     let suffix = if args.is_empty() {
         String::new()

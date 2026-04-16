@@ -1,4 +1,4 @@
-//! Message manipulation utilities.
+﻿//! Message manipulation utilities.
 //! Mirrors key functions from src/utils/messages.ts (5,512 lines).
 
 use crate::types::{ContentBlock, Message, MessageContent, Role};
@@ -151,7 +151,7 @@ mod tests {
 
     #[test]
     fn estimate_tokens_basic() {
-        assert_eq!(estimate_tokens("hello"), 2); // 5/4 = 1.25 → ceil = 2
+        assert_eq!(estimate_tokens("hello"), 2); // 5/4 = 1.25 â†’ ceil = 2
         assert_eq!(estimate_tokens(""), 0);
     }
 

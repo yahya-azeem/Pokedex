@@ -35,6 +35,10 @@ base64 = { workspace = true }
 open = { workspace = true }
 enigo = { workspace = true, optional = true }
 xcap = { workspace = true, optional = true }
+wasmtime = "38.0.4"
+wasmtime-wasi = { version = "38.0.4", features = ["p1"] }
+headless_chrome = { version = "1.0.15", features = ["fetch"] }
+html2md = "0.2.14"
 
 [features]
 computer-use = ["dep:enigo", "dep:xcap"]

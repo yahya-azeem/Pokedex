@@ -1,4 +1,4 @@
-// dialogs.rs — Permission dialogs and confirmation dialogs.
+﻿// dialogs.rs — Permission dialogs and confirmation dialogs.
 
 use crossterm::event::{KeyCode, KeyEvent};
 use ratatui::buffer::Buffer;
@@ -309,24 +309,24 @@ fn word_wrap(text: &str, width: usize) -> Vec<String> {
 
 /// Render a permission-request dialog as a centred overlay.
 ///
-/// Layout (top → bottom):
-///   ┌─ Permission Required ─────────────────────────┐
-///   │                                                │
-///   │  Tool: Bash                                    │
-///   │                                                │
-///   │  > rm -rf /tmp/foo                             │
-///   │                                                │
-///   │  Bash wants to run: `rm -rf /tmp/foo`          │
-///   │  This will delete files permanently.           │
-///   │                                                │
-///   │  [1] Yes, allow once                           │
-///   │  [2] Yes, allow this session                   │
-///   │▶ [3] Yes, always allow (persistent)            │
-///   │  [4] No, deny                                  │
-///   └────────────────────────────────────────────────┘
+/// Layout (top â†’ bottom):
+///   â”Œâ”€ Permission Required â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+///   â”‚                                                â”‚
+///   â”‚  Tool: Bash                                    â”‚
+///   â”‚                                                â”‚
+///   â”‚  > rm -rf /tmp/foo                             â”‚
+///   â”‚                                                â”‚
+///   â”‚  Bash wants to run: `rm -rf /tmp/foo`          â”‚
+///   â”‚  This will delete files permanently.           â”‚
+///   â”‚                                                â”‚
+///   â”‚  [1] Yes, allow once                           â”‚
+///   â”‚  [2] Yes, allow this session                   â”‚
+///   â”‚—¶ [3] Yes, always allow (persistent)            â”‚
+///   â”‚  [4] No, deny                                  â”‚
+///   â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 ///
 /// For `Bash` with a `suggested_prefix`, a 5th option is shown:
-///   │  [5] Allow commands matching git*              │
+///   â”‚  [5] Allow commands matching git*              â”‚
 ///
 /// For `FileRead`, only 3 options (once / session / deny).
 /// For `FileWrite`, 4 options (once / session / project / deny).
@@ -519,9 +519,9 @@ pub fn render_permission_dialog(frame: &mut Frame, pr: &PermissionRequest, area:
 /// Returns `true` if the dialog was confirmed/dismissed (caller should clear it).
 ///
 /// Behaviour by option count:
-/// - 3-option dialog (FileRead): digits 1–3 valid, 4/5 rejected.
-/// - 4-option dialog (Generic / FileWrite / Bash without prefix): digits 1–4 valid.
-/// - 5-option dialog (Bash with prefix): digits 1–5 valid.
+/// - 3-option dialog (FileRead): digits 1â€“3 valid, 4/5 rejected.
+/// - 4-option dialog (Generic / FileWrite / Bash without prefix): digits 1â€“4 valid.
+/// - 5-option dialog (Bash with prefix): digits 1â€“5 valid.
 pub fn handle_permission_key(pr: &mut PermissionRequest, key: KeyEvent) -> bool {
     let option_count = pr.options.len();
     match key.code {
@@ -944,20 +944,20 @@ impl Default for McpApprovalDialogState {
 /// low-level `Buffer`-based variant required by the spec.
 ///
 /// Layout:
-/// ┌─ MCP Server Connection ──────────────────────────┐
-/// │                                                   │
-/// │  Server:  my-server                               │
-/// │  URL:     wss://example.com/mcp                   │
-/// │                                                   │
-/// │  Exposes 3 tools:                                 │
-/// │    • tool_one                                     │
-/// │    • tool_two                                     │
-/// │    • tool_three                                   │
-/// │                                                   │
-/// │  ▶ [1] Allow this session                         │
-/// │    [2] Always allow                               │
-/// │    [3] Deny                                       │
-/// └───────────────────────────────────────────────────┘
+/// â”Œâ”€ MCP Server Connection â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+/// â”‚                                                   â”‚
+/// â”‚  Server:  my-server                               â”‚
+/// â”‚  URL:     wss://example.com/mcp                   â”‚
+/// â”‚                                                   â”‚
+/// â”‚  Exposes 3 tools:                                 â”‚
+/// â”‚    â€¢ tool_one                                     â”‚
+/// â”‚    â€¢ tool_two                                     â”‚
+/// â”‚    â€¢ tool_three                                   â”‚
+/// â”‚                                                   â”‚
+/// â”‚  —¶ [1] Allow this session                         â”‚
+/// â”‚    [2] Always allow                               â”‚
+/// â”‚    [3] Deny                                       â”‚
+/// â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 pub fn render_mcp_approval_dialog(
     state: &McpApprovalDialogState,
     area: Rect,
@@ -1312,7 +1312,7 @@ mod tests {
             "Bash".to_string(),
             "desc".to_string(),
         );
-        // Press '1' → selects option 0 (allow once) and confirms.
+        // Press '1' â†’ selects option 0 (allow once) and confirms.
         let confirmed = handle_permission_key(&mut pr, key(KeyCode::Char('1')));
         assert!(confirmed);
         assert_eq!(pr.selected_option, 0);
@@ -1358,7 +1358,7 @@ mod tests {
             "Bash".to_string(),
             "desc".to_string(),
         );
-        // Press 'n' → deny (index 3).
+        // Press 'n' â†’ deny (index 3).
         let confirmed = handle_permission_key(&mut pr, key(KeyCode::Char('n')));
         assert!(confirmed);
         assert_eq!(pr.selected_option, 3);
@@ -1470,18 +1470,18 @@ mod tests {
 
     #[test]
     fn mcp_approval_key_digit_shortcuts() {
-        // '1' → AllowSession
+        // '1' â†’ AllowSession
         let mut state = McpApprovalDialogState::new();
         state.show("s", None, None, vec![]);
         let r = handle_mcp_approval_key(&mut state, key(KeyCode::Char('1')));
         assert_eq!(r, Some(McpApprovalChoice::AllowSession));
 
-        // '2' → AllowAlways
+        // '2' â†’ AllowAlways
         state.show("s", None, None, vec![]);
         let r = handle_mcp_approval_key(&mut state, key(KeyCode::Char('2')));
         assert_eq!(r, Some(McpApprovalChoice::AllowAlways));
 
-        // '3' → Deny
+        // '3' â†’ Deny
         state.show("s", None, None, vec![]);
         let r = handle_mcp_approval_key(&mut state, key(KeyCode::Char('3')));
         assert_eq!(r, Some(McpApprovalChoice::Deny));

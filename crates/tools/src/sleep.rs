@@ -1,4 +1,4 @@
-// SleepTool: pause execution for a specified duration.
+﻿// SleepTool: pause execution for a specified duration.
 //
 // Useful when the model needs to wait between operations (e.g., polling,
 // rate limiting, or waiting for external processes). Unlike `Bash(sleep ...)`,
@@ -31,7 +31,7 @@ impl Tool for SleepTool {
          The user can interrupt the sleep at any time."
     }
 
-    fn permission_level(&self) -> PermissionLevel { PermissionLevel::None }
+    fn permission_level(&self) -> PermissionLevel { PermissionLevel::Read }
 
     fn input_schema(&self) -> Value {
         json!({

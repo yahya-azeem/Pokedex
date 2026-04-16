@@ -1,4 +1,4 @@
-// tips.rs — Tip scheduling system for Pokedex.
+﻿// tips.rs — Tip scheduling system for Pokedex.
 //
 // Ported from:
 //   src/services/tips/tipScheduler.ts
@@ -153,7 +153,7 @@ static ALL_TIPS: Lazy<Vec<Tip>> = Lazy::new(|| {
         },
         Tip {
             id: "web-app",
-            content: "Run tasks in the cloud while you keep coding locally · clau.de/web",
+            content: "Run tasks in the cloud while you keep coding locally Â· clau.de/web",
             cooldown_sessions: 15,
         },
         Tip {
@@ -392,8 +392,8 @@ mod tests {
         }
         history.save();
 
-        // Session 1001 — only tips with cooldown ≤ 1 are eligible.
-        // Since all our built-in tips have cooldown ≥ 3, nothing should be
+        // Session 1001 — only tips with cooldown â‰¤ 1 are eligible.
+        // Since all our built-in tips have cooldown â‰¥ 3, nothing should be
         // returned right away.
         //
         // Note: select_tip loads history from disk, so save() above must work.
@@ -406,7 +406,7 @@ mod tests {
             })
             .collect();
 
-        // All built-in tips have cooldown ≥ 3, so none should be eligible after 1 session.
+        // All built-in tips have cooldown â‰¥ 3, so none should be eligible after 1 session.
         assert!(
             tips_eligible.is_empty(),
             "no tips should be eligible 1 session after all were shown"

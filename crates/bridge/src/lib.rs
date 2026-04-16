@@ -1,4 +1,4 @@
-// pokedex-bridge: Remote control bridge implementation.
+﻿// pokedex-bridge: Remote control bridge implementation.
 //
 // The bridge connects the local Pokedex CLI to the pokedex.ai web UI,
 // enabling mobile/web-initiated sessions. This module implements:
@@ -253,7 +253,7 @@ pub enum PermissionDecision {
 }
 
 // ---------------------------------------------------------------------------
-// Bridge message types (web UI → CLI)
+// Bridge message types (web UI â†’ CLI)
 // ---------------------------------------------------------------------------
 
 /// A file attachment bundled with an inbound user message.
@@ -295,7 +295,7 @@ pub enum BridgeMessage {
 }
 
 // ---------------------------------------------------------------------------
-// Bridge event types (CLI → web UI)
+// Bridge event types (CLI â†’ web UI)
 // ---------------------------------------------------------------------------
 
 /// Token-budget / cost summary attached to `TurnComplete`.
@@ -543,9 +543,9 @@ impl BridgeSession {
     ///
     /// GET `/api/pokedex_code/sessions/{id}/poll`
     ///
-    /// - `200` → JSON array of [`BridgeMessage`]; may be empty.
-    /// - `204` → No messages; returns empty vec.
-    /// - `401`/`403` → Auth failure; sets state to `Disconnected` and errors.
+    /// - `200` â†’ JSON array of [`BridgeMessage`]; may be empty.
+    /// - `204` â†’ No messages; returns empty vec.
+    /// - `401`/`403` â†’ Auth failure; sets state to `Disconnected` and errors.
     async fn poll_messages(&self) -> anyhow::Result<Vec<BridgeMessage>> {
         let token = self
             .config
@@ -942,7 +942,7 @@ pub async fn start_bridge_session(
             anyhow::anyhow!(
                 "Remote Control requires a session token.\n\
                  Set CLAUDE_CODE_BRIDGE_TOKEN=<your-token> to enable.\n\
-                 Get a token from https://pokedex.ai (Settings → Remote Control).\n\
+                 Get a token from https://pokedex.ai (Settings â†’ Remote Control).\n\
                  Note: Remote Control is only available with pokedex.ai subscriptions."
             )
         })?;
@@ -1001,7 +1001,7 @@ pub async fn start_bridge_session(
             anyhow::bail!(
                 "Bridge session registration failed: authentication error (HTTP {}).\n\
                  Your token may be invalid or expired.\n\
-                 Get a new token from https://pokedex.ai (Settings → Remote Control).",
+                 Get a new token from https://pokedex.ai (Settings â†’ Remote Control).",
                 status
             );
         }
@@ -1179,7 +1179,7 @@ pub async fn post_bridge_response(
 }
 
 // ---------------------------------------------------------------------------
-// TUI-facing bridge event types (bridge → TUI state machine)
+// TUI-facing bridge event types (bridge â†’ TUI state machine)
 // ---------------------------------------------------------------------------
 
 /// How the remote UI responded to a permission request.
@@ -1193,7 +1193,7 @@ pub enum PermissionResponseKind {
 
 /// Internal events sent from the bridge loop to the TUI / main event loop.
 ///
-/// These are *not* the same as [`BridgeEvent`] (which flows CLI → web UI).
+/// These are *not* the same as [`BridgeEvent`] (which flows CLI â†’ web UI).
 /// `TuiBridgeEvent` flows from the bridge worker task into the main loop so
 /// the TUI can update connection state, inject prompts, etc.
 #[derive(Debug, Clone)]
@@ -1228,7 +1228,7 @@ pub enum TuiBridgeEvent {
 }
 
 // ---------------------------------------------------------------------------
-// Outbound event types (query loop → bridge → web UI)
+// Outbound event types (query loop â†’ bridge â†’ web UI)
 // ---------------------------------------------------------------------------
 
 /// Events from the query/tool loop forwarded outbound to the web UI via the
@@ -1391,7 +1391,7 @@ pub async fn run_bridge_loop(
                 break;
             }
 
-            // Convert inbound BridgeMessage → TuiBridgeEvent.
+            // Convert inbound BridgeMessage â†’ TuiBridgeEvent.
             msg = msg_rx.recv() => {
                 match msg {
                     None => {
@@ -1445,7 +1445,7 @@ pub async fn run_bridge_loop(
                 }
             }
 
-            // Forward outbound events from query loop → bridge server.
+            // Forward outbound events from query loop â†’ bridge server.
             outbound = outbound_rx.recv() => {
                 match outbound {
                     None => {

@@ -1,4 +1,4 @@
-// voice_mode_notice.rs — VoiceModeNotice surface.
+﻿// voice_mode_notice.rs — VoiceModeNotice surface.
 //
 // Shown when the user's account has voice mode available but it isn't yet
 // enabled. Appears as a one-time dismissable notice below the welcome header.

@@ -1,4 +1,4 @@
-//! MCP OAuth / XAA IdP login flow.
+﻿//! MCP OAuth / XAA IdP login flow.
 //! Mirrors src/services/mcp/xaaIdpLogin.ts and src/services/mcp/auth.ts.
 
 use serde::{Deserialize, Serialize};
@@ -67,7 +67,7 @@ pub fn remove_mcp_token(server_name: &str) -> std::io::Result<()> {
 // PKCE helpers
 // ---------------------------------------------------------------------------
 
-/// Generate a PKCE code verifier (43–128 random URL-safe chars).
+/// Generate a PKCE code verifier (43â€“128 random URL-safe chars).
 pub fn pkce_verifier() -> String {
     use std::time::{SystemTime, UNIX_EPOCH};
     // Simple deterministic stub (real impl would use getrandom).

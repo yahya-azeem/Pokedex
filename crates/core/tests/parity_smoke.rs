@@ -1,4 +1,4 @@
-//! T5-1 parity smoke tests.
+﻿//! T5-1 parity smoke tests.
 //! Verifies that core data structures are usable as the TS CLI would use them.
 
 use pokedex_core::{

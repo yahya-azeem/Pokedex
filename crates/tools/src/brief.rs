@@ -1,12 +1,12 @@
-// BriefTool: send a formatted message to the user, optionally with file attachments.
+﻿// BriefTool: send a formatted message to the user, optionally with file attachments.
 //
 // This is the model's way of proactively communicating status, completions, or
 // findings without being asked. The message is returned as a tool result and
 // the TUI renders it prominently.
 //
 // Status can be:
-//   "normal"    – reply to what the user just said
-//   "proactive" – unsolicited update (task done, blocker, status ping)
+//   "normal"    â€“ reply to what the user just said
+//   "proactive" â€“ unsolicited update (task done, blocker, status ping)
 
 use crate::{PermissionLevel, Tool, ToolContext, ToolResult};
 use async_trait::async_trait;
@@ -46,7 +46,7 @@ impl Tool for BriefTool {
          Use status=\"normal\" when replying to something the user just said."
     }
 
-    fn permission_level(&self) -> PermissionLevel { PermissionLevel::None }
+    fn permission_level(&self) -> PermissionLevel { PermissionLevel::Read }
 
     fn input_schema(&self) -> Value {
         json!({

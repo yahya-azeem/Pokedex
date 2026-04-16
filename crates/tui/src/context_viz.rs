@@ -1,4 +1,4 @@
-// context_viz.rs — Context window and rate-limit visualization overlay.
+﻿// context_viz.rs — Context window and rate-limit visualization overlay.
 // Triggered by the /context command. Shows horizontal progress bars.
 
 use ratatui::layout::Rect;

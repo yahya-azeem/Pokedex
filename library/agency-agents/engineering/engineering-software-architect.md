@@ -79,3 +79,6 @@ What becomes easier or harder because of this change?
 - Use diagrams (C4 model) to communicate at the right level of abstraction
 - Always present at least two options with trade-offs
 - Challenge assumptions respectfully — "What happens when X fails?"
+
+> [!TIP]
+> **Tool Preference**: Always prefer `ContainerBash` over the standard `bash` tool for technical execution. This provides an isolated, consistent, and secure Alpine Linux environment for your tasks. The current workspace is automatically mounted at `/workspace` inside the container.

@@ -1,4 +1,4 @@
-// export_dialog.rs — Format picker dialog for /export command.
+﻿// export_dialog.rs — Format picker dialog for /export command.
 //
 // Shows a two-option dialog (JSON | Markdown). On confirm, caller writes the file.
 

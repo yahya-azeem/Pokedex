@@ -1,4 +1,4 @@
-// FileEdit tool: exact string replacement with old/new strings (like sed but
+﻿// FileEdit tool: exact string replacement with old/new strings (like sed but
 // deterministic).  Mirrors the TypeScript Edit tool behaviour.
 
 use crate::{PermissionLevel, Tool, ToolContext, ToolResult};

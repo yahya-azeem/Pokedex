@@ -1,8 +1,8 @@
-// Cron tools: schedule recurring and one-shot prompts.
+﻿// Cron tools: schedule recurring and one-shot prompts.
 //
-// CronCreateTool  – create a new scheduled task (cron expression)
-// CronDeleteTool  – remove an existing scheduled task
-// CronListTool    – list all scheduled tasks
+// CronCreateTool  â€“ create a new scheduled task (cron expression)
+// CronDeleteTool  â€“ remove an existing scheduled task
+// CronListTool    â€“ list all scheduled tasks
 //
 // Scheduled tasks are stored in a global in-memory store.
 // Durable tasks are persisted to `~/.pokedex/scheduled_tasks.json`.
@@ -272,7 +272,7 @@ impl Tool for CronCreateTool {
          Use durable=true to persist across sessions."
     }
 
-    fn permission_level(&self) -> PermissionLevel { PermissionLevel::None }
+    fn permission_level(&self) -> PermissionLevel { PermissionLevel::Read }
 
     fn input_schema(&self) -> Value {
         json!({
@@ -386,7 +386,7 @@ impl Tool for CronDeleteTool {
         "Cancel a scheduled cron task by its ID. Use CronList to find the ID."
     }
 
-    fn permission_level(&self) -> PermissionLevel { PermissionLevel::None }
+    fn permission_level(&self) -> PermissionLevel { PermissionLevel::Read }
 
     fn input_schema(&self) -> Value {
         json!({
@@ -439,7 +439,7 @@ impl Tool for CronListTool {
         "List all currently scheduled cron tasks."
     }
 
-    fn permission_level(&self) -> PermissionLevel { PermissionLevel::None }
+    fn permission_level(&self) -> PermissionLevel { PermissionLevel::Read }
 
     fn input_schema(&self) -> Value {
         json!({

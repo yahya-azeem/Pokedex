@@ -1,4 +1,4 @@
-//! Analytics and telemetry (OpenTelemetry-compatible counters)
+﻿//! Analytics and telemetry (OpenTelemetry-compatible counters)
 
 use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::Arc;

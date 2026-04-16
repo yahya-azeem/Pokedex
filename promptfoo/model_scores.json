@@ -1,0 +1,71 @@
+{
+  "_comment": "Static fallback model scores. Higher = better fit for the role category. Updated by running: npx promptfoo eval",
+  "models": {
+    "claude-sonnet-4-20250514": {
+      "engineering": 0.92,
+      "design": 0.85,
+      "marketing": 0.80,
+      "testing": 0.88,
+      "strategy": 0.87,
+      "product": 0.84,
+      "project-management": 0.86,
+      "data": 0.89,
+      "default": 0.85
+    },
+    "claude-opus-4-20250514": {
+      "engineering": 0.95,
+      "design": 0.88,
+      "marketing": 0.83,
+      "testing": 0.90,
+      "strategy": 0.92,
+      "product": 0.90,
+      "project-management": 0.91,
+      "data": 0.93,
+      "default": 0.90
+    },
+    "gpt-4o": {
+      "engineering": 0.90,
+      "design": 0.87,
+      "marketing": 0.88,
+      "testing": 0.85,
+      "strategy": 0.86,
+      "product": 0.87,
+      "project-management": 0.85,
+      "data": 0.88,
+      "default": 0.87
+    },
+    "gpt-4o-mini": {
+      "engineering": 0.78,
+      "design": 0.75,
+      "marketing": 0.80,
+      "testing": 0.76,
+      "strategy": 0.74,
+      "product": 0.76,
+      "project-management": 0.77,
+      "data": 0.75,
+      "default": 0.76
+    },
+    "gemini-2.5-pro": {
+      "engineering": 0.91,
+      "design": 0.84,
+      "marketing": 0.82,
+      "testing": 0.87,
+      "strategy": 0.88,
+      "product": 0.85,
+      "project-management": 0.86,
+      "data": 0.92,
+      "default": 0.87
+    },
+    "gemini-2.5-flash": {
+      "engineering": 0.82,
+      "design": 0.78,
+      "marketing": 0.79,
+      "testing": 0.80,
+      "strategy": 0.77,
+      "product": 0.78,
+      "project-management": 0.79,
+      "data": 0.83,
+      "default": 0.80
+    }
+  }
+}

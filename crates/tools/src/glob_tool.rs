@@ -1,4 +1,4 @@
-// Glob tool: fast file pattern matching.
+﻿// Glob tool: fast file pattern matching.
 
 use crate::{PermissionLevel, Tool, ToolContext, ToolResult};
 use async_trait::async_trait;
@@ -30,7 +30,7 @@ impl Tool for GlobTool {
     }
 
     fn permission_level(&self) -> PermissionLevel {
-        PermissionLevel::ReadOnly
+        PermissionLevel::Read
     }
 
     fn input_schema(&self) -> Value {

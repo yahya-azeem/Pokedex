@@ -43,8 +43,8 @@ fn default_timeout() -> u64 {
 /// The block format is:
 /// ```text
 /// __CC_SHELL_STATE__
-/// /some/path          ← final cwd (first line after sentinel)
-/// KEY=value           ← exported env vars (remaining lines)
+/// /some/path          â† final cwd (first line after sentinel)
+/// KEY=value           â† exported env vars (remaining lines)
 /// ```
 fn parse_shell_state_block(lines: &[String]) -> Option<(PathBuf, HashMap<String, String>)> {
     let mut iter = lines.iter();
@@ -305,7 +305,7 @@ impl Tool for BashTool {
         // Retrieve the persistent shell state for this session.
         let shell_state_arc = session_shell_state(&ctx.session_id);
 
-        // ── Background path ──────────────────────────────────────────────────
+        // â”€â”€ Background path â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         if params.run_in_background {
             let cwd = {
                 let state = shell_state_arc.lock();
@@ -314,7 +314,7 @@ impl Tool for BashTool {
             return run_in_background(params.command, cwd, timeout_ms).await;
         }
 
-        // ── Foreground path ──────────────────────────────────────────────────
+        // â”€â”€ Foreground path â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         let timeout_dur = Duration::from_millis(timeout_ms);
 
         debug!(command = %params.command, "Executing bash command");
@@ -484,7 +484,10 @@ impl BashTool {
             .stdin(Stdio::null())
             .spawn()
         {
-            Ok(c) => c,
+            Ok(c) => {
+                println!("  [SHELL_IO] Executing: {} in: {}", command, effective_cwd.display());
+                c
+            },
             Err(e) => return ToolResult::error(format!("Failed to spawn command: {}", e)),
         };
 

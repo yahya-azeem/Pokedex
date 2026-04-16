@@ -1,4 +1,4 @@
-//! Coordinator mode: multi-worker agent orchestration
+﻿//! Coordinator mode: multi-worker agent orchestration
 
 pub const COORDINATOR_ENV_VAR: &str = "CLAUDE_CODE_COORDINATOR_MODE";
 
@@ -294,7 +294,7 @@ mod tests {
     fn test_match_session_mode_no_change_needed() {
         let _g = ENV_LOCK.lock().unwrap_or_else(|p| p.into_inner());
         std::env::remove_var(COORDINATOR_ENV_VAR);
-        // current = false, stored = false → no warning
+        // current = false, stored = false â†’ no warning
         assert!(match_session_mode(false).is_none());
     }
 
@@ -302,7 +302,7 @@ mod tests {
     fn test_match_session_mode_switches_to_coordinator() {
         let _g = ENV_LOCK.lock().unwrap_or_else(|p| p.into_inner());
         std::env::remove_var(COORDINATOR_ENV_VAR);
-        // current = false, stored = true → should flip and warn
+        // current = false, stored = true â†’ should flip and warn
         let msg = match_session_mode(true);
         assert!(msg.is_some());
         assert!(msg.unwrap().contains("coordinator"));

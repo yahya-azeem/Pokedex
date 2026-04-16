@@ -1,4 +1,4 @@
-// EnterPlanMode tool: switch the session into planning (read-only) mode.
+﻿// EnterPlanMode tool: switch the session into planning (read-only) mode.
 
 use crate::{PermissionLevel, Tool, ToolContext, ToolResult};
 use async_trait::async_trait;
@@ -27,7 +27,7 @@ impl Tool for EnterPlanModeTool {
     }
 
     fn permission_level(&self) -> PermissionLevel {
-        PermissionLevel::None
+        PermissionLevel::Read
     }
 
     fn input_schema(&self) -> Value {

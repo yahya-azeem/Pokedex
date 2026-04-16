@@ -1,4 +1,4 @@
-//! Team memory synchronization with pokedex.ai API.
+﻿//! Team memory synchronization with pokedex.ai API.
 //!
 //! Implements delta push (only changed files) with ETag-based optimistic
 //! concurrency and greedy bin-packing of changed entries into batches that
@@ -210,14 +210,14 @@ impl TeamMemorySync {
     /// Push local changes to the server using delta upload.
     ///
     /// Only entries whose local checksum differs from `state.server_checksums`
-    /// are uploaded.  Changed entries are packed into batches ≤ `MAX_PUT_BODY_BYTES`.
+    /// are uploaded.  Changed entries are packed into batches â‰¤ `MAX_PUT_BODY_BYTES`.
     pub async fn push(&self, state: &mut SyncState) -> Result<()> {
         let local_entries = self
             .scan_local_files()
             .await
             .context("team memory push: scanning local files")?;
 
-        // Delta: entries where local hash ≠ last-known server hash
+        // Delta: entries where local hash â‰  last-known server hash
         let changed: Vec<TeamMemoryEntry> = local_entries
             .into_iter()
             .filter(|entry| {
@@ -248,7 +248,7 @@ impl TeamMemorySync {
     // -----------------------------------------------------------------------
 
     /// Greedy bin-packing: pack entries into batches that each serialise to
-    /// ≤ `MAX_PUT_BODY_BYTES`.  Entries that individually exceed the limit go
+    /// â‰¤ `MAX_PUT_BODY_BYTES`.  Entries that individually exceed the limit go
     /// into singleton batches (server will reject them with 413, but that is
     /// the caller's problem).
     fn pack_batches(&self, entries: Vec<TeamMemoryEntry>) -> Vec<Vec<TeamMemoryEntry>> {
@@ -556,7 +556,7 @@ mod tests {
     #[test]
     fn test_pack_batches_oversized_solo() {
         let sync = make_sync();
-        // Entry > MAX_PUT_BODY_BYTES → goes solo
+        // Entry > MAX_PUT_BODY_BYTES â†’ goes solo
         let big = entry("big.md", MAX_PUT_BODY_BYTES + 1);
         let small = entry("small.md", 100);
         let batches = sync.pack_batches(vec![big, small]);

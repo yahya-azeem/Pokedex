@@ -1,4 +1,4 @@
-//! Cryptographic utilities — mirrors src/utils/crypto.ts
+﻿//! Cryptographic utilities — mirrors src/utils/crypto.ts
 //!
 //! Provides SHA-256 hashing, UUID generation, base64url encoding,
 //! and work secret generation.

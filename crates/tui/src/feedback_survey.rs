@@ -1,4 +1,4 @@
-// feedback_survey.rs — Session quality survey overlay matching TS FeedbackSurvey.tsx
+﻿// feedback_survey.rs — Session quality survey overlay matching TS FeedbackSurvey.tsx
 
 use ratatui::buffer::Buffer;
 use ratatui::layout::{Alignment, Rect};
@@ -64,10 +64,10 @@ impl FeedbackSurveyState {
 
     /// Handle a digit key press. Returns `true` if the survey consumed the key.
     ///
-    /// Stage=Rating:      1→Bad, 2→Fine, 3→Good, 0→Dismissed
-    ///   Good → transition to SharePrompt, otherwise → Thanks
-    /// Stage=SharePrompt: 1/2/3 → show Thanks and close
-    /// Stage=Thanks:      any key → close
+    /// Stage=Rating:      1â†’Bad, 2â†’Fine, 3â†’Good, 0â†’Dismissed
+    ///   Good â†’ transition to SharePrompt, otherwise â†’ Thanks
+    /// Stage=SharePrompt: 1/2/3 â†’ show Thanks and close
+    /// Stage=Thanks:      any key â†’ close
     pub fn handle_digit(&mut self, digit: u8) -> bool {
         if !self.visible {
             return false;

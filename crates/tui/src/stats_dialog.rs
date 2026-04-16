@@ -1,4 +1,4 @@
-//! Stats dialog — mirrors src/components/Stats.tsx
+﻿//! Stats dialog — mirrors src/components/Stats.tsx
 //!
 //! Four-tab overlay: Overview | Daily Tokens | Cost Heatmap | Models
 //! Data source: ~/.pokedex/stats.jsonl (append-only per-turn usage log)
@@ -446,7 +446,7 @@ fn render_overview(data: &AggregatedStats, state: &StatsDialogState, area: Rect,
         let current = state.current_streak_days;
         let longest = state.longest_streak_days;
         let streak_value = Span::styled(
-            format!("● {} day{}", current, if current == 1 { "" } else { "s" }),
+            format!("â— {} day{}", current, if current == 1 { "" } else { "s" }),
             Style::default().fg(Color::Yellow).add_modifier(Modifier::BOLD),
         );
         let streak_longest = Span::styled(

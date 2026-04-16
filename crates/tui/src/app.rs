@@ -1,4 +1,4 @@
-// app.rs — App state struct and main event loop.
+﻿// app.rs — App state struct and main event loop.
 
 use crate::bridge_state::BridgeConnectionState;
 use crate::context_viz::ContextVizState;
@@ -479,9 +479,9 @@ pub struct App {
     pub context_window_size: u64,
     /// How many tokens are currently used in the context window.
     pub context_used_tokens: u64,
-    /// Rate limit info — 5-hour window usage percentage (0–100).
+    /// Rate limit info — 5-hour window usage percentage (0â€“100).
     pub rate_limit_5h_pct: Option<f32>,
-    /// Rate limit info — 7-day window usage percentage (0–100).
+    /// Rate limit info — 7-day window usage percentage (0â€“100).
     pub rate_limit_7day_pct: Option<f32>,
     /// Active worktree name (if in a worktree).
     pub worktree_name: Option<String>,
@@ -495,7 +495,7 @@ pub struct App {
     pub thinking_expanded: std::collections::HashSet<u64>,
     /// The message pane area from the last render frame (used for mouse hit testing).
     pub last_msg_area: Cell<ratatui::layout::Rect>,
-    /// Maps virtual_row_index → thinking_block_hash for click detection.
+    /// Maps virtual_row_index â†’ thinking_block_hash for click detection.
     pub thinking_row_map: RefCell<std::collections::HashMap<u16, u64>>,
     /// Total message lines from the last render (used for virtual row mapping).
     pub total_message_lines: Cell<usize>,
@@ -533,7 +533,7 @@ const SPINNER_VERBS: &[&str] = &[
     "Deciphering", "Deliberating", "Determining", "Dilly-dallying", "Discombobulating",
     "Doing", "Doodling", "Drizzling", "Ebbing", "Effecting", "Elucidating", "Embellishing",
     "Enchanting", "Envisioning", "Evaporating", "Fermenting", "Fiddle-faddling", "Finagling",
-    "Flambéing", "Flibbertigibbeting", "Flowing", "Flummoxing", "Fluttering", "Forging",
+    "FlambÃ©ing", "Flibbertigibbeting", "Flowing", "Flummoxing", "Fluttering", "Forging",
     "Forming", "Frolicking", "Frosting", "Gallivanting", "Galloping", "Garnishing",
     "Generating", "Gesticulating", "Germinating", "Gitifying", "Grooving", "Gusting",
     "Harmonizing", "Hashing", "Hatching", "Herding", "Honking", "Hullaballooing",
@@ -546,7 +546,7 @@ const SPINNER_VERBS: &[&str] = &[
     "Photosynthesizing", "Pollinating", "Pondering", "Pontificating", "Pouncing",
     "Precipitating", "Prestidigitating", "Processing", "Proofing", "Propagating", "Puttering",
     "Puzzling", "Quantumizing", "Razzle-dazzling", "Razzmatazzing", "Recombobulating",
-    "Reticulating", "Roosting", "Ruminating", "Sautéing", "Scampering", "Schlepping",
+    "Reticulating", "Roosting", "Ruminating", "SautÃ©ing", "Scampering", "Schlepping",
     "Scurrying", "Seasoning", "Shenaniganing", "Shimmying", "Simmering", "Skedaddling",
     "Sketching", "Slithering", "Smooshing", "Sock-hopping", "Spelunking", "Spinning",
     "Sprouting", "Stewing", "Sublimating", "Swirling", "Swooping", "Symbioting",
@@ -816,7 +816,7 @@ impl App {
                 // Kick off a background fetch of the model list if we don't
                 // already have a fresh list and aren't already loading.
                 if !self.model_picker.models_loaded && !self.model_picker.loading_models {
-                    if let Ok(client) = pokedex_api::AnthropicClient::from_config(&self.config) {
+                    if let Ok(client) = pokedex_api::ProviderClient::from_config(&self.config) {
                         let (tx, rx) = tokio::sync::mpsc::channel(1);
                         self.model_fetch_rx = Some(rx);
                         self.model_picker.loading_models = true;
@@ -1544,7 +1544,7 @@ impl App {
             return false;
         }
 
-        // Onboarding dialog: shown on first launch, dismissed with Enter/→/Esc.
+        // Onboarding dialog: shown on first launch, dismissed with Enter/â†’/Esc.
         if self.onboarding_dialog.visible {
             match key.code {
                 KeyCode::Esc => {
@@ -2101,7 +2101,7 @@ impl App {
             }
 
             // ---- Shift+Tab: cycle permission mode ----------------------
-            // Default → AcceptEdits → BypassPermissions → Default
+            // Default â†’ AcceptEdits â†’ BypassPermissions â†’ Default
             // Mirrors TS bottom-left indicator cycling behaviour.
             KeyCode::BackTab if !self.is_streaming => {
                 use pokedex_core::config::PermissionMode;

@@ -1,0 +1,11 @@
+You are acting as a {{role}} in a multi-agent team.
+
+Your task: {{task}}
+
+Provide a strategic, action-oriented response with:
+1. Clear objectives and milestones
+2. Resource allocation suggestions
+3. Risk assessment and mitigation
+4. Communication plan
+
+Think like a leader coordinating a diverse team.

@@ -1,4 +1,4 @@
-// ConfigTool: get or set Pokedex configuration settings at runtime.
+﻿// ConfigTool: get or set Pokedex configuration settings at runtime.
 //
 // Reads from and persists to ~/.pokedex/settings.json.
 // Supported settings: model, max_tokens, verbose, permission_mode.

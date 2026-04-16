@@ -1,4 +1,4 @@
-//! VirtualMessageList — efficient scrollable list that renders only visible items.
+﻿//! VirtualMessageList — efficient scrollable list that renders only visible items.
 //! Mirrors src/components/VirtualMessageList.tsx.
 //!
 //! Key idea: each item has a cached height (in terminal rows). We track a
@@ -32,7 +32,7 @@ pub struct VirtualList<T: VirtualItem> {
     /// All items (messages, results, etc.).
     pub items: Vec<T>,
 
-    /// Height cache: (item_index, terminal_width) → row_count.
+    /// Height cache: (item_index, terminal_width) â†’ row_count.
     height_cache: HashMap<(usize, u16), u16>,
 
     /// Current scroll offset in rows from the top of all items.
@@ -47,7 +47,7 @@ pub struct VirtualList<T: VirtualItem> {
     /// Index of the currently selected item (for keyboard navigation).
     pub selected_index: Option<usize>,
 
-    /// Pre-built search index: item_index → searchable_text.
+    /// Pre-built search index: item_index â†’ searchable_text.
     search_index: Vec<String>,
 
     /// Last search query (cached for performance).

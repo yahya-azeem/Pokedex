@@ -1,4 +1,4 @@
-// remote_settings.rs — Remote Managed Settings
+﻿// remote_settings.rs — Remote Managed Settings
 //
 // Port of src/services/remoteManagedSettings/index.ts
 //
@@ -263,7 +263,7 @@ impl RemoteSettingsManager {
         Err(last_err)
     }
 
-    /// Full fetch-and-cache cycle: read disk cache → HTTP fetch → save to disk.
+    /// Full fetch-and-cache cycle: read disk cache â†’ HTTP fetch â†’ save to disk.
     ///
     /// Fails open: returns the stale cached value (or `None`) on any error.
     pub async fn fetch_once_and_cache(&self) -> Option<Value> {

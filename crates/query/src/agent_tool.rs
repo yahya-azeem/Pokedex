@@ -11,7 +11,7 @@
 
 use async_trait::async_trait;
 use pokedex_api::client::ClientConfig;
-use pokedex_api::AnthropicClient;
+use pokedex_api::ProviderClient;
 use pokedex_core::types::Message;
 use pokedex_tools::{PermissionLevel, Tool, ToolContext, ToolResult};
 use serde::Deserialize;
@@ -59,7 +59,7 @@ impl Tool for AgentTool {
 
     fn permission_level(&self) -> PermissionLevel {
         // The agent inherits parent permissions; no extra level required.
-        PermissionLevel::None
+        PermissionLevel::Read
     }
 
     fn input_schema(&self) -> Value {
@@ -104,22 +104,22 @@ impl Tool for AgentTool {
 
         info!(description = %params.description, "Spawning sub-agent");
 
-        // Resolve API key from environment.
-        let api_key = match std::env::var("ANTHROPIC_API_KEY")
-            .ok()
-            .filter(|k| !k.is_empty())
-        {
-            Some(k) => k,
-            None => {
-                return ToolResult::error(
-                    "ANTHROPIC_API_KEY not set – cannot spawn sub-agent".to_string(),
-                )
-            }
-        };
+        // Resolve API keys from environment.
+        let api_key = std::env::var("ANTHROPIC_API_KEY").ok().filter(|k| !k.is_empty());
+        let google_api_key = std::env::var("GOOGLE_API_KEY").ok().filter(|k| !k.is_empty());
+        let github_token = std::env::var("GITHUB_TOKEN").ok().filter(|k| !k.is_empty());
 
-        // Dedicated Anthropic client for the sub-agent.
-        let client = match AnthropicClient::new(ClientConfig {
+        if api_key.is_none() && google_api_key.is_none() && github_token.is_none() {
+            return ToolResult::error(
+                "No API credentials found (ANTHROPIC_API_KEY, GOOGLE_API_KEY, or GITHUB_TOKEN must be set) â€“ cannot spawn sub-agent".to_string(),
+            );
+        }
+
+        // Multi-provider client for the sub-agent.
+        let client = match ProviderClient::new(ClientConfig {
             api_key,
+            google_api_key,
+            github_token,
             ..Default::default()
         }) {
             Ok(c) => Arc::new(c),

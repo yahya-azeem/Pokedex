@@ -1,4 +1,4 @@
-// settings_screen.rs — Full-screen tabbed settings interface.
+﻿// settings_screen.rs — Full-screen tabbed settings interface.
 //
 // Opened by /config or /settings commands. Provides a tabbed UI for
 // viewing and editing General, Display, Privacy, Advanced, and KeyBindings
@@ -62,7 +62,7 @@ pub struct SettingsScreen {
     pub edit_value: String,
     /// Snapshot of settings at open time for display.
     pub settings_snapshot: Settings,
-    /// Pending changes (field_name → new_value string).
+    /// Pending changes (field_name â†’ new_value string).
     pub pending_changes: std::collections::HashMap<String, String>,
 
     // ---- Real settings fields ----
@@ -318,8 +318,8 @@ fn save_setting_bool(key: &str, value: bool) {
 }
 
 /// Toggle the boolean field currently selected in `screen` and persist the
-/// change. The mapping is: General tab fields 0,1,2 → auto_compact_enabled,
-/// notifications_enabled, show_turn_duration; Display tab fields 0,1 →
+/// change. The mapping is: General tab fields 0,1,2 â†’ auto_compact_enabled,
+/// notifications_enabled, show_turn_duration; Display tab fields 0,1 â†’
 /// reduce_motion, terminal_progress_bar.
 pub fn toggle_current_field(screen: &mut SettingsScreen, _config: &mut Config) {
     match &screen.active_tab {
@@ -428,7 +428,7 @@ pub fn render_settings_screen(frame: &mut Frame, screen: &SettingsScreen, area: 
         .collect();
 
     let tabs = Tabs::new(tab_labels)
-        .divider(Span::raw(" │ "))
+        .divider(Span::raw(" â”‚ "))
         .style(Style::default().fg(Color::DarkGray));
     frame.render_widget(tabs, tabs_area);
 
@@ -447,7 +447,7 @@ pub fn render_settings_screen(frame: &mut Frame, screen: &SettingsScreen, area: 
         Line::from(vec![
             Span::styled(" Tab ", Style::default().fg(Color::Green).add_modifier(Modifier::BOLD)),
             Span::raw("next tab  "),
-            Span::styled(" ↑↓ ", Style::default().fg(Color::Green).add_modifier(Modifier::BOLD)),
+            Span::styled(" â†‘â†“ ", Style::default().fg(Color::Green).add_modifier(Modifier::BOLD)),
             Span::raw("select  "),
             Span::styled(" Space/Enter ", Style::default().fg(Color::Green).add_modifier(Modifier::BOLD)),
             Span::raw("toggle  "),
@@ -1010,8 +1010,8 @@ fn indent_line(text: &str, color: Color) -> Line<'static> {
 /// Build a pair of display lines for a boolean toggle field.
 ///
 /// Format:
-///   `[✓] Label    Description`  (selected → highlighted row)
-///   `[○] Label    Description`  (unchecked)
+///   `[✓] Label    Description`  (selected â†’ highlighted row)
+///   `[â—‹] Label    Description`  (unchecked)
 fn toggle_field_lines(
     enabled: bool,
     label: &str,
@@ -1021,7 +1021,7 @@ fn toggle_field_lines(
     let (check_char, check_color) = if enabled {
         ("✓", Color::Green)
     } else {
-        ("○", Color::DarkGray)
+        ("â—‹", Color::DarkGray)
     };
 
     let row_style = if selected {

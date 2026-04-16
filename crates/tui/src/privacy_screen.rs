@@ -1,4 +1,4 @@
-// privacy_screen.rs — Privacy settings dialog.
+﻿// privacy_screen.rs — Privacy settings dialog.
 //
 // A focused overlay with toggle-style controls for privacy preferences.
 // Opened by /privacy-settings. Changes are persisted via Settings::save_sync().

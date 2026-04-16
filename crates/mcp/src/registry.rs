@@ -1,4 +1,4 @@
-// pokedex-mcp: Official MCP server registry.
+﻿// pokedex-mcp: Official MCP server registry.
 //
 // Mirrors the TS officialRegistry.ts, but instead of fetching the live
 // Anthropic registry at runtime (which requires network access and an API key),

@@ -1,4 +1,4 @@
-// REPLTool: Executes code in a persistent interpreter session.
+﻿// REPLTool: Executes code in a persistent interpreter session.
 //
 // Tool name: "REPL" (matches TypeScript REPL_TOOL_NAME constant)
 //

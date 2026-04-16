@@ -1,4 +1,4 @@
-// away_summary.rs — "While you were away" recap generation.
+﻿// away_summary.rs — "While you were away" recap generation.
 //
 // Ported from `src/services/awaySummary.ts`.
 //
@@ -6,7 +6,7 @@
 // `generate_away_summary` to get a short 1-3 sentence recap of what was
 // happening before they left.
 
-use pokedex_api::{AnthropicClient, CreateMessageRequest};
+use pokedex_api::{ProviderClient, CreateMessageRequest};
 use pokedex_core::types::Message;
 use tokio_util::sync::CancellationToken;
 
@@ -64,7 +64,7 @@ commit recaps."
 /// keep the prompt small.
 pub async fn generate_away_summary(
     messages: &[Message],
-    api_client: &AnthropicClient,
+    api_client: &ProviderClient,
     config: &AwaySummaryConfig,
     cancel: CancellationToken,
 ) -> Option<String> {
@@ -91,7 +91,7 @@ pub async fn generate_away_summary(
 
     let request = CreateMessageRequest::builder(&config.model, config.max_tokens)
         .messages(api_messages)
-        .build();
+        .build().map_err(|e| pokedex_core::error::ClaudeError::Api(e.to_string())).ok()?;
 
     // Run the API call with cancellation support.
     let call_future = api_client.create_message(request);
@@ -104,16 +104,18 @@ pub async fn generate_away_summary(
         },
     };
 
-    // Extract text from the first text block of the response.
-    // The `content` field is `Vec<serde_json::Value>` with objects like
-    // `{"type": "text", "text": "..."}`.
-    let text = response.content.iter().find_map(|block| {
-        if block.get("type")?.as_str()? == "text" {
-            block.get("text")?.as_str().map(str::to_owned)
-        } else {
-            None
-        }
-    })?;
+    // Extract text from the response.
+    let text = match &response.content {
+        serde_json::Value::String(s) => Some(s.clone()),
+        serde_json::Value::Array(blocks) => blocks.iter().find_map(|block| {
+            if block.get("type")?.as_str()? == "text" {
+                block.get("text")?.as_str().map(str::to_owned)
+            } else {
+                None
+            }
+        }),
+        _ => None,
+    }?;
 
     if text.trim().is_empty() {
         None

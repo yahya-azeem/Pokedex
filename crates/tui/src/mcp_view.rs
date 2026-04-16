@@ -1,4 +1,4 @@
-//! MCP server management UI.
+﻿//! MCP server management UI.
 //! Mirrors src/components/mcp/ (12 files).
 
 use ratatui::{
@@ -32,10 +32,10 @@ impl McpViewStatus {
     }
     pub fn badge(&self) -> &'static str {
         match self {
-            Self::Connected => "●",
-            Self::Connecting => "◌",
-            Self::Disconnected => "○",
-            Self::Error => "⚠",
+            Self::Connected => "â—",
+            Self::Connecting => "â—Œ",
+            Self::Disconnected => "â—‹",
+            Self::Error => "âš ",
         }
     }
     pub fn color(&self) -> Color {
@@ -208,7 +208,7 @@ pub fn render_mcp_view(state: &McpViewState, area: Rect, buf: &mut Buffer) {
 
     Clear.render(dialog, buf);
     Block::default()
-        .title(" MCP Servers [Tab: pane, ↑↓: navigate, e: error detail, r: reconnect, Esc: close] ")
+        .title(" MCP Servers [Tab: pane, â†‘â†“: navigate, e: error detail, r: reconnect, Esc: close] ")
         .borders(Borders::ALL)
         .style(Style::default().fg(Color::Cyan))
         .render(dialog, buf);

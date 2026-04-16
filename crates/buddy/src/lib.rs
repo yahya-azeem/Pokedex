@@ -1,4 +1,4 @@
-/// pokedex-buddy: Tamagotchi/Buddy companion system for Pokedex CLI.
+﻿/// pokedex-buddy: Tamagotchi/Buddy companion system for Pokedex CLI.
 ///
 /// Ported from src/buddy/ (TypeScript). All bones (species, rarity, stats,
 /// eye, hat, shiny) are deterministically derived from the user-ID via a
@@ -133,15 +133,15 @@ impl Rarity {
 
     pub fn stars(&self) -> &'static str {
         match self {
-            Rarity::Common => "★",
-            Rarity::Uncommon => "★★",
-            Rarity::Rare => "★★★",
-            Rarity::Epic => "★★★★",
-            Rarity::Legendary => "★★★★★",
+            Rarity::Common => "â˜…",
+            Rarity::Uncommon => "â˜…â˜…",
+            Rarity::Rare => "â˜…â˜…â˜…",
+            Rarity::Epic => "â˜…â˜…â˜…â˜…",
+            Rarity::Legendary => "â˜…â˜…â˜…â˜…â˜…",
         }
     }
 
-    /// Stat floor for rolling. Higher rarity → higher base stats.
+    /// Stat floor for rolling. Higher rarity â†’ higher base stats.
     fn stat_floor(&self) -> u8 {
         match self {
             Rarity::Common => 5,
@@ -156,29 +156,29 @@ impl Rarity {
 /// Eye glyphs — rendered into sprite {E} slots.
 #[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 pub enum Eye {
-    /// ·
+    /// Â·
     Dot,
-    /// ✦
+    /// âœ¦
     Star,
     /// ×
     X,
-    /// ◉
+    /// â—‰
     Circle,
     /// @
     At,
-    /// °
+    /// Â°
     Degree,
 }
 
 impl Eye {
     pub fn glyph(&self) -> &'static str {
         match self {
-            Eye::Dot => "·",
-            Eye::Star => "✦",
+            Eye::Dot => "Â·",
+            Eye::Star => "âœ¦",
             Eye::X => "×",
-            Eye::Circle => "◉",
+            Eye::Circle => "â—‰",
             Eye::At => "@",
-            Eye::Degree => "°",
+            Eye::Degree => "Â°",
         }
     }
 
@@ -434,21 +434,21 @@ pub fn get_sprite_frames(species: &Species) -> [SpriteFrame; 3] {
                 "    __      ",
                 "  <({E} )___  ",
                 "   (  ._>   ",
-                "    `--´    ",
+                "    `--Â´    ",
             ]),
             SpriteFrame([
                 "            ",
                 "    __      ",
                 "  <({E} )___  ",
                 "   (  ._>   ",
-                "    `--´~   ",
+                "    `--Â´~   ",
             ]),
             SpriteFrame([
                 "            ",
                 "    __      ",
                 "  <({E} )___  ",
                 "   (  .__>  ",
-                "    `--´    ",
+                "    `--Â´    ",
             ]),
         ],
         Species::Goose => [
@@ -480,21 +480,21 @@ pub fn get_sprite_frames(species: &Species) -> [SpriteFrame; 3] {
                 "   .----.   ",
                 "  ( {E}  {E} )  ",
                 "  (      )  ",
-                "   `----´   ",
+                "   `----Â´   ",
             ]),
             SpriteFrame([
                 "            ",
                 "  .------.  ",
                 " (  {E}  {E}  ) ",
                 " (        ) ",
-                "  `------´  ",
+                "  `------Â´  ",
             ]),
             SpriteFrame([
                 "            ",
                 "    .--.    ",
                 "   ({E}  {E})   ",
                 "   (    )   ",
-                "    `--´    ",
+                "    `--Â´    ",
             ]),
         ],
         Species::Cat => [
@@ -502,21 +502,21 @@ pub fn get_sprite_frames(species: &Species) -> [SpriteFrame; 3] {
                 "            ",
                 "   /\\_/\\    ",
                 "  ( {E}   {E})  ",
-                "  (  ω  )   ",
+                "  (  Ï‰  )   ",
                 "  (\")_(\")   ",
             ]),
             SpriteFrame([
                 "            ",
                 "   /\\_/\\    ",
                 "  ( {E}   {E})  ",
-                "  (  ω  )   ",
+                "  (  Ï‰  )   ",
                 "  (\")_(\")~  ",
             ]),
             SpriteFrame([
                 "            ",
                 "   /\\-/\\    ",
                 "  ( {E}   {E})  ",
-                "  (  ω  )   ",
+                "  (  Ï‰  )   ",
                 "  (\")_(\")   ",
             ]),
         ],
@@ -526,21 +526,21 @@ pub fn get_sprite_frames(species: &Species) -> [SpriteFrame; 3] {
                 "  /^\\  /^\\  ",
                 " <  {E}  {E}  > ",
                 " (   ~~   ) ",
-                "  `-vvvv-´  ",
+                "  `-vvvv-Â´  ",
             ]),
             SpriteFrame([
                 "            ",
                 "  /^\\  /^\\  ",
                 " <  {E}  {E}  > ",
                 " (        ) ",
-                "  `-vvvv-´  ",
+                "  `-vvvv-Â´  ",
             ]),
             SpriteFrame([
                 "   ~    ~   ",
                 "  /^\\  /^\\  ",
                 " <  {E}  {E}  > ",
                 " (   ~~   ) ",
-                "  `-vvvv-´  ",
+                "  `-vvvv-Â´  ",
             ]),
         ],
         Species::Octopus => [
@@ -572,7 +572,7 @@ pub fn get_sprite_frames(species: &Species) -> [SpriteFrame; 3] {
                 "   /\\  /\\   ",
                 "  (({E})({E}))  ",
                 "  (  ><  )  ",
-                "   `----´   ",
+                "   `----Â´   ",
             ]),
             SpriteFrame([
                 "            ",
@@ -586,7 +586,7 @@ pub fn get_sprite_frames(species: &Species) -> [SpriteFrame; 3] {
                 "   /\\  /\\   ",
                 "  (({E})(-))  ",
                 "  (  ><  )  ",
-                "   `----´   ",
+                "   `----Â´   ",
             ]),
         ],
         Species::Penguin => [
@@ -595,20 +595,20 @@ pub fn get_sprite_frames(species: &Species) -> [SpriteFrame; 3] {
                 "  .---.     ",
                 "  ({E}>{E})     ",
                 " /(   )\\    ",
-                "  `---´     ",
+                "  `---Â´     ",
             ]),
             SpriteFrame([
                 "            ",
                 "  .---.     ",
                 "  ({E}>{E})     ",
                 " |(   )|    ",
-                "  `---´     ",
+                "  `---Â´     ",
             ]),
             SpriteFrame([
                 "  .---.     ",
                 "  ({E}>{E})     ",
                 " /(   )\\    ",
-                "  `---´     ",
+                "  `---Â´     ",
                 "   ~ ~      ",
             ]),
         ],
@@ -640,21 +640,21 @@ pub fn get_sprite_frames(species: &Species) -> [SpriteFrame; 3] {
                 "            ",
                 " {E}    .--.  ",
                 "  \\  ( @ )  ",
-                "   \\_`--´   ",
+                "   \\_`--Â´   ",
                 "  ~~~~~~~   ",
             ]),
             SpriteFrame([
                 "            ",
                 "  {E}   .--.  ",
                 "  |  ( @ )  ",
-                "   \\_`--´   ",
+                "   \\_`--Â´   ",
                 "  ~~~~~~~   ",
             ]),
             SpriteFrame([
                 "            ",
                 " {E}    .--.  ",
                 "  \\  ( @  ) ",
-                "   \\_`--´   ",
+                "   \\_`--Â´   ",
                 "   ~~~~~~   ",
             ]),
         ],
@@ -710,21 +710,21 @@ pub fn get_sprite_frames(species: &Species) -> [SpriteFrame; 3] {
                 "  n______n  ",
                 " ( {E}    {E} ) ",
                 " (   oo   ) ",
-                "  `------´  ",
+                "  `------Â´  ",
             ]),
             SpriteFrame([
                 "            ",
                 "  n______n  ",
                 " ( {E}    {E} ) ",
                 " (   Oo   ) ",
-                "  `------´  ",
+                "  `------Â´  ",
             ]),
             SpriteFrame([
                 "    ~  ~    ",
                 "  u______n  ",
                 " ( {E}    {E} ) ",
                 " (   oo   ) ",
-                "  `------´  ",
+                "  `------Â´  ",
             ]),
         ],
         Species::Cactus => [
@@ -756,21 +756,21 @@ pub fn get_sprite_frames(species: &Species) -> [SpriteFrame; 3] {
                 "   .[||].   ",
                 "  [ {E}  {E} ]  ",
                 "  [ ==== ]  ",
-                "  `------´  ",
+                "  `------Â´  ",
             ]),
             SpriteFrame([
                 "            ",
                 "   .[||].   ",
                 "  [ {E}  {E} ]  ",
                 "  [ -==- ]  ",
-                "  `------´  ",
+                "  `------Â´  ",
             ]),
             SpriteFrame([
                 "     *      ",
                 "   .[||].   ",
                 "  [ {E}  {E} ]  ",
                 "  [ ==== ]  ",
-                "  `------´  ",
+                "  `------Â´  ",
             ]),
         ],
         Species::Rabbit => [
@@ -825,21 +825,21 @@ pub fn get_sprite_frames(species: &Species) -> [SpriteFrame; 3] {
                 "  /\\    /\\  ",
                 " ( {E}    {E} ) ",
                 " (   ..   ) ",
-                "  `------´  ",
+                "  `------Â´  ",
             ]),
             SpriteFrame([
                 "            ",
                 "  /\\    /|  ",
                 " ( {E}    {E} ) ",
                 " (   ..   ) ",
-                "  `------´  ",
+                "  `------Â´  ",
             ]),
             SpriteFrame([
                 "            ",
                 "  /\\    /\\  ",
                 " ( {E}    {E} ) ",
                 " (   ..   ) ",
-                "  `------´~ ",
+                "  `------Â´~ ",
             ]),
         ],
     }
@@ -848,7 +848,7 @@ pub fn get_sprite_frames(species: &Species) -> [SpriteFrame; 3] {
 /// Map a clock tick (500 ms steps) to a frame index (0, 1, or 2).
 ///
 /// Mirrors the TypeScript idle-fidget sequence:
-/// `[0,0,0,0,1,0,0,0,-1→2,0,0,2,0,0,0]` cycling at length 15.
+/// `[0,0,0,0,1,0,0,0,-1â†’2,0,0,2,0,0,0]` cycling at length 15.
 ///
 /// The `-1` entry in the TS source is an explicit reference to frame 2; we
 /// represent it directly as 2.
@@ -897,7 +897,7 @@ pub fn render_face(bones: &CompanionBones) -> String {
     match bones.species {
         Species::Duck | Species::Goose => format!("({}> ", e),
         Species::Blob => format!("({}{})", e, e),
-        Species::Cat => format!("={}ω{}=", e, e),
+        Species::Cat => format!("={}Ï‰{}=", e, e),
         Species::Dragon => format!("<{}~{}>", e, e),
         Species::Octopus => format!("~({}{})~", e, e),
         Species::Owl => format!("({})({})", e, e),

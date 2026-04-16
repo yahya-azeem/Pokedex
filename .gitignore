@@ -1,1 +1,30 @@
 target/
+node_modules/
+.pokedex/
+Projects/
+confirmed_models.json
+model_cache.json
+
+# Secrets — never commit credentials
+accounts.json
+.env
+.env.local
+.env.*.local
+
+# Binaries — no compiled artifacts in source
+*.exe
+*.wasm
+c2w*
+zg*
+
+# Temp / scratch
+tmp/
+*.tmp
+
+# Duplicates / generated
+models_list.json
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+desktop.ini

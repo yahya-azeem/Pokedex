@@ -173,13 +173,13 @@ fn fmt_cost(usd: f64) -> String {
     }
 }
 
-/// Truncate `s` to fit within `max_width` display columns, appending `…` if cut.
+/// Truncate `s` to fit within `max_width` display columns, appending `\u{2026}` if cut.
 fn truncate_display(s: &str, max_width: usize) -> String {
     if s.width() <= max_width {
         return s.to_string();
     }
     if max_width <= 1 {
-        return "…".to_string();
+        return "\u{2026}".to_string();
     }
     let mut out = String::new();
     for ch in s.chars() {
@@ -188,7 +188,7 @@ fn truncate_display(s: &str, max_width: usize) -> String {
         }
         out.push(ch);
     }
-    format!("{}…", out)
+    format!("{}\u{2026}", out)
 }
 
 // ---------------------------------------------------------------------------
@@ -595,6 +595,6 @@ mod tests {
         let long = "abcdefghij"; // 10 chars
         let result = truncate_display(long, 5);
         assert!(result.width() <= 6, "truncated string should fit within budget");
-        assert!(result.ends_with('…'));
+        assert!(result.ends_with('\u{2026}'));
     }
 }

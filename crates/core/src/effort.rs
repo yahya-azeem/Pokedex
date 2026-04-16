@@ -1,8 +1,8 @@
-// effort.rs — EffortLevel enum and associated helpers.
+﻿// effort.rs — EffortLevel enum and associated helpers.
 //
 // Maps to src/utils/effort.ts in the TypeScript source.  The Rust port
 // retains only the subset of logic that is useful in a non-browser / non-GrowthBook
-// environment: the level → thinking-budget / temperature / glyph mappings.
+// environment: the level â†’ thinking-budget / temperature / glyph mappings.
 //
 // The thinking-budget and temperature values must match the TypeScript source
 // exactly because they are passed to the Anthropic API.
@@ -58,10 +58,10 @@ impl EffortLevel {
     /// or `None` if thinking should be disabled.
     ///
     /// Values mirror the TypeScript `thinkingBudgetForEffort` mapping:
-    ///   Low    → None  (no thinking)
-    ///   Medium → 5 000
-    ///   High   → 10 000
-    ///   Max    → 20 000
+    ///   Low    â†’ None  (no thinking)
+    ///   Medium â†’ 5 000
+    ///   High   â†’ 10 000
+    ///   Max    â†’ 20 000
     pub fn thinking_budget_tokens(&self) -> Option<u32> {
         match self {
             Self::Low => None,
@@ -75,10 +75,10 @@ impl EffortLevel {
     /// use the model's default.
     ///
     /// Values mirror the TypeScript source:
-    ///   Low    → Some(0.0) — deterministic, cheap
-    ///   Medium → None      — model default
-    ///   High   → None      — model default
-    ///   Max    → None      — model default
+    ///   Low    â†’ Some(0.0) — deterministic, cheap
+    ///   Medium â†’ None      — model default
+    ///   High   â†’ None      — model default
+    ///   Max    â†’ None      — model default
     pub fn temperature(&self) -> Option<f32> {
         match self {
             Self::Low => Some(0.0),
@@ -89,16 +89,16 @@ impl EffortLevel {
     /// A single Unicode glyph used to represent this effort level in the TUI.
     ///
     /// Glyphs mirror the TypeScript EffortCallout / status-bar rendering:
-    ///   Low    → "○"  (empty circle)
-    ///   Medium → "◐"  (half circle)
-    ///   High   → "●"  (filled circle)
-    ///   Max    → "◉"  (circled circle)
+    ///   Low    â†’ "â—‹"  (empty circle)
+    ///   Medium â†’ "â—"  (half circle)
+    ///   High   â†’ "â—"  (filled circle)
+    ///   Max    â†’ "â—‰"  (circled circle)
     pub fn glyph(&self) -> &'static str {
         match self {
-            Self::Low => "○",
-            Self::Medium => "◐",
-            Self::High => "●",
-            Self::Max => "◉",
+            Self::Low => "â—‹",
+            Self::Medium => "â—",
+            Self::High => "â—",
+            Self::Max => "â—‰",
         }
     }
 
@@ -165,9 +165,9 @@ mod tests {
 
     #[test]
     fn temperature_matches_ts() {
-        // Low → 0.0 (deterministic)
+        // Low â†’ 0.0 (deterministic)
         assert_eq!(EffortLevel::Low.temperature(), Some(0.0));
-        // All others → None (model default)
+        // All others â†’ None (model default)
         assert_eq!(EffortLevel::Medium.temperature(), None);
         assert_eq!(EffortLevel::High.temperature(), None);
         assert_eq!(EffortLevel::Max.temperature(), None);
@@ -175,10 +175,10 @@ mod tests {
 
     #[test]
     fn glyphs_match_ts() {
-        assert_eq!(EffortLevel::Low.glyph(), "○");
-        assert_eq!(EffortLevel::Medium.glyph(), "◐");
-        assert_eq!(EffortLevel::High.glyph(), "●");
-        assert_eq!(EffortLevel::Max.glyph(), "◉");
+        assert_eq!(EffortLevel::Low.glyph(), "â—‹");
+        assert_eq!(EffortLevel::Medium.glyph(), "â—");
+        assert_eq!(EffortLevel::High.glyph(), "â—");
+        assert_eq!(EffortLevel::Max.glyph(), "â—‰");
     }
 
     #[test]

@@ -1,4 +1,4 @@
-// SyntheticOutputTool: Used by coordinator / non-interactive sessions to emit
+﻿// SyntheticOutputTool: Used by coordinator / non-interactive sessions to emit
 // structured output that gets captured and displayed as the assistant's final
 // response.
 //
@@ -32,7 +32,7 @@ impl Tool for SyntheticOutputTool {
     }
 
     fn permission_level(&self) -> PermissionLevel {
-        PermissionLevel::None
+        PermissionLevel::Read
     }
 
     fn input_schema(&self) -> Value {

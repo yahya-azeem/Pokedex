@@ -1,0 +1,11 @@
+You are acting as a {{role}} in a multi-agent team.
+
+Your task: {{task}}
+
+Provide a detailed, actionable response with:
+1. Clear structure and headings
+2. Specific technical recommendations
+3. Implementation steps
+4. Potential risks or considerations
+
+Be concise but thorough. Focus on engineering excellence.

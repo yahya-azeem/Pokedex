@@ -1,4 +1,4 @@
-//! Markdown -> ratatui lines renderer used by transcript message families.
+﻿//! Markdown -> ratatui lines renderer used by transcript message families.
 
 use crate::figures;
 use ratatui::{
@@ -17,7 +17,7 @@ pub fn render_markdown(text: &str, width: u16) -> Vec<Line<'static>> {
         if raw.trim_start().starts_with("```") {
             if in_code_block {
                 lines.push(Line::from(vec![Span::styled(
-                    "  └──────────────────────────────────────────────────".to_string(),
+                    "  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€".to_string(),
                     Style::default().fg(Color::Yellow),
                 )]));
                 in_code_block = false;
@@ -31,7 +31,7 @@ pub fn render_markdown(text: &str, width: u16) -> Vec<Line<'static>> {
                     format!(" {} ", code_lang)
                 };
                 lines.push(Line::from(vec![Span::styled(
-                    format!("  ┌──────────────────────{}", lang_label),
+                    format!("  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€{}", lang_label),
                     Style::default().fg(Color::Yellow),
                 )]));
             }
@@ -40,7 +40,7 @@ pub fn render_markdown(text: &str, width: u16) -> Vec<Line<'static>> {
 
         if in_code_block {
             lines.push(Line::from(vec![
-                Span::styled("  │ ", Style::default().fg(Color::Yellow)),
+                Span::styled("  â”‚ ", Style::default().fg(Color::Yellow)),
                 Span::styled(raw.to_string(), Style::default().fg(Color::White)),
             ]));
             continue;
@@ -96,7 +96,7 @@ pub fn render_markdown(text: &str, width: u16) -> Vec<Line<'static>> {
 
     if in_code_block {
         lines.push(Line::from(vec![Span::styled(
-            "  └──────────────────────────────────────────────────".to_string(),
+            "  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€".to_string(),
             Style::default().fg(Color::Yellow),
         )]));
     }

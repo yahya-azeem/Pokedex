@@ -1,4 +1,4 @@
-// image_paste.rs — Clipboard image detection and text paste via subprocess.
+﻿// image_paste.rs — Clipboard image detection and text paste via subprocess.
 //
 // Supports three operations:
 //   1. `read_clipboard_text()` — read text from the system clipboard
@@ -110,13 +110,13 @@ pub fn read_clipboard_image() -> Option<PastedImage> {
     }
 }
 
-// ── macOS ──────────────────────────────────────────────────────────────────
+// â”€â”€ macOS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 #[cfg(target_os = "macos")]
 fn read_image_macos() -> Option<PastedImage> {
     // Check whether the clipboard contains an image type
     let check = Command::new("osascript")
-        .args(["-e", "the clipboard as «class PNGf»"])
+        .args(["-e", "the clipboard as Â«class PNGfÂ»"])
         .output()
         .ok()?;
 
@@ -128,7 +128,7 @@ fn read_image_macos() -> Option<PastedImage> {
     let tmp = make_temp_png()?;
 
     let script = format!(
-        r#"set pngData to (the clipboard as «class PNGf»)
+        r#"set pngData to (the clipboard as Â«class PNGfÂ»)
 set fp to open for access POSIX file "{}" with write permission
 write pngData to fp
 close access fp"#,
@@ -149,7 +149,7 @@ close access fp"#,
     }
 }
 
-// ── Linux ──────────────────────────────────────────────────────────────────
+// â”€â”€ Linux â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 #[cfg(not(any(target_os = "macos", target_os = "windows")))]
 fn read_image_linux() -> Option<PastedImage> {
@@ -226,7 +226,7 @@ fn try_save_linux_image(path: &PathBuf) -> bool {
     false
 }
 
-// ── Windows ────────────────────────────────────────────────────────────────
+// â”€â”€ Windows â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 #[cfg(target_os = "windows")]
 fn read_image_windows() -> Option<PastedImage> {
@@ -357,7 +357,7 @@ fn make_temp_png() -> Option<PathBuf> {
     Some(tmp_dir.join(name))
 }
 
-/// Read PNG dimensions from the IHDR chunk (bytes 16–23).
+/// Read PNG dimensions from the IHDR chunk (bytes 16â€“23).
 fn png_dimensions(path: &PathBuf) -> Option<(u32, u32)> {
     let data = std::fs::read(path).ok()?;
     if data.len() < 24 {

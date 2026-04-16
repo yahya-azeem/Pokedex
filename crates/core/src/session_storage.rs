@@ -1,4 +1,4 @@
-// session_storage.rs — JSONL transcript persistence for the Rust port of Pokedex.
+﻿// session_storage.rs — JSONL transcript persistence for the Rust port of Pokedex.
 //
 // File layout:  ~/.pokedex/projects/{base64url(project_root)}/{session_id}.jsonl
 //
@@ -280,7 +280,7 @@ pub async fn write_transcript_entry(
 /// * Lines that fail to parse are silently skipped (forward-compatibility).
 /// * Any entry whose uuid appears in a `Tombstone` entry is excluded.
 pub async fn load_transcript(path: &Path) -> crate::Result<Vec<TranscriptEntry>> {
-    // Fast-path: file absent → empty session.
+    // Fast-path: file absent â†’ empty session.
     match tokio::fs::metadata(path).await {
         Ok(meta) if meta.len() > MAX_TRANSCRIPT_BYTES => {
             return Err(crate::ClaudeError::Other(format!(

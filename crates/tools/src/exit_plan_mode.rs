@@ -1,4 +1,4 @@
-// ExitPlanMode tool: leave planning mode and return to normal execution.
+﻿// ExitPlanMode tool: leave planning mode and return to normal execution.
 
 use crate::{PermissionLevel, Tool, ToolContext, ToolResult};
 use async_trait::async_trait;
@@ -26,7 +26,7 @@ impl Tool for ExitPlanModeTool {
     }
 
     fn permission_level(&self) -> PermissionLevel {
-        PermissionLevel::None
+        PermissionLevel::Read
     }
 
     fn input_schema(&self) -> Value {

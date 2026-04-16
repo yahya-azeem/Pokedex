@@ -1,4 +1,4 @@
-// pokedex-tui: Terminal UI using ratatui + crossterm for the Pokedex Rust port.
+﻿// pokedex-tui: Terminal UI using ratatui + crossterm for the Pokedex Rust port.
 //
 // This crate provides the interactive terminal interface including:
 // - Message display with syntax highlighting

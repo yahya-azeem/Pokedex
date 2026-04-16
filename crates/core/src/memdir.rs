@@ -1,11 +1,11 @@
-//! Memory directory (memdir) system.
+﻿//! Memory directory (memdir) system.
 //!
 //! Provides persistent, file-based memory across sessions.  Mirrors the
 //! TypeScript modules under `src/memdir/`:
-//!   - `memoryScan.ts`   → `scan_memory_dir`, `parse_frontmatter_quick`, `format_memory_manifest`
-//!   - `memoryAge.ts`    → `memory_age_days`, `memory_freshness_text`, `memory_freshness_note`
-//!   - `memdir.ts`       → `build_memory_prompt_content`, `load_memory_index`, `ensure_memory_dir_exists`
-//!   - `paths.ts`        → `auto_memory_path`, `is_auto_memory_enabled`
+//!   - `memoryScan.ts`   â†’ `scan_memory_dir`, `parse_frontmatter_quick`, `format_memory_manifest`
+//!   - `memoryAge.ts`    â†’ `memory_age_days`, `memory_freshness_text`, `memory_freshness_note`
+//!   - `memdir.ts`       â†’ `build_memory_prompt_content`, `load_memory_index`, `ensure_memory_dir_exists`
+//!   - `paths.ts`        â†’ `auto_memory_path`, `is_auto_memory_enabled`
 
 use std::path::{Path, PathBuf};
 use std::time::{SystemTime, UNIX_EPOCH};
@@ -302,7 +302,7 @@ pub fn memory_freshness_text(modified_secs: u64) -> String {
 }
 
 /// Per-memory staleness note wrapped in `<system-reminder>` tags.
-/// Returns an empty string for memories ≤ 1 day old.
+/// Returns an empty string for memories â‰¤ 1 day old.
 ///
 /// Mirrors `memoryFreshnessNote` in `memoryAge.ts`.
 pub fn memory_freshness_note(modified_secs: u64) -> String {
@@ -375,17 +375,17 @@ pub fn sanitize_path_component(s: &str) -> String {
 /// Whether the auto-memory system is enabled for this session.
 ///
 /// Priority chain (mirrors `isAutoMemoryEnabled` in `paths.ts`):
-/// 1. `CLAUDE_CODE_DISABLE_AUTO_MEMORY` — truthy → OFF, falsy (but defined) → ON.
-/// 2. `CLAUDE_CODE_SIMPLE` (--bare) → OFF.
-/// 3. Remote mode without `CLAUDE_CODE_REMOTE_MEMORY_DIR` → OFF.
+/// 1. `CLAUDE_CODE_DISABLE_AUTO_MEMORY` — truthy â†’ OFF, falsy (but defined) â†’ ON.
+/// 2. `CLAUDE_CODE_SIMPLE` (--bare) â†’ OFF.
+/// 3. Remote mode without `CLAUDE_CODE_REMOTE_MEMORY_DIR` â†’ OFF.
 /// 4. `settings_enabled` parameter (from settings.json `autoMemoryEnabled` field).
 /// 5. Default: enabled.
 pub fn is_auto_memory_enabled(settings_enabled: Option<bool>) -> bool {
     if let Ok(val) = std::env::var("CLAUDE_CODE_DISABLE_AUTO_MEMORY") {
         // Truthy values (non-empty, non-"0", non-"false") disable memory.
         match val.to_lowercase().as_str() {
-            "" | "0" | "false" | "no" | "off" => return true, // defined-falsy → ON
-            _ => return false,                                  // truthy → OFF
+            "" | "0" | "false" | "no" | "off" => return true, // defined-falsy â†’ ON
+            _ => return false,                                  // truthy â†’ OFF
         }
     }
 
@@ -503,7 +503,7 @@ pub fn load_memory_index(memory_dir: &Path) -> Option<EntrypointTruncation> {
 /// `<memory>` block.
 ///
 /// Always includes the `MEMORY.md` index when it exists.
-/// Called during `build_system_prompt` → `SystemPromptOptions::memory_content`.
+/// Called during `build_system_prompt` â†’ `SystemPromptOptions::memory_content`.
 pub fn build_memory_prompt_content(memory_dir: &Path) -> String {
     let mut parts: Vec<String> = Vec::new();
 
@@ -860,7 +860,7 @@ mod tests {
 
     #[test]
     fn test_auto_memory_enabled_default() {
-        // No env vars set for this test, settings None → should be enabled.
+        // No env vars set for this test, settings None â†’ should be enabled.
         // We can't guarantee the test environment is clean, so just check it
         // returns a bool without panicking.
         let _ = is_auto_memory_enabled(None);

@@ -1,4 +1,4 @@
-//! Settings migration framework
+﻿//! Settings migration framework
 //! Runs on startup to upgrade settings.json from older versions.
 //!
 //! Migrations are derived from the TypeScript originals:
@@ -58,8 +58,8 @@ pub fn run_migrations(settings: &mut Value) -> bool {
 /// Fennec was an internal alias; map to the current Opus line.
 /// Source: migrateFennecToOpus.ts
 fn migrate_fennec_to_opus(settings: &mut Value) -> bool {
-    // fennec-latest[1m] → opus[1m], fennec-latest → opus
-    // fennec-fast-latest / opus-4-5-fast → opus[1m]  (fast-mode alias)
+    // fennec-latest[1m] â†’ opus[1m], fennec-latest â†’ opus
+    // fennec-fast-latest / opus-4-5-fast â†’ opus[1m]  (fast-mode alias)
     let model = match settings.get("model").and_then(|v: &Value| v.as_str()) {
         Some(m) => m.to_string(),
         None => return false,
@@ -178,7 +178,7 @@ fn migrate_bypass_permissions_to_settings(settings: &mut Value) -> bool {
     true
 }
 
-/// Rename `replBridgeEnabled` → `remoteControlAtStartup`.
+/// Rename `replBridgeEnabled` â†’ `remoteControlAtStartup`.
 fn migrate_repl_bridge_to_remote_control(settings: &mut Value) -> bool {
     let old = match settings.get("replBridgeEnabled").cloned() {
         Some(v) => v,
@@ -195,7 +195,7 @@ fn migrate_repl_bridge_to_remote_control(settings: &mut Value) -> bool {
     true
 }
 
-/// Rename `enableAllProjectMcpServers` → `mcpAutoApprove`.
+/// Rename `enableAllProjectMcpServers` â†’ `mcpAutoApprove`.
 fn migrate_enable_all_mcp_servers(settings: &mut Value) -> bool {
     let old = match settings.get("enableAllProjectMcpServers").cloned() {
         Some(v) => v,
@@ -212,7 +212,7 @@ fn migrate_enable_all_mcp_servers(settings: &mut Value) -> bool {
     true
 }
 
-/// Migrate `autoUpdatesEnabled` → `autoUpdates`.
+/// Migrate `autoUpdatesEnabled` â†’ `autoUpdates`.
 /// Source: migrateAutoUpdatesToSettings.ts
 /// The TS version also writes an env-var to settings.json; here we keep the
 /// simpler structural rename and leave env-var injection to the caller.
@@ -468,7 +468,7 @@ mod tests {
     #[test]
     fn run_migrations_handles_empty_object() {
         let mut s = json!({});
-        // No model fields, no sentinel values → nothing to do.
+        // No model fields, no sentinel values â†’ nothing to do.
         assert!(!run_migrations(&mut s));
     }
 }

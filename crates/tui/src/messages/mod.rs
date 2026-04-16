@@ -1,4 +1,4 @@
-//! Message type renderers for the TUI.
+﻿//! Message type renderers for the TUI.
 //! Mirrors src/components/messages/ and src/components/Messages.tsx.
 //!
 //! Each message type has a dedicated render function. The top-level
@@ -25,7 +25,7 @@ pub struct RenderContext {
     pub highlight: bool,
     /// Whether to show thinking blocks.
     pub show_thinking: bool,
-    /// Maps `tool_use_id` → `tool_name` so ToolResult blocks can dispatch to
+    /// Maps `tool_use_id` â†’ `tool_name` so ToolResult blocks can dispatch to
     /// the correct specialized renderer (e.g. Bash output vs. generic result).
     pub tool_names: HashMap<String, String>,
     /// Set of thinking block content hashes that are expanded per-block.
@@ -149,7 +149,7 @@ pub fn extract_tool_summary(tool_name: &str, input: &serde_json::Value) -> Strin
 }
 
 /// Render a tool-use block matching the TS AssistantToolUseMessage style:
-/// `● ToolName (summary)` header, tool-specific body, `(ctrl+o to expand)` hint.
+/// `â— ToolName (summary)` header, tool-specific body, `(ctrl+o to expand)` hint.
 pub fn render_tool_use(tool_name: &str, input_json: &str) -> Vec<Line<'static>> {
     let input: serde_json::Value =
         serde_json::from_str(input_json).unwrap_or(serde_json::Value::Null);
@@ -160,7 +160,7 @@ fn render_tool_use_inner(tool_name: &str, input: &serde_json::Value) -> Vec<Line
     let summary = extract_tool_summary(tool_name, input);
     let mut lines = Vec::new();
 
-    // Header: ● ToolName (summary)
+    // Header: â— ToolName (summary)
     let mut header_spans = vec![
         Span::styled(
             "  \u{25cf} ".to_string(),
@@ -605,7 +605,7 @@ fn prefix_message_lines(
 
     let (prefix, prefix_style, body_style) = match role {
         Role::User => (
-            "› ",
+            "â€º ",
             Style::default()
                 .fg(Color::Rgb(233, 30, 99))
                 .add_modifier(Modifier::BOLD),
@@ -858,7 +858,7 @@ pub fn render_system_api_error(msg: &str, retry_secs: Option<u32>) -> Vec<Line<'
 }
 
 /// Render a user command invocation (skill invocation display).
-/// Shows: `▸ ` in cyan bold + command name in cyan bold + " " + args in white.
+/// Shows: `—¸ ` in cyan bold + command name in cyan bold + " " + args in white.
 pub fn render_user_command(name: &str, args: &str) -> Vec<Line<'static>> {
     vec![Line::from(vec![
         Span::styled(
@@ -921,7 +921,7 @@ pub fn render_user_local_command_output(
 }
 
 /// Render a resource update notification line.
-/// Shows: `↻ ` in cyan + `{server}: ` in dark gray bold + `{uri}` in white + ` · {reason}` in dark gray.
+/// Shows: `â†» ` in cyan + `{server}: ` in dark gray bold + `{uri}` in white + ` Â· {reason}` in dark gray.
 pub fn render_resource_update(server: &str, uri: &str, reason: &str) -> Vec<Line<'static>> {
     vec![Line::from(vec![
         Span::styled("\u{21bb} ", Style::default().fg(Color::Cyan)),
@@ -938,7 +938,7 @@ pub fn render_resource_update(server: &str, uri: &str, reason: &str) -> Vec<Line
 }
 
 /// Render a collapsed read/search tool use summary.
-/// Shows: `▸ ` in yellow + `{tool_name} ` in yellow bold + first few paths comma-joined,
+/// Shows: `—¸ ` in yellow + `{tool_name} ` in yellow bold + first few paths comma-joined,
 /// followed by `(+ {n_hidden} more)` in dark gray if n_hidden > 0.
 pub fn render_collapsed_read_search(
     tool_name: &str,
@@ -998,8 +998,8 @@ pub fn render_task_assignment(id: &str, subject: &str, desc: &str) -> Vec<Line<'
 }
 
 /// Render a grouped tool use summary.
-/// Collapsed: `▸ {n} tool calls` in yellow with first few names comma-joined.
-/// Expanded: same header + each tool on its own line with `  • ` prefix.
+/// Collapsed: `—¸ {n} tool calls` in yellow with first few names comma-joined.
+/// Expanded: same header + each tool on its own line with `  â€¢ ` prefix.
 pub fn render_grouped_tool_use(names: &[&str], expanded: bool) -> Vec<Line<'static>> {
     let n = names.len();
     let preview = names.iter().take(3).cloned().collect::<Vec<_>>().join(", ");
@@ -1246,7 +1246,7 @@ mod tests {
 
     #[test]
     fn bash_tool_use_shows_bullet_header_and_command() {
-        // New TS-style: all tools show ● ToolName (summary) header.
+        // New TS-style: all tools show â— ToolName (summary) header.
         // Bash also shows "$ command" body line.
         let msg = Message::assistant_blocks(vec![ContentBlock::ToolUse {
             id: "tu-1".to_string(),
@@ -1266,7 +1266,7 @@ mod tests {
 
     #[test]
     fn non_bash_tool_use_shows_bullet_header_with_summary() {
-        // Non-Bash tools show ● ToolName (file_path) header + ctrl+o hint.
+        // Non-Bash tools show â— ToolName (file_path) header + ctrl+o hint.
         let msg = Message::assistant_blocks(vec![ContentBlock::ToolUse {
             id: "tu-2".to_string(),
             name: "Read".to_string(),
@@ -1310,7 +1310,7 @@ mod tests {
             content: ToolResultContent::Text("file content here".to_string()),
             is_error: Some(false),
         }]);
-        // No tool_names → falls back to render_tool_result_success (no separate header)
+        // No tool_names â†’ falls back to render_tool_result_success (no separate header)
         let rendered = render_message(&msg, &RenderContext::default())
             .into_iter()
             .map(|l| line_text(&l))
@@ -1319,7 +1319,7 @@ mod tests {
         assert!(rendered.contains("file content here"), "content should appear");
     }
 
-    // ── New function tests ────────────────────────────────────────────────────
+    // â”€â”€ New function tests â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     #[test]
     fn test_render_system_api_error_short_message() {
@@ -1355,7 +1355,7 @@ mod tests {
         let result = render_user_command("doctor", "--verbose");
         assert!(!result.is_empty());
         let text = line_text(&result[0]);
-        assert!(text.contains('\u{25b8}'), "should have ▸ prefix");
+        assert!(text.contains('\u{25b8}'), "should have —¸ prefix");
         assert!(text.contains("doctor"));
         assert!(text.contains("--verbose"));
     }
@@ -1397,7 +1397,7 @@ mod tests {
         let result = render_resource_update("mcp-server", "file:///tmp/foo.txt", "modified");
         assert!(!result.is_empty());
         let text = line_text(&result[0]);
-        assert!(text.contains('\u{21bb}'), "should have ↻ prefix");
+        assert!(text.contains('\u{21bb}'), "should have â†» prefix");
         assert!(text.contains("mcp-server"));
         assert!(text.contains("file:///tmp/foo.txt"));
         assert!(text.contains("modified"));
@@ -1409,7 +1409,7 @@ mod tests {
         let result = render_collapsed_read_search("Read", &paths, 0);
         assert!(!result.is_empty());
         let text = line_text(&result[0]);
-        assert!(text.contains('\u{25b8}'), "should have ▸ prefix");
+        assert!(text.contains('\u{25b8}'), "should have —¸ prefix");
         assert!(text.contains("Read"));
         assert!(text.contains("src/lib.rs"));
         assert!(!text.contains("more"), "should not show 'more' when n_hidden is 0");
@@ -1464,7 +1464,7 @@ mod tests {
         assert!(combined.contains("2 tool calls"));
         assert!(combined.contains("Bash"));
         assert!(combined.contains("Read"));
-        assert!(combined.contains('\u{2022}'), "expanded lines should have • prefix");
+        assert!(combined.contains('\u{2022}'), "expanded lines should have â€¢ prefix");
     }
 
     #[test]

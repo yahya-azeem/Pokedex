@@ -1,4 +1,4 @@
-//! T5-2: Message renderer snapshot tests.
+﻿//! T5-2: Message renderer snapshot tests.
 //! Renders each message type and verifies key content in returned Lines.
 
 use pokedex_tui::messages::{

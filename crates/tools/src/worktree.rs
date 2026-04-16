@@ -1,8 +1,8 @@
-// Worktree tools: create and exit git worktrees for isolated work sessions.
+﻿// Worktree tools: create and exit git worktrees for isolated work sessions.
 //
-// EnterWorktreeTool – create a new git worktree with an optional branch name,
+// EnterWorktreeTool â€“ create a new git worktree with an optional branch name,
 //                     switching the session's working directory to it.
-// ExitWorktreeTool  – exit the current worktree, optionally removing it, and
+// ExitWorktreeTool  â€“ exit the current worktree, optionally removing it, and
 //                     restore the original working directory.
 //
 // These tools mirror the TypeScript EnterWorktreeTool / ExitWorktreeTool.

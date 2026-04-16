@@ -1,4 +1,4 @@
-// Prompt history — append-only JSONL log of user prompts.
+﻿// Prompt history — append-only JSONL log of user prompts.
 //
 // Mirrors the behaviour of `src/history.ts` in the TypeScript codebase:
 //   - Entries are written to `~/.pokedex/history.jsonl` via O_APPEND.
@@ -85,7 +85,7 @@ struct StoredPastedContent {
     pub id: u32,
     #[serde(rename = "type")]
     pub kind: PastedContentKind,
-    /// Inline content for small pastes (≤ MAX_PASTED_CONTENT_LENGTH bytes).
+    /// Inline content for small pastes (â‰¤ MAX_PASTED_CONTENT_LENGTH bytes).
     #[serde(skip_serializing_if = "Option::is_none")]
     pub content: Option<String>,
     /// SHA-256 hex reference for large pastes stored externally.

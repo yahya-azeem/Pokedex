@@ -1,4 +1,4 @@
-//! Text truncation utilities — mirrors src/utils/truncate.ts
+﻿//! Text truncation utilities — mirrors src/utils/truncate.ts
 
 /// Truncate `text` to at most `max_chars` characters.
 /// If truncated, appends `… (truncated)`.

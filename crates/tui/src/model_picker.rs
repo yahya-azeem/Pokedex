@@ -1,4 +1,4 @@
-//! Model picker overlay (/model command).
+﻿//! Model picker overlay (/model command).
 //! Mirrors src/components/ModelPicker.tsx — including effort levels and
 //! fast-mode notice.
 
@@ -33,10 +33,10 @@ impl EffortLevel {
     /// Unicode quarter-circle symbol used in the TS UI.
     pub fn symbol(self) -> &'static str {
         match self {
-            Self::Low    => "\u{25cb}", // ○  empty circle
-            Self::Normal => "\u{25d0}", // ◐  half
-            Self::High   => "\u{25d5}", // ◕  three-quarter
-            Self::Max    => "\u{25cf}", // ●  full
+            Self::Low    => "\u{25cb}", // â—‹  empty circle
+            Self::Normal => "\u{25d0}", // â—  half
+            Self::High   => "\u{25d5}", // â—•  three-quarter
+            Self::Max    => "\u{25cf}", // â—  full
         }
     }
 
@@ -219,7 +219,7 @@ impl ModelPickerState {
         self.selected_idx = (self.selected_idx + 1) % count;
     }
 
-    /// Cycle effort level forward (→ key).
+    /// Cycle effort level forward (â†’ key).
     pub fn effort_next(&mut self) {
         let filtered = self.filtered_models();
         let id = filtered.get(self.selected_idx).map(|m| m.id.as_str()).unwrap_or("");
@@ -227,7 +227,7 @@ impl ModelPickerState {
         self.effort_level = self.effort_level.next(supports_max);
     }
 
-    /// Cycle effort level backward (← key).
+    /// Cycle effort level backward (â† key).
     pub fn effort_prev(&mut self) {
         let filtered = self.filtered_models();
         let id = filtered.get(self.selected_idx).map(|m| m.id.as_str()).unwrap_or("");
@@ -335,7 +335,7 @@ impl ModelPickerState {
     /// On success, models are sorted newest-first (by `created_at` descending).
     /// On any error, returns `default_models()` as a fallback so the picker is
     /// never left empty.
-    pub async fn fetch_models(client: &pokedex_api::AnthropicClient) -> Vec<ModelEntry> {
+    pub async fn fetch_models(client: &pokedex_api::ProviderClient) -> Vec<ModelEntry> {
         match client.fetch_available_models().await {
             Ok(available) => {
                 if available.is_empty() {
@@ -444,7 +444,7 @@ impl Default for ModelPickerState {
 /// - A filter line when the user is typing
 /// - A scrollable list of models with effort indicator for supporting models
 /// - Selection highlight on the focused row
-/// - Bottom hint bar with ←/→ keys for effort adjustment
+/// - Bottom hint bar with â†/â†’ keys for effort adjustment
 pub fn render_model_picker(state: &ModelPickerState, area: Rect, buf: &mut Buffer) {
     if !state.visible {
         return;
@@ -755,7 +755,7 @@ mod tests {
         p.effort_next();
         assert_eq!(p.effort_level, EffortLevel::High);
         p.effort_next();
-        // no max for sonnet → wraps to Low
+        // no max for sonnet â†’ wraps to Low
         assert_eq!(p.effort_level, EffortLevel::Low);
     }
 

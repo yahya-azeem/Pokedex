@@ -1,4 +1,4 @@
-//! T5-3: Diff viewer tests.
+﻿//! T5-3: Diff viewer tests.
 
 use pokedex_tui::diff_viewer::{parse_unified_diff, DiffLineKind};
 

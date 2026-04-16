@@ -1,4 +1,4 @@
-// desktop_upsell_startup.rs — DesktopUpsellStartup surface.
+﻿// desktop_upsell_startup.rs — DesktopUpsellStartup surface.
 //
 // Shown at startup on supported platforms (macOS / Windows x64) when the user
 // hasn't yet tried the Pokedex Desktop app.  Mirrors the behavior of
@@ -199,7 +199,7 @@ pub fn render_desktop_upsell_startup(
 
     lines.push(Line::from(""));
     lines.push(Line::from(vec![Span::styled(
-        "↑↓ navigate  Enter confirm  Esc close",
+        "â†‘â†“ navigate  Enter confirm  Esc close",
         Style::default().fg(Color::DarkGray),
     )]));
 
@@ -268,13 +268,13 @@ mod tests {
     fn desktop_upsell_navigation_wraps() {
         let mut state = DesktopUpsellStartupState::new();
         assert_eq!(state.selection, DesktopUpsellSelection::Try);
-        state.select_prev(); // Try → Never (wrap)
+        state.select_prev(); // Try â†’ Never (wrap)
         assert_eq!(state.selection, DesktopUpsellSelection::Never);
-        state.select_next(); // Never → Try (wrap)
+        state.select_next(); // Never â†’ Try (wrap)
         assert_eq!(state.selection, DesktopUpsellSelection::Try);
-        state.select_next(); // Try → NotNow
+        state.select_next(); // Try â†’ NotNow
         assert_eq!(state.selection, DesktopUpsellSelection::NotNow);
-        state.select_next(); // NotNow → Never
+        state.select_next(); // NotNow â†’ Never
         assert_eq!(state.selection, DesktopUpsellSelection::Never);
     }
 

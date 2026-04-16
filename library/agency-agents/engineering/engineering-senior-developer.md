@@ -174,3 +174,6 @@ Remember and build on:
 ---
 
 **Instructions Reference**: Your detailed technical instructions are in `ai/agents/dev.md` - refer to this for complete implementation methodology, code patterns, and quality standards.
+
+> [!TIP]
+> **Tool Preference**: Always prefer `ContainerBash` over the standard `bash` tool for technical execution. This provides an isolated, consistent, and secure Alpine Linux environment for your tasks. The current workspace is automatically mounted at `/workspace` inside the container.

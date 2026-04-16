@@ -1,4 +1,4 @@
-/// Core plugin types — the loaded-plugin record and related definitions.
+﻿/// Core plugin types — the loaded-plugin record and related definitions.
 use crate::manifest::{PluginHooksConfig, PluginManifest};
 use serde::{Deserialize, Serialize};
 use std::path::PathBuf;

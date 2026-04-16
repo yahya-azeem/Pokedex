@@ -80,7 +80,7 @@ pub struct ExtractedMemory {
     pub content: String,
     /// Semantic category for the fact.
     pub category: MemoryCategory,
-    /// Model confidence, 0.0–1.0.
+    /// Model confidence, 0.0â€“1.0.
     pub confidence: f32,
 }
 
@@ -108,7 +108,7 @@ impl SessionMemoryState {
     /// `messages`, which tells us new messages have been added since then.
     pub fn has_new_messages_since_last_extraction(&self, messages: &[Message]) -> bool {
         match &self.last_extracted_message_uuid {
-            None => true, // Nothing extracted yet → treat all messages as new
+            None => true, // Nothing extracted yet â†’ treat all messages as new
             Some(uuid) => messages.iter().any(|m| m.uuid.as_deref() == Some(uuid.as_str()))
                 && messages
                     .last()
@@ -213,7 +213,7 @@ impl SessionMemoryExtractor {
         &self,
         messages: &[Message],
         working_dir: &Path,
-        api_client: &pokedex_api::AnthropicClient,
+        api_client: &pokedex_api::ProviderClient,
     ) -> anyhow::Result<Vec<ExtractedMemory>> {
         let model_visible: Vec<&Message> = messages
             .iter()
@@ -248,7 +248,7 @@ impl SessionMemoryExtractor {
         let request = CreateMessageRequest::builder(&self.model, self.max_tokens)
             .messages(api_msgs)
             .system(SystemPrompt::Text(EXTRACTION_SYSTEM_PROMPT.to_string()))
-            .build();
+            .build().map_err(|e| anyhow::anyhow!("Request build failed: {}", e))?;
 
         let handler: Arc<dyn StreamHandler> = Arc::new(pokedex_api::streaming::NullStreamHandler);
         let mut rx = api_client
@@ -259,7 +259,7 @@ impl SessionMemoryExtractor {
         let mut acc = StreamAccumulator::new();
         while let Some(evt) = rx.recv().await {
             acc.on_event(&evt);
-            if matches!(evt, StreamEvent::MessageStop) {
+            if matches!(evt, StreamEvent::MessageStop { .. }) {
                 break;
             }
         }
@@ -476,7 +476,7 @@ mod tests {
             name: "bash".to_string(),
             input: serde_json::json!({"command": "ls"}),
         }]);
-        // Last assistant has tool_use → extraction should be deferred
+        // Last assistant has tool_use â†’ extraction should be deferred
         assert!(!SessionMemoryExtractor::should_extract(&msgs));
     }
 
@@ -642,7 +642,7 @@ MEMORY: code_pattern | 7 | Uses builder pattern";
     fn test_state_has_new_messages_no_cursor() {
         let state = SessionMemoryState::new();
         let msgs = vec![make_user("Hello")];
-        // No cursor → always has new messages
+        // No cursor â†’ always has new messages
         assert!(state.has_new_messages_since_last_extraction(&msgs));
     }
 

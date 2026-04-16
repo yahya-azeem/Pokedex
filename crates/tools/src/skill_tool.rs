@@ -1,4 +1,4 @@
-// SkillTool: execute user-defined skill (prompt template) files programmatically.
+﻿// SkillTool: execute user-defined skill (prompt template) files programmatically.
 //
 // Skills are Markdown files stored in:
 //   <project>/.pokedex/commands/<name>.md
@@ -39,7 +39,7 @@ impl Tool for SkillTool {
          The expanded skill prompt is returned for you to act on."
     }
 
-    fn permission_level(&self) -> PermissionLevel { PermissionLevel::ReadOnly }
+    fn permission_level(&self) -> PermissionLevel { PermissionLevel::Read }
 
     fn input_schema(&self) -> Value {
         json!({

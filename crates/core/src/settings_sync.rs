@@ -1,4 +1,4 @@
-// settings_sync.rs — Settings Sync
+﻿// settings_sync.rs — Settings Sync
 //
 // Port of src/services/settingsSync/index.ts
 //
@@ -10,7 +10,7 @@
 // Authentication requires OAuth (Bearer token).  API-key-only users are
 // skipped silently — the TypeScript side gates on `isUsingOAuth()`.
 //
-// The sync API stores a flat key→value map where keys are canonical file paths
+// The sync API stores a flat keyâ†’value map where keys are canonical file paths
 // and values are the UTF-8 file contents (JSON or Markdown).
 
 use anyhow::Result;
@@ -503,7 +503,7 @@ mod tests {
             "not-json".to_string(),
         );
         let data = entries_to_synced_data(entries);
-        // Malformed settings JSON → field is None (graceful degradation)
+        // Malformed settings JSON â†’ field is None (graceful degradation)
         assert!(data.settings.is_none());
     }
 

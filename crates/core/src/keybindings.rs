@@ -1,4 +1,4 @@
-//! Configurable keyboard shortcuts system
+﻿//! Configurable keyboard shortcuts system
 
 use indexmap::IndexMap;
 use serde::{Deserialize, Serialize};

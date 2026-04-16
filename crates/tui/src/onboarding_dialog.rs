@@ -1,4 +1,4 @@
-// onboarding_dialog.rs — First-launch welcome / onboarding dialog.
+﻿// onboarding_dialog.rs — First-launch welcome / onboarding dialog.
 //
 // Mirrors the TypeScript first-launch experience:
 // - Shown once on first run (when Settings.has_completed_onboarding == false).
@@ -124,15 +124,15 @@ fn render_welcome_page(frame: &mut Frame, area: Rect) {
             Style::default().fg(Color::Yellow).add_modifier(Modifier::BOLD),
         )]),
         Line::from(vec![Span::styled(
-            "    • Type your request and press Enter to send it.",
+            "    â€¢ Type your request and press Enter to send it.",
             Style::default().fg(Color::White),
         )]),
         Line::from(vec![Span::styled(
-            "    • Claude can read, edit, and create files in your project.",
+            "    â€¢ Claude can read, edit, and create files in your project.",
             Style::default().fg(Color::White),
         )]),
         Line::from(vec![Span::styled(
-            "    • Claude can run bash commands, search the web, and more.",
+            "    â€¢ Claude can run bash commands, search the web, and more.",
             Style::default().fg(Color::White),
         )]),
         Line::from(""),
@@ -163,7 +163,7 @@ fn render_welcome_page(frame: &mut Frame, area: Rect) {
         )]),
         Line::from(""),
         Line::from(vec![Span::styled(
-            "  → or Enter: next  ·  Esc: skip",
+            "  â†’ or Enter: next  Â·  Esc: skip",
             Style::default().fg(Color::DarkGray).add_modifier(Modifier::ITALIC),
         )]),
     ];
@@ -201,7 +201,7 @@ fn render_keybindings_page(frame: &mut Frame, area: Rect) {
         Line::from(vec![Span::styled("  Shift+Enter  newline", Style::default().fg(Color::White))]),
         Line::from(vec![Span::styled("  Ctrl+C       interrupt/cancel", Style::default().fg(Color::White))]),
         Line::from(vec![Span::styled("  Ctrl+L       clear screen", Style::default().fg(Color::White))]),
-        Line::from(vec![Span::styled("  ↑↓           history", Style::default().fg(Color::White))]),
+        Line::from(vec![Span::styled("  â†‘â†“           history", Style::default().fg(Color::White))]),
         Line::from(""),
         Line::from(vec![Span::styled(
             "  Navigation",
@@ -250,7 +250,7 @@ fn render_keybindings_page(frame: &mut Frame, area: Rect) {
             Style::default().fg(Color::DarkGray),
         )]),
         Line::from(vec![Span::styled(
-            "  Enter: done  ·  ← : back  ·  Esc: close",
+            "  Enter: done  Â·  â† : back  Â·  Esc: close",
             Style::default().fg(Color::DarkGray).add_modifier(Modifier::ITALIC),
         )]),
     ]);
@@ -286,9 +286,9 @@ mod tests {
     fn onboarding_next_page_cycles() {
         let mut state = OnboardingDialogState::new();
         state.show();
-        assert!(!state.next_page()); // Welcome → KeyBindings
+        assert!(!state.next_page()); // Welcome â†’ KeyBindings
         assert_eq!(state.page, OnboardingPage::KeyBindings);
-        assert!(state.next_page()); // KeyBindings → Done
+        assert!(state.next_page()); // KeyBindings â†’ Done
         assert_eq!(state.page, OnboardingPage::Done);
         assert!(state.is_done());
     }

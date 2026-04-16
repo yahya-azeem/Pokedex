@@ -1,10 +1,10 @@
-// memory_update_notification.rs — MemoryUpdateNotification surface.
+﻿// memory_update_notification.rs — MemoryUpdateNotification surface.
 //
 // Mirrors src/components/memory/MemoryUpdateNotification.tsx.
 // Shown briefly in the message area when Claude updates a memory file
 // (e.g. ~/.pokedex/CLAUDE.md or a project-local CLAUDE.md).
 //
-// Displays: "Memory updated in {relative_path} · /memory to edit"
+// Displays: "Memory updated in {relative_path} Â· /memory to edit"
 //
 // The surface is a single-row dismissable banner. The caller is responsible
 // for showing it at the right time (e.g. after a memory write tool result).

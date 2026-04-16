@@ -1,4 +1,4 @@
-// Bash security classifier for the Pokedex Rust port.
+﻿// Bash security classifier for the Pokedex Rust port.
 //
 // Classifies shell commands by risk level and determines whether they can be
 // auto-approved given the current permission mode.  Used by BashTool's
@@ -107,7 +107,7 @@ fn is_fork_bomb(cmd: &str) -> bool {
 pub fn classify_bash_command(command: &str) -> BashRiskLevel {
     let cmd = command.trim();
 
-    // ── Critical patterns ──────────────────────────────────────────────────
+    // â”€â”€ Critical patterns â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     // Fork bomb
     if is_fork_bomb(cmd) {
@@ -180,7 +180,7 @@ pub fn classify_bash_command(command: &str) -> BashRiskLevel {
         }
     }
 
-    // ── Privilege escalation → High ────────────────────────────────────────
+    // â”€â”€ Privilege escalation â†’ High â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     if cmd.starts_with("sudo ") || cmd == "sudo" {
         return BashRiskLevel::High;
@@ -221,7 +221,7 @@ pub fn classify_bash_command(command: &str) -> BashRiskLevel {
         return BashRiskLevel::High;
     }
 
-    // ── Medium-risk ────────────────────────────────────────────────────────
+    // â”€â”€ Medium-risk â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     // rm (without -rf on critical paths, but still destructive)
     if cmd.starts_with("rm ") || cmd == "rm" {
@@ -275,7 +275,7 @@ pub fn classify_bash_command(command: &str) -> BashRiskLevel {
         }
     }
 
-    // ── Low-risk: common dev tools ─────────────────────────────────────────
+    // â”€â”€ Low-risk: common dev tools â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     let (bin, args) = split_command(cmd);
     let low_cmds = [
@@ -332,7 +332,7 @@ pub fn classify_bash_command(command: &str) -> BashRiskLevel {
         }
     }
 
-    // ── Safe: read-only ops ─────────────────────────────────────────────────
+    // â”€â”€ Safe: read-only ops â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     let safe_cmds = [
         "ls", "ll", "la", "dir",
@@ -368,9 +368,9 @@ pub fn classify_bash_command(command: &str) -> BashRiskLevel {
 
 /// Determine whether a bash command can be auto-approved given `permission_mode`.
 ///
-/// - `BypassPermissions` → always approve.
-/// - `AcceptEdits` → approve `Safe` and `Low` only.
-/// - `Default` / `Plan` → never auto-approve bash commands.
+/// - `BypassPermissions` â†’ always approve.
+/// - `AcceptEdits` â†’ approve `Safe` and `Low` only.
+/// - `Default` / `Plan` â†’ never auto-approve bash commands.
 pub fn is_auto_approvable(command: &str, permission_mode: &PermissionMode) -> bool {
     match permission_mode {
         PermissionMode::BypassPermissions => true,

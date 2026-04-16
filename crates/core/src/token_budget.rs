@@ -1,4 +1,4 @@
-//! Token budget utilities — mirrors src/utils/context/token_budget.ts
+﻿//! Token budget utilities — mirrors src/utils/context/token_budget.ts
 //!
 //! Provides helpers for tracking token usage, computing warning thresholds,
 //! and building thinking budget configs for extended thinking.
@@ -56,12 +56,12 @@ impl TokenBudget {
         }
     }
 
-    /// True if we should trigger reactive compact (≥ 90% used).
+    /// True if we should trigger reactive compact (â‰¥ 90% used).
     pub fn should_compact(&self) -> bool {
         self.fill_fraction >= 0.90
     }
 
-    /// True if we should trigger context collapse (≥ 97% used).
+    /// True if we should trigger context collapse (â‰¥ 97% used).
     pub fn should_collapse(&self) -> bool {
         self.fill_fraction >= 0.97
     }
@@ -77,7 +77,7 @@ impl TokenBudget {
     }
 }
 
-/// Format a token count as a compact string: 1234 → "1.2K", 1234567 → "1.2M".
+/// Format a token count as a compact string: 1234 â†’ "1.2K", 1234567 â†’ "1.2M".
 pub fn format_token_count(count: u64) -> String {
     if count >= 1_000_000 {
         format!("{:.1}M", count as f64 / 1_000_000.0)

@@ -1,12 +1,12 @@
-//! Complete PromptInput — multi-line text editor for the TUI.
+﻿//! Complete PromptInput — multi-line text editor for the TUI.
 //! Mirrors src/components/PromptInput/ (21 files) and src/vim/ (5 files).
 //!
 //! Features:
 //! - Multi-line editing (Shift+Enter for newlines)
 //! - Vim Normal/Insert/Visual modes
-//! - History navigation (↑↓ through history.jsonl)
+//! - History navigation (â†‘â†“ through history.jsonl)
 //! - Slash command typeahead
-//! - Paste handling (large pastes → placeholder)
+//! - Paste handling (large pastes â†’ placeholder)
 //! - Character count + token estimate
 
 use ratatui::{
@@ -276,7 +276,7 @@ fn motion_G(text: &str) -> usize {
     text.rfind('\n').map(|p| p + 1).unwrap_or(0)
 }
 
-/// `gg` / line-N — go to start of line `line_num` (1-indexed; 0 or 1 → start of text).
+/// `gg` / line-N — go to start of line `line_num` (1-indexed; 0 or 1 â†’ start of text).
 fn motion_gg(text: &str, line_num: usize) -> usize {
     if line_num <= 1 { return 0; }
     let mut line = 1usize;
@@ -1080,7 +1080,7 @@ pub struct PromptInputState {
     pub suggestions: Vec<TypeaheadSuggestion>,
     /// Currently selected suggestion index.
     pub suggestion_index: Option<usize>,
-    /// History entries for ↑↓ navigation.
+    /// History entries for â†‘â†“ navigation.
     pub history: Vec<String>,
     /// Current history position (-1 = not browsing history).
     pub history_pos: Option<usize>,
@@ -1088,7 +1088,7 @@ pub struct PromptInputState {
     pub history_draft: String,
     /// Paste counter for placeholder numbering.
     pub paste_counter: u32,
-    /// Stored paste contents: counter → content.
+    /// Stored paste contents: counter â†’ content.
     pub paste_contents: std::collections::HashMap<u32, String>,
     /// Yank buffer for vim operations.
     pub yank_buf: String,
@@ -1768,7 +1768,7 @@ impl PromptInputState {
             self.vim_insert_text_before = Some(self.text.clone());
         }
 
-        // Handle `r` replace pending → after confirm, store dot action
+        // Handle `r` replace pending â†’ after confirm, store dot action
         if let VimPendingState::None = self.vim_pending {
             if modified && was_normal {
                 // Check if a replace happened (text changed by exactly 1 char at cursor)
@@ -1867,7 +1867,7 @@ impl PromptInputState {
                 self.vim_search_last = None;
             }
             s if s.starts_with("set ") => {
-                // `:set vim` → enable, `:set novim` → disable (runtime toggle)
+                // `:set vim` â†’ enable, `:set novim` â†’ disable (runtime toggle)
                 let arg = s["set ".len()..].trim();
                 match arg {
                     "vim" => { self.vim_enabled = true; }
@@ -2612,7 +2612,7 @@ mod tests {
 
     #[test]
     fn motion_b_basic() {
-        assert_eq!(motion_b("hello world", 6), 0); // 'w' → start of 'hello'
+        assert_eq!(motion_b("hello world", 6), 0); // 'w' â†’ start of 'hello'
         assert_eq!(motion_b("hello world", 0), 0); // already at start
     }
 
@@ -2624,7 +2624,7 @@ mod tests {
 
     #[test]
     fn motion_W_B_basic() {
-        // "foo.bar baz"  W from 0 → 8 ('b' of 'baz')
+        // "foo.bar baz"  W from 0 â†’ 8 ('b' of 'baz')
         assert_eq!(motion_W("foo.bar baz", 0), 8);
         assert_eq!(motion_B("foo.bar baz", 8), 0);
     }
@@ -2738,7 +2738,7 @@ mod tests {
         apply_vim_key(&mut mode, &mut text, &mut cursor, "3", &mut yank, &mut pending, &mut last_find);
         assert!(matches!(pending, VimPendingState::Count { .. }));
         apply_vim_key(&mut mode, &mut text, &mut cursor, "w", &mut yank, &mut pending, &mut last_find);
-        assert_eq!(cursor, 6); // 3 words forward: a→b→c→d start = pos 6
+        assert_eq!(cursor, 6); // 3 words forward: aâ†’bâ†’câ†’d start = pos 6
     }
 
     #[test]
@@ -2825,7 +2825,7 @@ mod tests {
         apply_vim_key(&mut mode, &mut text, &mut cursor, ".", &mut yank, &mut pending, &mut last_find);
         assert_eq!(cursor, 1);
         apply_vim_key(&mut mode, &mut text, &mut cursor, ";", &mut yank, &mut pending, &mut last_find);
-        assert_eq!(cursor, 3); // repeated find → next '.'
+        assert_eq!(cursor, 3); // repeated find â†’ next '.'
     }
 
     #[test]

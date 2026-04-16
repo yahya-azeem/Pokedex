@@ -1,4 +1,4 @@
-//! Modular system prompt assembly with caching support.
+﻿//! Modular system prompt assembly with caching support.
 //!
 //! Mirrors the TypeScript `systemPromptSections.ts` / `prompts.ts` architecture:
 //! cacheable (static) sections are placed before `SYSTEM_PROMPT_DYNAMIC_BOUNDARY`;

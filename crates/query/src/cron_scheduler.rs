@@ -1,4 +1,4 @@
-// cron_scheduler: background task that fires cron-scheduled prompts.
+﻿// cron_scheduler: background task that fires cron-scheduled prompts.
 //
 // Runs as a long-lived tokio task. Every minute it checks the global CRON_STORE
 // (in pokedex-tools) for tasks whose cron expression matches the current wall-clock
@@ -23,7 +23,7 @@ use tracing::{debug, error, info};
 /// Returns immediately; the scheduler runs as a detached tokio task.
 /// Call `cancel.cancel()` to stop it gracefully.
 pub fn start_cron_scheduler(
-    client: Arc<pokedex_api::AnthropicClient>,
+    client: Arc<pokedex_api::ProviderClient>,
     tools: Arc<Vec<Box<dyn Tool>>>,
     tool_ctx: ToolContext,
     query_config: QueryConfig,
@@ -35,7 +35,7 @@ pub fn start_cron_scheduler(
 }
 
 async fn run_scheduler_loop(
-    client: Arc<pokedex_api::AnthropicClient>,
+    client: Arc<pokedex_api::ProviderClient>,
     tools: Arc<Vec<Box<dyn Tool>>>,
     tool_ctx: ToolContext,
     query_config: QueryConfig,
@@ -44,7 +44,7 @@ async fn run_scheduler_loop(
     info!("Cron scheduler started");
 
     loop {
-        // Sleep until the next whole-minute boundary (±1s tolerance).
+        // Sleep until the next whole-minute boundary (Â±1s tolerance).
         let now = chrono::Local::now();
         let secs_into_minute = now.second() as u64;
         let nanos_ms = now.nanosecond() as u64 / 1_000_000;

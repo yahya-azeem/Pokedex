@@ -1,4 +1,4 @@
-// LSPTool — query language server diagnostics for a file.
+﻿// LSPTool — query language server diagnostics for a file.
 //
 // Ported from src/tools/LSPTool/ in the TypeScript source.  Returns errors,
 // warnings, and hints emitted by any configured language server for the
@@ -22,7 +22,7 @@ impl Tool for LspTool {
     }
 
     fn permission_level(&self) -> PermissionLevel {
-        PermissionLevel::ReadOnly
+        PermissionLevel::Read
     }
 
     fn input_schema(&self) -> Value {

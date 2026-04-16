@@ -1,4 +1,4 @@
-// pokedex-mcp: Connection manager with reconnection and lifecycle management.
+﻿// pokedex-mcp: Connection manager with reconnection and lifecycle management.
 //
 // Mirrors the reconnection logic from the TS useManageMCPConnections hook.
 // Wraps McpClient with:
@@ -51,7 +51,7 @@ impl McpServerStatus {
             }
             McpServerStatus::Failed { error, retry_at } => {
                 let secs = retry_at.saturating_duration_since(Instant::now()).as_secs();
-                format!("failed – {} (retry in {}s)", error, secs)
+                format!("failed â€“ {} (retry in {}s)", error, secs)
             }
         }
     }
@@ -74,7 +74,7 @@ struct ServerState {
 /// Manages lifecycle (connect / disconnect / reconnect) for a set of MCP servers.
 pub struct McpConnectionManager {
     /// Per-server mutable state, guarded by a single Mutex.
-    /// (DashMap per-entry would race on status ↔ client updates.)
+    /// (DashMap per-entry would race on status â†” client updates.)
     state: Arc<DashMap<String, Arc<Mutex<ServerState>>>>,
     /// Reconnect background task handles, keyed by server name.
     reconnect_handles: Mutex<HashMap<String, JoinHandle<()>>>,
@@ -251,7 +251,7 @@ impl McpConnectionManager {
     /// Start a background reconnection loop for `name`.
     /// The loop exits when the server connects successfully.
     ///
-    /// Backoff: 1 s → 2 s → 4 s → … capped at 60 s.
+    /// Backoff: 1 s â†’ 2 s â†’ 4 s â†’ … capped at 60 s.
     pub async fn start_reconnect_loop(&self, name: &str) {
         // Don't start a second loop if one is already running.
         {

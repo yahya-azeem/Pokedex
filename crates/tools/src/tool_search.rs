@@ -1,4 +1,4 @@
-// ToolSearchTool: search for tools by name or keyword.
+﻿// ToolSearchTool: search for tools by name or keyword.
 //
 // This is used by the model to discover "deferred" tools that are not yet
 // loaded into context. In the Rust port there is no deferred-tool mechanism
@@ -6,8 +6,8 @@
 // search interface for the model to discover available capabilities.
 //
 // Supports two query modes:
-//   - "select:ToolName"  → direct lookup by exact name
-//   - "keyword search"   → fuzzy name + description match with scoring
+//   - "select:ToolName"  â†’ direct lookup by exact name
+//   - "keyword search"   â†’ fuzzy name + description match with scoring
 
 use crate::{PermissionLevel, Tool, ToolContext, ToolResult};
 use async_trait::async_trait;
@@ -80,7 +80,7 @@ impl Tool for ToolSearchTool {
          descriptions. Max 5 results by default."
     }
 
-    fn permission_level(&self) -> PermissionLevel { PermissionLevel::None }
+    fn permission_level(&self) -> PermissionLevel { PermissionLevel::Read }
 
     fn input_schema(&self) -> Value {
         json!({

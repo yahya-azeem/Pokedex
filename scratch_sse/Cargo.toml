@@ -1,0 +1,12 @@
+[package]
+name = "scratch_sse"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+
+[dependencies]
+reqwest = { workspace = true, features = ["json", "stream"] }
+serde_json.workspace = true
+tokio = { workspace = true, features = ["full"] }
+tokio-stream.workspace = true

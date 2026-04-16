@@ -1,4 +1,4 @@
-//! RemoteTriggerTool — cross-session event dispatch.
+﻿//! RemoteTriggerTool — cross-session event dispatch.
 //! Mirrors src/tools/RemoteTriggerTool/.
 
 use async_trait::async_trait;
@@ -33,7 +33,7 @@ impl Tool for RemoteTriggerTool {
     }
 
     fn permission_level(&self) -> PermissionLevel {
-        PermissionLevel::None
+        PermissionLevel::Read
     }
 
     fn input_schema(&self) -> Value {

@@ -1,4 +1,4 @@
-//! Clawd robot mascot rendering for ratatui.
+﻿//! Clawd robot mascot rendering for ratatui.
 //!
 //! The Clawd character is a 3-row Unicode block-art robot matching the
 //! TypeScript source.  Call `clawd_lines()` to get 4 `Line` values (3 body
@@ -44,32 +44,32 @@ pub fn clawd_lines(pose: &ClawdPose) -> [Line<'static>; 4] {
 
     let (r1l, r1e, r1r, r2l, r2r) = match pose {
         ClawdPose::Default => (
-            " ▐",    // head row left
-            "▛███▜", // head / eye section
-            "▌",     // head row right
-            "▝▜",    // body row left arm
-            "▛▘",    // body row right arm
+            " —",    // head row left
+            "—›███—œ", // head / eye section
+            "—Œ",     // head row right
+            "——œ",    // body row left arm
+            "—›—˜",    // body row right arm
         ),
         ClawdPose::ArmsUp => (
-            "▗▟",
-            "▛███▜",
-            "▙▖",
-            " ▜",
-            "▛ ",
+            "———Ÿ",
+            "—›███—œ",
+            "—™—–",
+            " —œ",
+            "—› ",
         ),
         ClawdPose::LookLeft => (
-            " ▐",
-            "▟███▟",
-            "▌",
-            "▝▜",
-            "▛▘",
+            " —",
+            "—Ÿ███—Ÿ",
+            "—Œ",
+            "——œ",
+            "—›—˜",
         ),
         ClawdPose::LookRight => (
-            " ▐",
-            "▙███▙",
-            "▌",
-            "▝▜",
-            "▛▘",
+            " —",
+            "—™███—™",
+            "—Œ",
+            "——œ",
+            "—›—˜",
         ),
     };
 
@@ -89,7 +89,7 @@ pub fn clawd_lines(pose: &ClawdPose) -> [Line<'static>; 4] {
 
     // Row 3: feet (fixed)
     let row3 = Line::from(vec![Span::styled(
-        "  ▘▘ ▝▝  ".to_string(),
+        "  —˜—˜ ——  ".to_string(),
         body_style(),
     )]);
 

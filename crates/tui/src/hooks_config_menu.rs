@@ -1,4 +1,4 @@
-// hooks_config_menu.rs — 4-screen read-only hooks browser.
+﻿// hooks_config_menu.rs — 4-screen read-only hooks browser.
 //
 // Mirrors the drill-down navigation of TS HooksConfigMenu.tsx:
 //   Screen 1 SelectEvent   — list of hook events with count badges
@@ -31,10 +31,10 @@ pub struct HookEntry {
     /// Hook type: "command", "prompt", "agent", "http"
     pub hook_type: String,
     /// Primary hook target:
-    /// - command → the shell command string
-    /// - prompt  → the prompt text
-    /// - agent   → the agent name
-    /// - http    → the URL
+    /// - command â†’ the shell command string
+    /// - prompt  â†’ the prompt text
+    /// - agent   â†’ the agent name
+    /// - http    â†’ the URL
     pub target: String,
 }
 

@@ -1,4 +1,4 @@
-// command_queue.rs — T1-4: Command Queue Draining
+﻿// command_queue.rs — T1-4: Command Queue Draining
 //
 // A priority queue shared between the TUI input thread and the query loop.
 // Commands are drained at the start of each turn, before the API call.

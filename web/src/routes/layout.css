@@ -1,0 +1,109 @@
+@import 'tailwindcss';
+
+:root {
+	--bg-primary: #0a0a0f;
+	--bg-secondary: #0f0f1a;
+	--bg-glass: rgba(255, 255, 255, 0.03);
+	--border-glass: rgba(255, 255, 255, 0.06);
+	--text-primary: #ffffff;
+	--text-secondary: rgba(255, 255, 255, 0.6);
+	--text-muted: rgba(255, 255, 255, 0.3);
+	--accent-red: #ef4444;
+	--accent-orange: #f97316;
+	--accent-cyan: #06b6d4;
+	--accent-green: #22c55e;
+	--accent-amber: #f59e0b;
+	--accent-purple: #a78bfa;
+}
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+	background: var(--bg-primary);
+	color: var(--text-primary);
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	overflow-x: hidden;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+	width: 6px;
+	height: 6px;
+}
+
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+	background: rgba(255, 255, 255, 0.08);
+	border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: rgba(255, 255, 255, 0.15);
+}
+
+/* Glass panel utility */
+.glass-panel {
+	background: var(--bg-glass);
+	border: 1px solid var(--border-glass);
+	border-radius: 16px;
+	backdrop-filter: blur(12px);
+}
+
+/* Animated gradient background */
+.gradient-bg {
+	position: fixed;
+	inset: 0;
+	z-index: -1;
+	overflow: hidden;
+}
+
+.gradient-bg::before {
+	content: '';
+	position: absolute;
+	width: 150%;
+	height: 150%;
+	top: -25%;
+	left: -25%;
+	background: radial-gradient(
+		circle at 30% 40%,
+		rgba(239, 68, 68, 0.08) 0%,
+		transparent 50%
+	),
+	radial-gradient(
+		circle at 70% 60%,
+		rgba(249, 115, 22, 0.05) 0%,
+		transparent 40%
+	),
+	radial-gradient(
+		circle at 50% 50%,
+		rgba(6, 182, 212, 0.03) 0%,
+		transparent 60%
+	);
+	animation: drift 20s ease-in-out infinite;
+}
+
+@keyframes drift {
+	0%, 100% {
+		transform: translate(0, 0) rotate(0deg);
+	}
+	33% {
+		transform: translate(2%, -1%) rotate(1deg);
+	}
+	66% {
+		transform: translate(-1%, 2%) rotate(-1deg);
+	}
+}
+
+/* Code / mono font */
+.mono {
+	font-family: 'JetBrains Mono', 'Fira Code', monospace;
+}

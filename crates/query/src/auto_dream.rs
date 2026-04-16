@@ -1,4 +1,4 @@
-//! AutoDream: automatic memory consolidation daemon
+﻿//! AutoDream: automatic memory consolidation daemon
 //!
 //! Background memory consolidation. Fires a consolidation prompt as a forked
 //! subagent when the time gate passes AND enough sessions have accumulated.
@@ -42,7 +42,7 @@ pub struct ConsolidationState {
     /// Unix timestamp (seconds) of last successful consolidation.
     /// `None` means never consolidated.
     pub last_consolidated_at: Option<u64>,
-    /// ETag / opaque lock token – reserved for future distributed locking.
+    /// ETag / opaque lock token â€“ reserved for future distributed locking.
     pub lock_etag: Option<String>,
 }
 
@@ -91,7 +91,7 @@ impl AutoDream {
 
     /// Check all gates cheapest-first.  Returns `true` if consolidation should run.
     pub async fn should_consolidate(&self, state: &ConsolidationState) -> Result<bool> {
-        // Gate 1: Time gate (cheapest – one arithmetic check)
+        // Gate 1: Time gate (cheapest â€“ one arithmetic check)
         if !self.time_gate_passes(state) {
             return Ok(false);
         }
@@ -112,7 +112,7 @@ impl AutoDream {
     fn time_gate_passes(&self, state: &ConsolidationState) -> bool {
         let now_secs = now_secs();
         match state.last_consolidated_at {
-            None => true, // Never consolidated → always pass
+            None => true, // Never consolidated â†’ always pass
             Some(last) => {
                 let hours_elapsed = (now_secs.saturating_sub(last)) as f64 / 3600.0;
                 hours_elapsed >= self.config.min_hours
@@ -163,7 +163,7 @@ impl AutoDream {
                         .as_secs();
                     Ok(age_secs > 3600)
                 } else {
-                    // Cannot stat mtime → conservative: gate passes (treat as stale)
+                    // Cannot stat mtime â†’ conservative: gate passes (treat as stale)
                     Ok(true)
                 }
             }
@@ -311,7 +311,7 @@ mod tests {
         let tmp = TempDir::new().unwrap();
         let dream = make_dream(&tmp);
         let state = ConsolidationState::default();
-        assert!(dream.time_gate_passes(&state), "no prior consolidation → gate passes");
+        assert!(dream.time_gate_passes(&state), "no prior consolidation â†’ gate passes");
     }
 
     #[test]
@@ -326,7 +326,7 @@ mod tests {
             last_consolidated_at: Some(now_secs()), // just now
             lock_etag: None,
         };
-        assert!(!dream.time_gate_passes(&state), "just consolidated → gate blocked");
+        assert!(!dream.time_gate_passes(&state), "just consolidated â†’ gate blocked");
     }
 
     #[test]
@@ -343,7 +343,7 @@ mod tests {
             last_consolidated_at: Some(old),
             lock_etag: None,
         };
-        assert!(dream.time_gate_passes(&state), "consolidated 25h ago → gate passes");
+        assert!(dream.time_gate_passes(&state), "consolidated 25h ago â†’ gate passes");
     }
 
     // --- lock_gate_passes (sync-friendly via tokio::test) ---
@@ -361,7 +361,7 @@ mod tests {
         let dream = make_dream(&tmp);
         std::fs::create_dir_all(&dream.memory_dir).unwrap();
         std::fs::write(&dream.lock_file, "12345").unwrap();
-        // Fresh file → gate blocked
+        // Fresh file â†’ gate blocked
         assert!(!dream.lock_gate_passes().await.unwrap());
     }
 

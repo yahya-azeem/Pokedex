@@ -1,4 +1,4 @@
-// Task management tools: TaskCreate, TaskGet, TaskUpdate, TaskList, TaskStop, TaskOutput.
+﻿// Task management tools: TaskCreate, TaskGet, TaskUpdate, TaskList, TaskStop, TaskOutput.
 //
 // Implements a simple in-process task store backed by a global Arc<Mutex<HashMap>>.
 // Tasks have id, subject, description, status, owner, blocks/blocked-by dependencies,
@@ -129,7 +129,7 @@ struct TaskCreateInput {
 impl Tool for TaskCreateTool {
     fn name(&self) -> &str { pokedex_core::constants::TOOL_NAME_TASK_CREATE }
     fn description(&self) -> &str { "Create a new task to track work items. Returns the task ID." }
-    fn permission_level(&self) -> PermissionLevel { PermissionLevel::None }
+    fn permission_level(&self) -> PermissionLevel { PermissionLevel::Read }
 
     fn input_schema(&self) -> Value {
         json!({
@@ -179,7 +179,7 @@ struct TaskGetInput {
 impl Tool for TaskGetTool {
     fn name(&self) -> &str { pokedex_core::constants::TOOL_NAME_TASK_GET }
     fn description(&self) -> &str { "Get full details of a task by ID." }
-    fn permission_level(&self) -> PermissionLevel { PermissionLevel::None }
+    fn permission_level(&self) -> PermissionLevel { PermissionLevel::Read }
 
     fn input_schema(&self) -> Value {
         json!({
@@ -240,7 +240,7 @@ struct TaskUpdateInput {
 impl Tool for TaskUpdateTool {
     fn name(&self) -> &str { pokedex_core::constants::TOOL_NAME_TASK_UPDATE }
     fn description(&self) -> &str { "Update a task's properties (status, subject, description, etc.)." }
-    fn permission_level(&self) -> PermissionLevel { PermissionLevel::None }
+    fn permission_level(&self) -> PermissionLevel { PermissionLevel::Read }
 
     fn input_schema(&self) -> Value {
         json!({
@@ -354,7 +354,7 @@ pub struct TaskListTool;
 impl Tool for TaskListTool {
     fn name(&self) -> &str { pokedex_core::constants::TOOL_NAME_TASK_LIST }
     fn description(&self) -> &str { "List all active tasks (excluding deleted/completed)." }
-    fn permission_level(&self) -> PermissionLevel { PermissionLevel::None }
+    fn permission_level(&self) -> PermissionLevel { PermissionLevel::Read }
 
     fn input_schema(&self) -> Value {
         json!({
@@ -464,7 +464,7 @@ fn default_block() -> bool { true }
 impl Tool for TaskOutputTool {
     fn name(&self) -> &str { pokedex_core::constants::TOOL_NAME_TASK_OUTPUT }
     fn description(&self) -> &str { "Get the output of a task." }
-    fn permission_level(&self) -> PermissionLevel { PermissionLevel::None }
+    fn permission_level(&self) -> PermissionLevel { PermissionLevel::Read }
 
     fn input_schema(&self) -> Value {
         json!({

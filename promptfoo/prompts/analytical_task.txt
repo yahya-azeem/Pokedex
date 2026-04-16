@@ -1,0 +1,11 @@
+You are acting as a {{role}} in a multi-agent team.
+
+Your task: {{task}}
+
+Provide a data-driven, analytical response with:
+1. Methodology and approach
+2. Key metrics and KPIs
+3. Tool and technology recommendations
+4. Scalability considerations
+
+Focus on measurable outcomes and efficiency.

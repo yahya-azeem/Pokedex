@@ -1,4 +1,4 @@
-// Computer Use tool — cross-platform mouse/keyboard/screenshot control.
+﻿// Computer Use tool — cross-platform mouse/keyboard/screenshot control.
 //
 // All implementation is gated behind `#[cfg(feature = "computer-use")]`
 // so the default build never links enigo or xcap.
@@ -73,7 +73,7 @@ impl Tool for ComputerUseTool {
     }
 
     fn permission_level(&self) -> PermissionLevel {
-        PermissionLevel::Dangerous
+        PermissionLevel::Execute
     }
 
     fn input_schema(&self) -> Value {
@@ -195,10 +195,10 @@ async fn execute_action(params: ComputerUseInput) -> ToolResult {
     };
 
     match params.action.as_str() {
-        // ── Screenshot ───────────────────────────────────────────────────
+        // â”€â”€ Screenshot â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         "screenshot" => take_screenshot(),
 
-        // ── Cursor position ──────────────────────────────────────────────
+        // â”€â”€ Cursor position â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         "get_cursor_position" => {
             match Enigo::new(&Settings::default()) {
                 Ok(enigo) => {
@@ -213,7 +213,7 @@ async fn execute_action(params: ComputerUseInput) -> ToolResult {
             }
         }
 
-        // ── Mouse move ───────────────────────────────────────────────────
+        // â”€â”€ Mouse move â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         "mouse_move" => {
             let [x, y] = match params.coordinate {
                 Some(c) => c,
@@ -230,7 +230,7 @@ async fn execute_action(params: ComputerUseInput) -> ToolResult {
             }
         }
 
-        // ── Left click ───────────────────────────────────────────────────
+        // â”€â”€ Left click â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         "left_click" => {
             let [x, y] = match params.coordinate {
                 Some(c) => c,
@@ -250,7 +250,7 @@ async fn execute_action(params: ComputerUseInput) -> ToolResult {
             }
         }
 
-        // ── Right click ──────────────────────────────────────────────────
+        // â”€â”€ Right click â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         "right_click" => {
             let [x, y] = match params.coordinate {
                 Some(c) => c,
@@ -270,7 +270,7 @@ async fn execute_action(params: ComputerUseInput) -> ToolResult {
             }
         }
 
-        // ── Double click ─────────────────────────────────────────────────
+        // â”€â”€ Double click â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         "double_click" => {
             let [x, y] = match params.coordinate {
                 Some(c) => c,
@@ -293,7 +293,7 @@ async fn execute_action(params: ComputerUseInput) -> ToolResult {
             }
         }
 
-        // ── Click and drag ───────────────────────────────────────────────
+        // â”€â”€ Click and drag â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         "left_click_drag" => {
             let [sx, sy] = match params.start_coordinate {
                 Some(c) => c,
@@ -328,7 +328,7 @@ async fn execute_action(params: ComputerUseInput) -> ToolResult {
             }
         }
 
-        // ── Type text ────────────────────────────────────────────────────
+        // â”€â”€ Type text â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         "type_text" => {
             let text = match params.text {
                 Some(t) => t,
@@ -345,7 +345,7 @@ async fn execute_action(params: ComputerUseInput) -> ToolResult {
             }
         }
 
-        // ── Key press ────────────────────────────────────────────────────
+        // â”€â”€ Key press â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         "key" => {
             let key_str = match params.text {
                 Some(t) => t,
@@ -362,7 +362,7 @@ async fn execute_action(params: ComputerUseInput) -> ToolResult {
             }
         }
 
-        // ── Scroll ───────────────────────────────────────────────────────
+        // â”€â”€ Scroll â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         "scroll" => {
             let [x, y] = match params.coordinate {
                 Some(c) => c,
@@ -463,7 +463,7 @@ fn take_screenshot() -> ToolResult {
     let b64 = base64::engine::general_purpose::STANDARD.encode(&jpeg_bytes);
 
     ToolResult::success(format!(
-        "Screenshot captured ({}x{} → JPEG, {} bytes base64).\ndata:image/jpeg;base64,{}",
+        "Screenshot captured ({}x{} â†’ JPEG, {} bytes base64).\ndata:image/jpeg;base64,{}",
         orig_w, orig_h, b64.len(), b64
     ))
 }

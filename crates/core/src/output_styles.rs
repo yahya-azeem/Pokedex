@@ -1,4 +1,4 @@
-//! Output style system — customises how Claude responds to the user.
+﻿//! Output style system — customises how Claude responds to the user.
 //!
 //! Styles are applied by injecting `OutputStyleDef::prompt` into the system
 //! prompt.  Built-in styles are defined in code; users can add their own by
@@ -382,7 +382,7 @@ mod tests {
     #[test]
     fn all_styles_includes_builtins() {
         let dir = TempDir::new().unwrap();
-        // no output-styles subdir → only built-ins
+        // no output-styles subdir â†’ only built-ins
         let styles = all_styles(dir.path());
         assert!(styles.iter().any(|s| s.name == "default"));
         assert!(styles.iter().any(|s| s.name == "concise"));

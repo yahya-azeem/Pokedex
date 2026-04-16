@@ -1,4 +1,4 @@
-//! Context window analysis utilities.
+﻿//! Context window analysis utilities.
 //! Mirrors src/utils/analyzeContext.ts (1,382 lines).
 //! Used by the /ctx-viz slash command.
 
@@ -245,7 +245,7 @@ pub fn format_ctx_viz(analysis: &ContextAnalysis, context_limit: u64) -> String 
         }
         let pct = analysis.category_pct(*cat);
         let filled = ((pct / 100.0) * bar_width as f64).round() as usize;
-        let bar = "█".repeat(filled) + &"░".repeat(bar_width - filled);
+        let bar = "█".repeat(filled) + &"—‘".repeat(bar_width - filled);
         lines.push(format!(
             "{:<24} [{bar}] {:.1}% (~{:.0}K)",
             cat.label(),

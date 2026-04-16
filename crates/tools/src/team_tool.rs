@@ -1,8 +1,8 @@
-// Team tools: create and disband multi-agent swarm teams.
+﻿// Team tools: create and disband multi-agent swarm teams.
 //
-// TeamCreateTool – create a new team, writing its config to
+// TeamCreateTool â€“ create a new team, writing its config to
 //                  ~/.pokedex/teams/{team_name}/config.json
-// TeamDeleteTool – remove an existing team directory
+// TeamDeleteTool â€“ remove an existing team directory
 //
 // Tool names match TypeScript: "TeamCreate" and "TeamDelete".
 //

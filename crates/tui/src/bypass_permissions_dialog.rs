@@ -1,4 +1,4 @@
-// bypass_permissions_dialog.rs — Startup confirmation dialog for --dangerously-skip-permissions.
+﻿// bypass_permissions_dialog.rs — Startup confirmation dialog for --dangerously-skip-permissions.
 //
 // Mirrors TS `BypassPermissionsModeDialog.tsx`:
 // - Displayed at startup when the session was launched with bypass-permissions mode.
@@ -151,7 +151,7 @@ pub fn render_bypass_permissions_dialog(
     ]));
     lines.push(Line::from(""));
     lines.push(Line::from(vec![Span::styled(
-        "  ↑↓ or 1/2 to select  ·  Enter to confirm",
+        "  â†‘â†“ or 1/2 to select  Â·  Enter to confirm",
         Style::default().fg(Color::DarkGray).add_modifier(Modifier::ITALIC),
     )]));
 
@@ -200,9 +200,9 @@ mod tests {
     fn bypass_dialog_navigate_wraps() {
         let mut state = BypassPermissionsDialogState::new();
         state.show();
-        state.select_prev(); // wrap from 0 → 1
+        state.select_prev(); // wrap from 0 â†’ 1
         assert_eq!(state.selected, 1);
-        state.select_next(); // wrap from 1 → 0
+        state.select_next(); // wrap from 1 â†’ 0
         assert_eq!(state.selected, 0);
     }
 

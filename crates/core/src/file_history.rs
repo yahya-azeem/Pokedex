@@ -1,4 +1,4 @@
-//! Per-session file modification history.
+﻿//! Per-session file modification history.
 //! Mirrors src/utils/fileHistory.ts (1,115 lines).
 //!
 //! Tracks which files were modified by tool calls in the current session,
@@ -45,7 +45,7 @@ pub struct FileHistoryEntry {
 pub struct FileHistory {
     /// All recorded modifications, in chronological order.
     entries: Vec<FileHistoryEntry>,
-    /// Path → all entry indices for that path.
+    /// Path â†’ all entry indices for that path.
     by_path: HashMap<PathBuf, Vec<usize>>,
 }
 

@@ -1,4 +1,4 @@
-//! OAuth configuration for multiple environments.
+﻿//! OAuth configuration for multiple environments.
 //!
 //! This module mirrors the TypeScript `src/constants/oauth.ts` and
 //! `src/services/oauth/crypto.ts` constants.  It is intentionally
@@ -127,8 +127,8 @@ pub const MCP_CLIENT_METADATA_URL: &str =
 /// Return the OAuth config appropriate for the current environment.
 ///
 /// Selection logic mirrors `getOauthConfigType()` in `constants/oauth.ts`:
-/// - `USER_TYPE=ant` + `USE_STAGING_OAUTH=true`  → staging
-/// - anything else                                → production
+/// - `USER_TYPE=ant` + `USE_STAGING_OAUTH=true`  â†’ staging
+/// - anything else                                â†’ production
 ///
 /// Note: the `local` variant from the TypeScript code is intentionally
 /// omitted here — local dev servers are not needed in the Rust port yet.
@@ -154,14 +154,14 @@ pub mod pkce {
     use base64::{engine::general_purpose::URL_SAFE_NO_PAD, Engine as _};
     use sha2::{Digest, Sha256};
 
-    /// Generate a cryptographically random code verifier (43–128 chars of
+    /// Generate a cryptographically random code verifier (43â€“128 chars of
     /// Base64url characters, as required by RFC 7636).
     ///
     /// Uses `getrandom` via the `rand` crate's OS RNG through the `uuid`
     /// crate's v4 generator — both already in-tree.  Falls back to a
     /// time+pid mix if the OS RNG is unavailable.
     pub fn generate_code_verifier() -> String {
-        // 32 random bytes → 43-char Base64url string (same as the TS impl).
+        // 32 random bytes â†’ 43-char Base64url string (same as the TS impl).
         let bytes = random_bytes_32();
         URL_SAFE_NO_PAD.encode(bytes)
     }
@@ -339,7 +339,7 @@ mod tests {
     #[test]
     fn test_verifier_length_meets_rfc7636_minimum() {
         let verifier = pkce::generate_code_verifier();
-        // RFC 7636 §4.1: code_verifier length ∈ [43, 128]
+        // RFC 7636 Â§4.1: code_verifier length âˆˆ [43, 128]
         assert!(
             verifier.len() >= 43,
             "verifier too short: {} chars",

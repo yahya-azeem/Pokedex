@@ -1,4 +1,4 @@
-// overage_upsell.rs — OverageCreditUpsell surface.
+﻿// overage_upsell.rs — OverageCreditUpsell surface.
 //
 // Shown when the user has exceeded their free-tier token allowance and needs
 // to add credits to continue. Rendered as a dismissable banner at the top of

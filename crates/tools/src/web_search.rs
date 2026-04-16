@@ -1,4 +1,4 @@
-// WebSearch tool: search the web using Brave Search API or fallback to DuckDuckGo.
+﻿// WebSearch tool: search the web using Brave Search API or fallback to DuckDuckGo.
 //
 // Mirrors the TypeScript WebSearch tool behaviour:
 // - Accepts a query string
@@ -38,7 +38,7 @@ impl Tool for WebSearchTool {
     }
 
     fn permission_level(&self) -> PermissionLevel {
-        PermissionLevel::ReadOnly
+        PermissionLevel::Read
     }
 
     fn input_schema(&self) -> Value {

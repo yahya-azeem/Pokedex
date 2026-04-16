@@ -1,10 +1,10 @@
-// pokedex-plugins: Plugin runtime for the Pokedex CLI Rust port.
+﻿// pokedex-plugins: Plugin runtime for the Pokedex CLI Rust port.
 //
 // This crate handles plugin discovery, manifest parsing, hook registration,
 // and the /plugin + /reload-plugins command definitions.
 //
-// Dependency order: pokedex-plugins → pokedex-core only.
-// pokedex-commands → pokedex-plugins (not the other way around).
+// Dependency order: pokedex-plugins â†’ pokedex-core only.
+// pokedex-commands â†’ pokedex-plugins (not the other way around).
 
 pub mod hooks;
 pub mod loader;
@@ -233,7 +233,7 @@ pub enum PluginSubCommand {
 /// Parse the arguments string for `/plugin`.
 pub fn parse_plugin_args(args: &str) -> PluginSubCommand {
     let args = args.trim();
-    // No args → show list
+    // No args â†’ show list
     if args.is_empty() {
         return PluginSubCommand::List;
     }
@@ -522,7 +522,7 @@ pub fn format_reload_summary(
         if lsp_count == 1 { "" } else { "s" }
     ));
 
-    let mut msg = format!("Reloaded: {}", parts.join(" · "));
+    let mut msg = format!("Reloaded: {}", parts.join(" Â· "));
 
     if !diff.added.is_empty() {
         msg.push_str(&format!("\nAdded: {}", diff.added.join(", ")));

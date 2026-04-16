@@ -102,12 +102,24 @@ pub mod error {
         #[error("MCP error: {0}")]
         Mcp(String),
 
-        #[error("{0}")]
+        #[error("Other error: {0}")]
         Other(String),
     }
 
     /// Convenience alias used throughout the project.
     pub type Result<T> = std::result::Result<T, ClaudeError>;
+
+    impl From<anyhow::Error> for ClaudeError {
+        fn from(e: anyhow::Error) -> Self {
+            ClaudeError::Other(e.to_string())
+        }
+    }
+
+    impl From<reqwest::header::InvalidHeaderValue> for ClaudeError {
+        fn from(e: reqwest::header::InvalidHeaderValue) -> Self {
+            ClaudeError::Other(e.to_string())
+        }
+    }
 
     impl ClaudeError {
         /// Return `true` when the caller should retry the request.
@@ -192,7 +204,7 @@ pub mod types {
             output: String,
         },
         /// A skill/slash-command invocation entered by the user.
-        /// Rendered as `▸ name args` with cyan styling.
+        /// Rendered as `—¸ name args` with cyan styling.
         UserCommand {
             name: String,
             args: String,
@@ -212,7 +224,7 @@ pub mod types {
             retry_secs: Option<u32>,
         },
         /// A collapsed summary of multiple read/search tool calls.
-        /// Rendered as `▸ Read N files (+ M more)` on a single line.
+        /// Rendered as `—¸ Read N files (+ M more)` on a single line.
         CollapsedReadSearch {
             tool_name: String,
             paths: Vec<String>,
@@ -575,6 +587,8 @@ pub mod config {
     #[derive(Debug, Clone, Serialize, Deserialize, Default)]
     pub struct Config {
         pub api_key: Option<String>,
+        pub google_api_key: Option<String>,
+        pub github_token: Option<String>,
         pub model: Option<String>,
         pub max_tokens: Option<u32>,
         pub permission_mode: PermissionMode,
@@ -601,7 +615,7 @@ pub mod config {
         /// Additional directories granted access via --add-dir.
         #[serde(default)]
         pub additional_dirs: Vec<PathBuf>,
-        /// Event hooks: map of event → list of hook commands.
+        /// Event hooks: map of event â†’ list of hook commands.
         #[serde(default)]
         pub hooks: HashMap<HookEvent, Vec<HookEntry>>,
     }
@@ -792,7 +806,7 @@ pub mod config {
                     };
                     refreshed.unwrap_or(tokens)
                 } else {
-                    tokens // expired, no refresh token → can't fix
+                    tokens // expired, no refresh token â†’ can't fix
                 }
             } else {
                 tokens
@@ -878,11 +892,11 @@ pub mod constants {
     pub const APP_NAME: &str = "pokedex";
     pub const APP_VERSION: &str = env!("CARGO_PKG_VERSION");
 
-    // Models
-    pub const DEFAULT_MODEL: &str = "pokedex-opus-4-6";
-    pub const SONNET_MODEL: &str = "pokedex-sonnet-4-6";
-    pub const HAIKU_MODEL: &str = "pokedex-haiku-4-5-20251001";
-    pub const OPUS_MODEL: &str = "pokedex-opus-4-6";
+    // Models — "auto" means resolve at runtime from available providers
+    pub const DEFAULT_MODEL: &str = "auto";
+    pub const SONNET_MODEL: &str = "auto";
+    pub const HAIKU_MODEL: &str = "auto";
+    pub const OPUS_MODEL: &str = "auto";
 
     // Token limits
     pub const DEFAULT_MAX_TOKENS: u32 = 32_000;
@@ -983,7 +997,7 @@ pub mod context {
             }
 
             // IDE context — injected when an IDE extension is connected.
-            // Mirrors TS getContextAttachments() → IdeContext attachment.
+            // Mirrors TS getContextAttachments() â†’ IdeContext attachment.
             if let Some(ide_ctx) = crate::attachments::get_ide_context() {
                 parts.push(format!("# IDE Context\n{}", ide_ctx));
             }
@@ -1178,7 +1192,7 @@ pub mod permissions {
             // Path pattern check — only when a pattern is specified
             if let Some(ref pattern) = self.path_pattern {
                 let Some(p) = path else {
-                    // Rule requires a path but none was provided → no match
+                    // Rule requires a path but none was provided â†’ no match
                     return false;
                 };
                 let pat = match glob::Pattern::new(pattern) {
@@ -1349,14 +1363,14 @@ pub mod permissions {
         /// Evaluate whether `tool_name` should be allowed to run.
         ///
         /// Evaluation order (faithful to TS behaviour):
-        /// 1. BypassPermissions → always Allow.
-        /// 2. Check deny rules (persistent first, then session) → if any
+        /// 1. BypassPermissions â†’ always Allow.
+        /// 2. Check deny rules (persistent first, then session) â†’ if any
         ///    matched, Deny.
-        /// 3. Check allow rules (persistent first, then session) → if any
+        /// 3. Check allow rules (persistent first, then session) â†’ if any
         ///    matched, Allow.
-        /// 4. AcceptEdits → Allow (auto-accept file edits).
-        /// 5. Plan mode → Allow reads; deny everything else.
-        /// 6. Default → derive from tool danger level.
+        /// 4. AcceptEdits â†’ Allow (auto-accept file edits).
+        /// 5. Plan mode â†’ Allow reads; deny everything else.
+        /// 6. Default â†’ derive from tool danger level.
         pub fn evaluate(
             &self,
             tool_name: &str,
@@ -1370,7 +1384,7 @@ pub mod permissions {
                 return PermissionDecision::Allow;
             }
 
-            // Steps 2–3 — evaluate explicit rules (deny has priority over
+            // Steps 2â€“3 — evaluate explicit rules (deny has priority over
             // allow; persistent rules evaluated before session rules within
             // each polarity, matching TS rule-source ordering)
             let all_rules = self
@@ -3045,7 +3059,7 @@ mod tests {
     fn test_pkce_code_challenge_format() {
         let verifier = crate::oauth::generate_code_verifier();
         let challenge = crate::oauth::generate_code_challenge(&verifier);
-        // SHA256 = 32 bytes → 43 base64url chars
+        // SHA256 = 32 bytes â†’ 43 base64url chars
         assert_eq!(challenge.len(), 43, "Code challenge should be 43 base64url chars (SHA256 = 32 bytes)");
         assert!(challenge.chars().all(|c| c.is_ascii_alphanumeric() || c == '-' || c == '_'));
     }

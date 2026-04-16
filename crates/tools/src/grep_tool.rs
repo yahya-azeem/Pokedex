@@ -1,4 +1,4 @@
-// Grep tool: content search with ripgrep-style options.
+﻿// Grep tool: content search with ripgrep-style options.
 
 use crate::{PermissionLevel, Tool, ToolContext, ToolResult};
 use async_trait::async_trait;
@@ -79,7 +79,7 @@ impl Tool for GrepTool {
     }
 
     fn permission_level(&self) -> PermissionLevel {
-        PermissionLevel::ReadOnly
+        PermissionLevel::Read
     }
 
     fn input_schema(&self) -> Value {

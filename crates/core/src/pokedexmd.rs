@@ -1,4 +1,4 @@
-//! CLAUDE.md hierarchical memory loading.
+﻿//! CLAUDE.md hierarchical memory loading.
 //! Mirrors src/utils/pokedexmd.ts (1,479 lines).
 //!
 //! Priority order: managed > user > project > local
@@ -205,7 +205,7 @@ pub fn load_memory_file(path: &Path, scope: MemoryScope) -> Option<MemoryFileInf
 
 /// Load all CLAUDE.md files for the given project root, in priority order.
 ///
-/// Returned list is ordered: Managed (highest) → User → Project → Local.
+/// Returned list is ordered: Managed (highest) â†’ User â†’ Project â†’ Local.
 pub fn load_all_memory_files(project_root: &Path) -> Vec<MemoryFileInfo> {
     let mut files = Vec::new();
 

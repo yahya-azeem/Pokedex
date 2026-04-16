@@ -54,6 +54,7 @@ impl Tool for FileWriteTool {
         };
 
         let path = ctx.resolve_path(&params.file_path);
+        println!("  [DISK_IO] Writing {} bytes to: {}", params.content.len(), path.display());
         debug!(path = %path.display(), "Writing file");
 
         // Permission check

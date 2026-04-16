@@ -166,8 +166,8 @@ pub enum QueryEvent {
     /// An error.
     Error(String),
     /// Token usage has crossed a warning threshold.
-    /// `state` is Warning (≥ 80 %) or Critical (≥ 95 %).
-    /// `pct_used` is the fraction of the context window consumed (0.0–1.0).
+    /// `state` is Warning (â‰¥ 80 %) or Critical (â‰¥ 95 %).
+    /// `pct_used` is the fraction of the context window consumed (0.0â€“1.0).
     TokenWarning { state: TokenWarningState, pct_used: f64 },
 }
 
@@ -246,7 +246,7 @@ pub fn fire_post_sampling_hooks(
             body.trim()
         )));
 
-        // Exit code > 1 → hard veto of continuation.
+        // Exit code > 1 â†’ hard veto of continuation.
         if output.status.code().unwrap_or(1) > 1 {
             result.prevent_continuation = true;
         }
@@ -404,7 +404,7 @@ const MAX_TOKENS_RECOVERY_MSG: &str =
 /// appended as a plain user message between turns.  Callers that do not need
 /// command queuing may pass `None` or an empty `Vec`.
 pub async fn run_query_loop(
-    client: &pokedex_api::AnthropicClient,
+    client: &pokedex_api::ProviderClient,
     messages: &mut Vec<Message>,
     tools: &[Box<dyn Tool>],
     tool_ctx: &ToolContext,
@@ -511,10 +511,11 @@ pub async fn run_query_loop(
 
         let system = build_system_prompt(config);
 
-        let mut req_builder = CreateMessageRequest::builder(&effective_model, config.max_tokens)
-            .messages(api_messages)
-            .system(system)
-            .tools(api_tools);
+        let mut builder = CreateMessageRequest::builder(&effective_model, config.max_tokens);
+        builder.messages(api_messages);
+        builder.system(system);
+        builder.tools(api_tools);
+        let mut req_builder = builder;
 
         // Resolve effective thinking budget:
         //   1. Explicit `thinking_budget` in config takes precedence.
@@ -526,7 +527,7 @@ pub async fn run_query_loop(
         });
 
         if let Some(budget) = effective_thinking_budget {
-            req_builder = req_builder.thinking(ThinkingConfig::enabled(budget));
+            req_builder.thinking(ThinkingConfig::enabled(budget));
         }
 
         // Apply temperature: explicit config value takes precedence, then effort-level override.
@@ -534,10 +535,13 @@ pub async fn run_query_loop(
             config.effort_level.and_then(|el| el.temperature())
         });
         if let Some(t) = effective_temperature {
-            req_builder = req_builder.temperature(t);
+            req_builder.temperature(t);
         }
 
-        let request = req_builder.build();
+        let request = match req_builder.build() {
+            Ok(r) => r,
+            Err(e) => return QueryOutcome::Error(pokedex_core::error::ClaudeError::Api(e.to_string())),
+        };
 
         // Create a stream handler that forwards to the event channel
         let handler: Arc<dyn StreamHandler> = if let Some(ref tx) = event_tx {
@@ -552,27 +556,47 @@ pub async fn run_query_loop(
         let mut stream_rx = match client.create_message_stream(request, handler).await {
             Ok(rx) => rx,
             Err(e) => {
-                // On overloaded/rate-limit errors, attempt one switch to the fallback model.
+                // On overloaded/rate-limit errors, attempt to switch to the next model in the pool.
                 let err_str = e.to_string().to_lowercase();
                 if !used_fallback
-                    && (err_str.contains("overloaded") || err_str.contains("529") || err_str.contains("rate_limit"))
+                    && (err_str.contains("overloaded") || err_str.contains("529") || err_str.contains("rate_limit") || err_str.contains("429"))
                 {
-                    if let Some(ref fb) = config.fallback_model {
-                        warn!(
-                            primary = %effective_model,
-                            fallback = %fb,
-                            "Primary model unavailable — switching to fallback"
-                        );
-                        if let Some(ref tx) = event_tx {
-                            let _ = tx.send(QueryEvent::Status(format!(
-                                "Model unavailable — switching to fallback ({})",
-                                fb
-                            )));
+                    // Fetch whole pool dynamically
+                    if let Ok(pool) = client.fetch_available_models().await {
+                        // Find a model of the same tier that isn't the current effective_model
+                        let current_tier = pokedex_api::ModelInfo { id: effective_model.clone(), display_name: None, created_at: None }.tier();
+                        if let Some(next_model) = pool.into_iter()
+                            .filter(|m| m.tier() == current_tier && m.id != effective_model)
+                            .map(|m| m.id)
+                            .next() 
+                        {
+                            warn!(
+                                primary = %effective_model,
+                                fallback = %next_model,
+                                "Primary provider exhausted — failing over to pool model"
+                            );
+                            if let Some(ref tx) = event_tx {
+                                let _ = tx.send(QueryEvent::Status(format!(
+                                    "Model unavailable — failing over to pool model: [{}]",
+                                    next_model
+                                )));
+                            }
+                            effective_model = next_model;
+                            used_fallback = true;
+                            turn -= 1; // don't count this attempt against max_turns
+                            continue;
                         }
-                        effective_model = fb.clone();
-                        used_fallback = true;
-                        turn -= 1; // don't count this attempt against max_turns
-                        continue;
+                    }
+
+                    // Secondary fallback to hardcoded config if pool failed
+                    if let Some(ref fb) = config.fallback_model {
+                        if fb != &effective_model {
+                            warn!(primary = %effective_model, fallback = %fb, "Failing over to configured fallback");
+                            effective_model = fb.clone();
+                            used_fallback = true;
+                            turn -= 1;
+                            continue;
+                        }
                     }
                 }
                 error!(error = %e, "API request failed");
@@ -599,7 +623,7 @@ pub async fn run_query_loop(
                                     }
                                     error!(error_type, message, "Stream error");
                                 }
-                                StreamEvent::MessageStop => break,
+                                StreamEvent::MessageStop { .. } => break,
                                 _ => {}
                             }
                         }
@@ -674,7 +698,7 @@ pub async fn run_query_loop(
         }
 
         // Emit token warning events when approaching context limits.
-        // Thresholds mirror TypeScript autoCompact.ts: 80% → Warning, 95% → Critical.
+        // Thresholds mirror TypeScript autoCompact.ts: 80% â†’ Warning, 95% â†’ Critical.
         {
             let warning_state =
                 compact::calculate_token_warning_state(usage.input_tokens, &config.model);
@@ -832,9 +856,9 @@ pub async fn run_query_loop(
                     // requiring an Arc in the existing run_query_loop signature.
                     if let Ok(api_key) = std::env::var("ANTHROPIC_API_KEY") {
                         if !api_key.is_empty() {
-                            if let Ok(sm_client) = pokedex_api::AnthropicClient::new(
+                            if let Ok(sm_client) = pokedex_api::ProviderClient::new(
                                 pokedex_api::client::ClientConfig {
-                                    api_key,
+                                    api_key: Some(api_key),
                                     ..Default::default()
                                 },
                             ) {
@@ -978,7 +1002,7 @@ pub async fn run_query_loop(
                             event: "PostToolUse".to_string(),
                             tool_name: Some(name.clone()),
                             tool_input: Some(input.clone()),
-                            tool_output: Some(result.content.clone()),
+                            tool_output: Some(result.stdout.clone()),
                             is_error: Some(result.is_error),
                             session_id: Some(tool_ctx.session_id.clone()),
                         };
@@ -994,7 +1018,7 @@ pub async fn run_query_loop(
                         pokedex_plugins::run_global_post_tool_hook(
                             &name,
                             &input,
-                            &result.content,
+                            &result.stdout,
                             result.is_error,
                         );
 
@@ -1002,14 +1026,14 @@ pub async fn run_query_loop(
                             let _ = tx.send(QueryEvent::ToolEnd {
                                 tool_name: name.clone(),
                                 tool_id: id.clone(),
-                                result: result.content.clone(),
+                                result: result.stdout.clone(),
                                 is_error: result.is_error,
                             });
                         }
 
                         result_blocks.push(ContentBlock::ToolResult {
                             tool_use_id: id.clone(),
-                            content: ToolResultContent::Text(result.content),
+                            content: pokedex_core::types::ToolResultContent::Text(result.stdout),
                             is_error: if result.is_error { Some(true) } else { None },
                         });
                     }
@@ -1061,6 +1085,7 @@ async fn execute_tool(
 
     match tool {
         Some(tool) => {
+            println!("  [ENGINE_IO] Executing technical tool: {} with input: {}", name, input);
             debug!(tool = name, "Executing tool");
             tool.execute(input.clone(), ctx).await
         }
@@ -1078,8 +1103,8 @@ async fn execute_tool(
 /// etc.) is assembled in one place.  The `QueryConfig` fields map directly to
 /// `SystemPromptOptions`:
 ///
-/// - `system_prompt`        → `custom_system_prompt` (added to cacheable block)
-/// - `append_system_prompt` → `append_system_prompt` (added after boundary)
+/// - `system_prompt`        â†’ `custom_system_prompt` (added to cacheable block)
+/// - `append_system_prompt` â†’ `append_system_prompt` (added after boundary)
 fn build_system_prompt(config: &QueryConfig) -> SystemPrompt {
     use pokedex_core::system_prompt::SystemPromptOptions;
 
@@ -1273,9 +1298,9 @@ impl StreamHandler for ChannelStreamHandler {
 // Single-shot query (non-looping, for simple one-off calls)
 // ---------------------------------------------------------------------------
 
-/// Run a single (non-agentic) query – no tool loop, just one API call.
+/// Run a single (non-agentic) query â€“ no tool loop, just one API call.
 pub async fn run_single_query(
-    client: &pokedex_api::AnthropicClient,
+    client: &pokedex_api::ProviderClient,
     messages: Vec<Message>,
     config: &QueryConfig,
 ) -> Result<Message, ClaudeError> {
@@ -1285,7 +1310,7 @@ pub async fn run_single_query(
     let request = CreateMessageRequest::builder(&config.model, config.max_tokens)
         .messages(api_messages)
         .system(system)
-        .build();
+        .build().map_err(|e| pokedex_core::error::ClaudeError::Api(e.to_string()))?;
 
     let handler: Arc<dyn StreamHandler> = Arc::new(pokedex_api::streaming::NullStreamHandler);
 
@@ -1294,7 +1319,7 @@ pub async fn run_single_query(
 
     while let Some(evt) = rx.recv().await {
         acc.on_event(&evt);
-        if matches!(evt, StreamEvent::MessageStop) {
+        if matches!(evt, StreamEvent::MessageStop { .. }) {
             break;
         }
     }

@@ -1,4 +1,4 @@
-//! Voice input: availability checks, hold-to-talk recording, and speech-to-text
+﻿//! Voice input: availability checks, hold-to-talk recording, and speech-to-text
 //! transcription via the OpenAI Whisper-compatible API.
 //!
 //! # Feature flag
@@ -435,7 +435,7 @@ async fn record_audio(
 #[cfg_attr(not(feature = "voice"), allow(dead_code))]
 fn encode_wav(samples: &[f32], sample_rate: u32) -> anyhow::Result<Vec<u8>> {
     let num_samples = samples.len() as u32;
-    let byte_rate = sample_rate * 2; // 16-bit mono → 2 bytes/sample
+    let byte_rate = sample_rate * 2; // 16-bit mono â†’ 2 bytes/sample
     let data_size = num_samples * 2;
     let total_size = 44 + data_size;
 

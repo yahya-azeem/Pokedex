@@ -1,4 +1,4 @@
-// feature_gates.rs — Env-var-based feature gates and dynamic config.
+﻿// feature_gates.rs — Env-var-based feature gates and dynamic config.
 //
 // Replaces the GrowthBook SDK used in the TypeScript source
 // (`src/services/analytics/growthbook.ts`). Feature flags are toggled via
@@ -18,9 +18,9 @@ use serde::de::DeserializeOwned;
 /// characters (except `_`).
 ///
 /// Examples:
-///   "my-feature"       → "MY_FEATURE"
-///   "tengu.tide.elm"   → "TENGU_TIDE_ELM"
-///   "some:special!name" → "SOMESPECIALNAME"
+///   "my-feature"       â†’ "MY_FEATURE"
+///   "tengu.tide.elm"   â†’ "TENGU_TIDE_ELM"
+///   "some:special!name" â†’ "SOMESPECIALNAME"
 fn normalize_name(name: &str) -> String {
     name.chars()
         .map(|c| match c {

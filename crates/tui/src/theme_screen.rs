@@ -1,4 +1,4 @@
-// theme_screen.rs — Theme picker overlay opened by /theme.
+﻿// theme_screen.rs — Theme picker overlay opened by /theme.
 //
 // Shows a list of available themes with colour swatches. Arrow keys navigate,
 // Enter selects, Esc cancels.

@@ -1,4 +1,4 @@
-//! Remote session sync — mirrors src/remote/RemoteSessionManager.ts
+﻿//! Remote session sync — mirrors src/remote/RemoteSessionManager.ts
 //! and src/remote/SessionsWebSocket.ts.
 //!
 //! Manages background synchronization of local session transcripts

@@ -1,4 +1,4 @@
-/// Plugin hook execution — ported from `loadPluginHooks.ts`.
+﻿/// Plugin hook execution — ported from `loadPluginHooks.ts`.
 ///
 /// Hooks let plugins run shell commands in response to lifecycle events.
 /// This module defines the data model and the synchronous dispatch helper.

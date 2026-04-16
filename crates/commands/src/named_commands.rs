@@ -1,4 +1,4 @@
-//! Named commands (e.g. `pokedex agents`, `pokedex ide`, `pokedex branch`, …).
+﻿//! Named commands (e.g. `pokedex agents`, `pokedex ide`, `pokedex branch`, …).
 //!
 //! These complement slash commands with more complex top-level flows.
 //! A named command is invoked when the *first* CLI argument matches one
@@ -745,7 +745,7 @@ pub fn render_qr(url: &str) -> Vec<String> {
     let matrix = code.to_colors();
     let width = code.width();
 
-    // Add a 2-module quiet zone on each side (QR spec requires ≥4, but 2 renders fine).
+    // Add a 2-module quiet zone on each side (QR spec requires â‰¥4, but 2 renders fine).
     let qz = 2usize;
     let padded_width = width + qz * 2;
 

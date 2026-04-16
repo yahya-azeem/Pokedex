@@ -1,4 +1,4 @@
-// overlays.rs — All full-screen and floating overlays:
+﻿// overlays.rs — All full-screen and floating overlays:
 //   - HelpOverlay (? / F1 / /help)
 //   - HistorySearchOverlay (Ctrl+R)
 //   - MessageSelectorOverlay (/rewind step 1)
@@ -181,7 +181,7 @@ pub fn render_help_overlay(frame: &mut Frame, overlay: &HelpOverlay, area: Rect)
         .constraints([Constraint::Percentage(40), Constraint::Length(1), Constraint::Min(1)])
         .split(content_area);
 
-    // ─── Left column: keyboard shortcuts by category ───────────────────────
+    // â”€â”€â”€ Left column: keyboard shortcuts by category â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     let mut left_lines: Vec<Line<'static>> = Vec::new();
 
     left_lines.push(Line::from(Span::styled(
@@ -238,13 +238,13 @@ pub fn render_help_overlay(frame: &mut Frame, overlay: &HelpOverlay, area: Rect)
         col_chunks[0],
     );
 
-    // ─── Center divider ────────────────────────────────────────────────────
+    // â”€â”€â”€ Center divider â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     let divider_lines: Vec<Line<'static>> = (0..content_area.height)
         .map(|_| Line::from(Span::styled("\u{2502}", Style::default().fg(Color::DarkGray))))
         .collect();
     frame.render_widget(Paragraph::new(divider_lines), col_chunks[1]);
 
-    // ─── Right column: slash commands by category ──────────────────────────
+    // â”€â”€â”€ Right column: slash commands by category â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     let filter_lc = overlay.filter.to_lowercase();
     let filtered: Vec<&HelpEntry> = overlay
         .commands
@@ -313,7 +313,7 @@ pub fn render_help_overlay(frame: &mut Frame, overlay: &HelpOverlay, area: Rect)
         col_chunks[2],
     );
 
-    // ─── Version / hint bar ────────────────────────────────────────────────
+    // â”€â”€â”€ Version / hint bar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     let version_line = Line::from(vec![
         Span::styled(
             format!(" v{}  \u{00b7}  Type to filter  \u{00b7}  \u{2191}\u{2193} scroll commands  \u{00b7}  Esc to close", APP_VERSION),
@@ -808,14 +808,14 @@ pub fn render_history_search_overlay(
             let time_suffix: String = snap_entry
                 .map(|e| {
                     let t = e.relative_time();
-                    if t.is_empty() { t } else { format!(" · {}", t) }
+                    if t.is_empty() { t } else { format!(" Â· {}", t) }
                 })
                 .unwrap_or_default();
 
-            // Pin star shown to the left of pinned entries: "★ " (2 chars wide)
+            // Pin star shown to the left of pinned entries: "â˜… " (2 chars wide)
             // Available width for the entry text
             let pin_prefix_width: usize = if is_pinned { 2 } else { 0 };
-            let prefix_width: usize = 4 + pin_prefix_width; // "    " or "  ► " + optional "★ "
+            let prefix_width: usize = 4 + pin_prefix_width; // "    " or "  —º " + optional "â˜… "
             let time_width = UnicodeWidthStr::width(time_suffix.as_str());
             let max_text_chars = (dialog_width as usize)
                 .saturating_sub(prefix_width + time_width + 2);
@@ -845,7 +845,7 @@ pub fn render_history_search_overlay(
             // Pin star badge (shown for all pinned entries)
             if is_pinned {
                 row_spans.push(Span::styled(
-                    "\u{2605} ",  // ★
+                    "\u{2605} ",  // â˜…
                     Style::default()
                         .fg(Color::Yellow)
                         .add_modifier(Modifier::BOLD),
@@ -1096,7 +1096,7 @@ pub fn render_message_selector(frame: &mut Frame, overlay: &MessageSelectorOverl
 
     lines.push(Line::from(""));
     lines.push(Line::from(vec![Span::styled(
-        "  ↑↓ navigate  ·  Enter to select  ·  Esc to cancel",
+        "  â†‘â†“ navigate  Â·  Enter to select  Â·  Esc to cancel",
         Style::default()
             .fg(Color::DarkGray)
             .add_modifier(Modifier::ITALIC),
@@ -1112,7 +1112,7 @@ pub fn render_message_selector(frame: &mut Frame, overlay: &MessageSelectorOverl
 }
 
 // ============================================================================
-// RewindFlowOverlay  (multi-step: select → confirm → done)
+// RewindFlowOverlay  (multi-step: select â†’ confirm â†’ done)
 // ============================================================================
 
 /// The current step in the rewind flow.
@@ -1497,7 +1497,7 @@ pub fn render_global_search(state: &GlobalSearchState, area: ratatui::layout::Re
 
         match row {
             DisplayRow::Header { label, count } => {
-                // File group header: ─── filename (N) ──────────
+                // File group header: â”€â”€â”€ filename (N) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
                 let count_str = format!(" ({}) ", count);
                 let label_part = format!(" {} ", label);
                 let dashes_right = (results_area.width as usize)
@@ -1698,7 +1698,7 @@ mod tests {
 
     #[test]
     fn subseq_score_returns_correct_positions_for_substring() {
-        // "git" at position 0 in "git commit" → positions 0,1,2
+        // "git" at position 0 in "git commit" â†’ positions 0,1,2
         let (_, positions) = subsequence_score("git", "git commit").unwrap();
         assert_eq!(positions, vec![0, 1, 2]);
     }
@@ -1706,7 +1706,7 @@ mod tests {
     #[test]
     fn subseq_score_sorts_correctly_in_overlay() {
         // "git commit" and "get items together" both match query "git".
-        // "git commit" is a substring match → higher score → appears first.
+        // "git commit" is a substring match â†’ higher score â†’ appears first.
         let history = vec![
             "get items together".to_string(),
             "git commit".to_string(),

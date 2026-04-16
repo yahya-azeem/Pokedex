@@ -1,4 +1,4 @@
-// NotebookEditTool: edit Jupyter notebook cells (.ipynb files).
+﻿// NotebookEditTool: edit Jupyter notebook cells (.ipynb files).
 //
 // Supports three edit modes:
 //   - replace: modify an existing cell's source
@@ -205,7 +205,7 @@ fn find_cell_index(cells: &[Value], cell_id: &str) -> Result<usize, String> {
     Err(format!("Cell '{}' not found", cell_id))
 }
 
-/// Generate a simple random cell ID (8 hex chars, like nbformat ≥ 4.5).
+/// Generate a simple random cell ID (8 hex chars, like nbformat â‰¥ 4.5).
 fn generate_cell_id() -> String {
     use std::time::{SystemTime, UNIX_EPOCH};
     let nanos = SystemTime::now()

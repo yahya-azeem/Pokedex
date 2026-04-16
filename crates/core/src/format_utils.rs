@@ -1,8 +1,8 @@
-//! Formatting utilities for cost, duration, and token counts.
+﻿//! Formatting utilities for cost, duration, and token counts.
 //! Mirrors src/utils/formatters.ts and related TS helpers.
 
 /// Format a cost in USD cents as a human-readable string.
-/// 0 → "$0.00", 150 → "$1.50", 0.5 → "$0.01"
+/// 0 â†’ "$0.00", 150 â†’ "$1.50", 0.5 â†’ "$0.01"
 pub fn format_cost_usd(cents: f64) -> String {
     if cents < 0.01 {
         "<$0.01".to_string()
@@ -12,7 +12,7 @@ pub fn format_cost_usd(cents: f64) -> String {
 }
 
 /// Format a duration in milliseconds as a human-readable string.
-/// < 1000ms → "Xms", < 60s → "Xs", < 60m → "Xm Ys", else "Xh Ym"
+/// < 1000ms â†’ "Xms", < 60s â†’ "Xs", < 60m â†’ "Xm Ys", else "Xh Ym"
 pub fn format_duration_ms(ms: u64) -> String {
     if ms < 1_000 {
         format!("{}ms", ms)
@@ -29,7 +29,7 @@ pub fn format_duration_ms(ms: u64) -> String {
     }
 }
 
-/// Format a token count compactly: 1234 → "1.2K", 1234567 → "1.2M"
+/// Format a token count compactly: 1234 â†’ "1.2K", 1234567 â†’ "1.2M"
 pub fn format_tokens(count: u64) -> String {
     if count >= 1_000_000 {
         format!("{:.1}M", count as f64 / 1_000_000.0)
@@ -43,9 +43,9 @@ pub fn format_tokens(count: u64) -> String {
 }
 
 /// Format a token/cost summary line for the status bar.
-/// Example: "3.2K tokens · $0.04"
+/// Example: "3.2K tokens Â· $0.04"
 pub fn format_usage_summary(tokens: u64, cost_cents: f64) -> String {
-    format!("{} tokens · {}", format_tokens(tokens), format_cost_usd(cost_cents))
+    format!("{} tokens Â· {}", format_tokens(tokens), format_cost_usd(cost_cents))
 }
 
 /// Format a relative time string (for session listings).

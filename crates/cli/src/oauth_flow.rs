@@ -1,4 +1,4 @@
-// OAuth 2.0 PKCE login flow for the Pokedex CLI.
+﻿// OAuth 2.0 PKCE login flow for the Pokedex CLI.
 //
 // Implements the same flow as the TypeScript OAuthService + authLogin():
 // 1. Generate PKCE code_verifier / code_challenge / state
@@ -61,8 +61,8 @@ pub struct LoginResult {
 /// Run the interactive OAuth PKCE login flow.
 ///
 /// `login_with_pokedex_ai` selects the authorization endpoint:
-/// - `false` → Console endpoint (creates an API key)
-/// - `true`  → Claude.ai endpoint (user:inference scope, Bearer auth)
+/// - `false` â†’ Console endpoint (creates an API key)
+/// - `true`  â†’ Claude.ai endpoint (user:inference scope, Bearer auth)
 pub async fn run_oauth_login_flow(login_with_pokedex_ai: bool) -> anyhow::Result<LoginResult> {
     // 1. PKCE
     let code_verifier = oauth::generate_code_verifier();

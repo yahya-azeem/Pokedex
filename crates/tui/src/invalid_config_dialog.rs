@@ -1,4 +1,4 @@
-// invalid_config_dialog.rs — Startup dialog for malformed settings.json or CLAUDE.md.
+﻿// invalid_config_dialog.rs — Startup dialog for malformed settings.json or CLAUDE.md.
 //
 // Mirrors TS `InvalidConfigDialog` / `InvalidSettingsDialog`:
 // - Displayed on startup when config parsing fails.

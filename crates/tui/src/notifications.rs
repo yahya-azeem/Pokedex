@@ -1,4 +1,4 @@
-// notifications.rs — Notification / banner system for the TUI.
+﻿// notifications.rs — Notification / banner system for the TUI.
 
 use std::collections::VecDeque;
 use std::time::Instant;
@@ -111,8 +111,8 @@ impl NotificationKind {
 
     pub fn icon(&self) -> &'static str {
         match self {
-            NotificationKind::Info => "ℹ",
-            NotificationKind::Warning => "⚠",
+            NotificationKind::Info => "â„¹",
+            NotificationKind::Warning => "âš ",
             NotificationKind::Error => "✗",
             NotificationKind::Success => "✓",
         }

@@ -1,4 +1,4 @@
-// input.rs — Slash command helpers and input mode types.
+﻿// input.rs — Slash command helpers and input mode types.
 
 /// Check whether a string looks like a slash command (e.g. "/help").
 pub fn is_slash_command(input: &str) -> bool {

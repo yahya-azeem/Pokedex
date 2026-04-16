@@ -1,4 +1,4 @@
-// pokedex-commands: Slash command system for the Pokedex Rust port.
+﻿// pokedex-commands: Slash command system for the Pokedex Rust port.
 //
 // This crate implements the /command framework that allows users to type
 // commands like /help, /compact, /clear, /model, /config, /cost, etc.
@@ -461,7 +461,7 @@ impl SlashCommand for HelpCommand {
         }
 
         let mut output = String::from("Pokedex — Slash Commands\n");
-        output.push_str("════════════════════════════\n");
+        output.push_str("â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•\n");
 
         for cat in &category_order {
             if let Some(entries) = by_cat.get(cat) {
@@ -1098,25 +1098,25 @@ impl SlashCommand for StatusCommand {
 
         CommandResult::Message(format!(
             "Pokedex Status\n\
-             ══════════════════\n\
+             â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•\n\
              Auth:           {auth_status}\n\
              Model:          {model}\n\
              Permission mode: {perm:?}\n\
              Fast mode:      {fast}\n\
              Editor mode:    {editor}\n\n\
              Session\n\
-             ───────\n\
+             â”€â”€â”€â”€â”€â”€â”€\n\
              Session ID:     {sid}\n\
              Title:          {title}\n\
              Messages:       {msgs}\n\
              Working dir:    {wd}\n\
              Git branch:     {branch}\n\n\
              Integrations\n\
-             ────────────\n\
+             â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€\n\
              MCP servers:    {mcp}\n\
              Hooks:          {hooks} configured\n\n\
              Usage\n\
-             ─────\n\
+             â”€â”€â”€â”€â”€\n\
              {summary}",
             auth_status = auth_status,
             model = ctx.config.effective_model(),
@@ -1260,7 +1260,7 @@ impl SlashCommand for MemoryCommand {
             };
         }
 
-        let mut output = String::from("CLAUDE.md Memory Files\n══════════════════════\n");
+        let mut output = String::from("CLAUDE.md Memory Files\nâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•\n");
         let mut found_any = false;
 
         for (label, path) in &locations {
@@ -1272,7 +1272,7 @@ impl SlashCommand for MemoryCommand {
                         let chars = content.len();
                         output.push_str(&format!(
                             "\n[{label}]\nPath: {path}\nSize: {lines} lines, {chars} chars\n\
-                             ─────────────────────────────────\n\
+                             â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€\n\
                              {content}\n",
                             label = label,
                             path = path.display(),
@@ -1369,7 +1369,7 @@ impl SlashCommand for UsageCommand {
 
         CommandResult::Message(format!(
             "API Usage — Current Session\n\
-             ────────────────────────────\n\
+             â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€\n\
              {account_info}\n\
              Model:          {model}\n\n\
              Tokens used this session:\n\
@@ -1645,7 +1645,7 @@ impl SlashCommand for DoctorCommand {
     async fn execute(&self, _args: &str, ctx: &mut CommandContext) -> CommandResult {
         let mut lines: Vec<String> = Vec::new();
 
-        // ── Header ─────────────────────────────────────────────────────────
+        // â”€â”€ Header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         lines.push(format!(
             "Pokedex v{}  |  {}",
             pokedex_core::constants::APP_VERSION,
@@ -1653,7 +1653,7 @@ impl SlashCommand for DoctorCommand {
         ));
         lines.push(String::new());
 
-        // ── API / Auth ──────────────────────────────────────────────────────
+        // â”€â”€ API / Auth â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         lines.push("Authentication".to_string());
         if ctx.config.resolve_api_key().is_some() {
             lines.push("  ✓ API key configured".to_string());
@@ -1667,10 +1667,10 @@ impl SlashCommand for DoctorCommand {
             }
         }
         // Show which model is active
-        lines.push(format!("  • Active model: {}", ctx.config.effective_model()));
+        lines.push(format!("  â€¢ Active model: {}", ctx.config.effective_model()));
         lines.push(String::new());
 
-        // ── Git ─────────────────────────────────────────────────────────────
+        // â”€â”€ Git â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         lines.push("Tools".to_string());
         let git_out = tokio::process::Command::new("git")
             .arg("--version")
@@ -1699,11 +1699,11 @@ impl SlashCommand for DoctorCommand {
                     .to_string();
                 lines.push(format!("  ✓ ripgrep: {first}"));
             }
-            _ => lines.push("  ⚠ ripgrep (rg) not found — Grep tool will fall back to built-in".to_string()),
+            _ => lines.push("  âš  ripgrep (rg) not found — Grep tool will fall back to built-in".to_string()),
         }
         lines.push(String::new());
 
-        // ── Config directory ────────────────────────────────────────────────
+        // â”€â”€ Config directory â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         lines.push("Configuration".to_string());
         let config_dir = pokedex_core::config::Settings::config_dir();
         if config_dir.exists() {
@@ -1723,7 +1723,7 @@ impl SlashCommand for DoctorCommand {
                 None => lines.push("  ✗ settings.json is invalid — run /config to repair".to_string()),
             }
         } else {
-            lines.push("  • settings.json not found (defaults will be used)".to_string());
+            lines.push("  â€¢ settings.json not found (defaults will be used)".to_string());
         }
 
         // CLAUDE.md
@@ -1733,15 +1733,15 @@ impl SlashCommand for DoctorCommand {
         if pokedex_md.as_deref().map(|p| p.exists()).unwrap_or(false) {
             lines.push("  ✓ CLAUDE.md present in working directory".to_string());
         } else {
-            lines.push("  • No CLAUDE.md in working directory (run /init to create one)".to_string());
+            lines.push("  â€¢ No CLAUDE.md in working directory (run /init to create one)".to_string());
         }
         lines.push(String::new());
 
-        // ── MCP servers ─────────────────────────────────────────────────────
+        // â”€â”€ MCP servers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         lines.push("MCP Servers".to_string());
         let mcp_count = ctx.config.mcp_servers.len();
         if mcp_count == 0 {
-            lines.push("  • No MCP servers configured".to_string());
+            lines.push("  â€¢ No MCP servers configured".to_string());
         } else {
             lines.push(format!("  ✓ {mcp_count} MCP server(s) configured:"));
             for srv in ctx.config.mcp_servers.iter().take(8) {
@@ -1753,33 +1753,33 @@ impl SlashCommand for DoctorCommand {
         }
         lines.push(String::new());
 
-        // ── Hooks ───────────────────────────────────────────────────────────
+        // â”€â”€ Hooks â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         lines.push("Hooks".to_string());
         let hook_count: usize = ctx.config.hooks.values().map(|v| v.len()).sum();
         if hook_count == 0 {
-            lines.push("  • No hooks configured".to_string());
+            lines.push("  â€¢ No hooks configured".to_string());
         } else {
             lines.push(format!("  ✓ {hook_count} hook(s) configured across {} event(s)",
                 ctx.config.hooks.len()));
         }
         lines.push(String::new());
 
-        // ── Session / lock ──────────────────────────────────────────────────
+        // â”€â”€ Session / lock â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         lines.push("Session".to_string());
         let lock_path = config_dir.join("pokedex.lock");
         if lock_path.exists() {
-            lines.push("  ⚠ Lock file exists — another instance may be running".to_string());
+            lines.push("  âš  Lock file exists — another instance may be running".to_string());
         } else {
             lines.push("  ✓ No stale lock file".to_string());
         }
 
         // Working directory
         if let Ok(cwd) = std::env::current_dir() {
-            lines.push(format!("  • Working dir: {}", cwd.display()));
+            lines.push(format!("  â€¢ Working dir: {}", cwd.display()));
         }
         lines.push(String::new());
 
-        // ── Available tools ─────────────────────────────────────────────────
+        // â”€â”€ Available tools â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         lines.push("Built-in Tools".to_string());
         let tool_count = pokedex_tools::all_tools().len();
         lines.push(format!("  ✓ {tool_count} built-in tools available"));
@@ -1796,7 +1796,7 @@ impl SlashCommand for LoginCommand {
     fn description(&self) -> &str { "Authenticate with Anthropic (OAuth PKCE flow)" }
 
     async fn execute(&self, args: &str, _ctx: &mut CommandContext) -> CommandResult {
-        // `--console` flag → Console/API-key auth; default → Claude.ai subscription auth
+        // `--console` flag â†’ Console/API-key auth; default â†’ Claude.ai subscription auth
         let login_with_pokedex_ai = !args.contains("--console");
         CommandResult::StartOAuthFlow(login_with_pokedex_ai)
     }
@@ -2016,7 +2016,7 @@ impl SlashCommand for McpCommand {
 
         // /mcp status — detailed status table
         if sub == "status" {
-            let mut output = String::from("MCP Server Status\n─────────────────\n");
+            let mut output = String::from("MCP Server Status\nâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€\n");
             for srv in &ctx.config.mcp_servers {
                 let kind = match srv.server_type.as_str() {
                     "stdio" => "stdio",
@@ -2057,7 +2057,7 @@ impl SlashCommand for McpCommand {
         // Default: /mcp or /mcp list — show configured servers with live status inline
         let manager = ctx.mcp_manager.as_ref();
         let mut output = format!(
-            "Configured MCP Servers ({})\n──────────────────────────\n",
+            "Configured MCP Servers ({})\nâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€\n",
             ctx.config.mcp_servers.len()
         );
         for srv in &ctx.config.mcp_servers {
@@ -2241,7 +2241,7 @@ impl McpCommand {
         } else {
             format!("MCP Tools — all servers ({})", tools.len())
         };
-        let mut out = format!("{}\n{}\n", title, "─".repeat(title.len()));
+        let mut out = format!("{}\n{}\n", title, "â”€".repeat(title.len()));
         let mut last_server = "";
         for (server, tool) in &tools {
             if server.as_str() != last_server && server_filter.is_none() {
@@ -2336,7 +2336,7 @@ impl McpCommand {
             ));
         }
 
-        let mut lines = vec![format!("MCP Server Logs — '{}'\n──────────────────────", server_name)];
+        let mut lines = vec![format!("MCP Server Logs — '{}'\nâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€", server_name)];
 
         if let Some(manager) = &ctx.mcp_manager {
             use pokedex_mcp::McpServerStatus;
@@ -2417,7 +2417,7 @@ impl McpCommand {
                         "No resources available (servers may not support resources/list).".to_string()
                     ));
                 }
-                let mut out = format!("MCP Resources ({})\n──────────────────\n", resources.len());
+                let mut out = format!("MCP Resources ({})\nâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€\n", resources.len());
                 for r in &resources {
                     let server = r.get("server").and_then(|v| v.as_str()).unwrap_or("?");
                     let uri = r.get("uri").and_then(|v| v.as_str()).unwrap_or("?");
@@ -2439,7 +2439,7 @@ impl McpCommand {
                         "No prompt templates available (servers may not support prompts/list).".to_string()
                     ));
                 }
-                let mut out = format!("MCP Prompt Templates ({})\n─────────────────────────\n", prompts.len());
+                let mut out = format!("MCP Prompt Templates ({})\nâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€\n", prompts.len());
                 for p in &prompts {
                     let server = p.get("server").and_then(|v| v.as_str()).unwrap_or("?");
                     let name = p.get("name").and_then(|v| v.as_str()).unwrap_or("?");
@@ -2535,7 +2535,7 @@ impl SlashCommand for PermissionsCommand {
             };
             return CommandResult::Message(format!(
                 "Permission Settings\n\
-                 ───────────────────\n\
+                 â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€\n\
                  Mode:          {:?}\n\
                  Allowed tools: {}\n\
                  Denied tools:  {}\n\n\
@@ -2643,7 +2643,7 @@ impl SlashCommand for PermissionsCommand {
 #[async_trait]
 impl SlashCommand for PlanCommand {
     fn name(&self) -> &str { "plan" }
-    fn description(&self) -> &str { "Enter plan mode – model outputs a plan for approval before acting" }
+    fn description(&self) -> &str { "Enter plan mode â€“ model outputs a plan for approval before acting" }
     fn help(&self) -> &str {
         "Usage: /plan [description]\n\n\
          Switches to plan mode where the model will create a detailed plan before executing.\n\
@@ -2720,7 +2720,7 @@ impl SlashCommand for SessionCommand {
             "" => {
                 // If a bridge remote URL is active, show it prominently.
                 if let Some(ref url) = ctx.remote_session_url {
-                    let border = "─".repeat(url.len().min(60) + 4);
+                    let border = "â”€".repeat(url.len().min(60) + 4);
                     let display_url = if url.len() > 60 {
                         format!("{}…", &url[..60])
                     } else {
@@ -2728,9 +2728,9 @@ impl SlashCommand for SessionCommand {
                     };
                     CommandResult::Message(format!(
                         "Remote session active\n\
-                         ┌{border}┐\n\
-                         │  {display_url}  │\n\
-                         └{border}┘\n\n\
+                         â”Œ{border}â”\n\
+                         â”‚  {display_url}  â”‚\n\
+                         â””{border}â”˜\n\n\
                          Open the URL above on any device to connect remotely.\n\
                          Session ID: {}",
                         ctx.session_id,
@@ -2740,7 +2740,7 @@ impl SlashCommand for SessionCommand {
                     let sessions = pokedex_core::history::list_sessions().await;
                     let mut output = format!(
                         "Current session\n\
-                         ───────────────\n\
+                         â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€\n\
                          ID:       {}\n\
                          Title:    {}\n\
                          Messages: {}\n\
@@ -2756,7 +2756,7 @@ impl SlashCommand for SessionCommand {
                         for sess in sessions.iter().take(5) {
                             let updated = sess.updated_at.format("%Y-%m-%d %H:%M").to_string();
                             let id_short = &sess.id[..sess.id.len().min(8)];
-                            let marker = if sess.id == ctx.session_id { " ◀ current" } else { "" };
+                            let marker = if sess.id == ctx.session_id { " â—€ current" } else { "" };
                             output.push_str(&format!(
                                 "  {} | {} | {} messages | {}{}\n",
                                 id_short,
@@ -2940,7 +2940,7 @@ impl SlashCommand for RewindCommand {
     fn help(&self) -> &str {
         "Usage: /rewind\n\
          Opens an interactive overlay to select the message to rewind to.\n\
-         Use ↑↓ to navigate, Enter to select, y/n to confirm."
+         Use â†‘â†“ to navigate, Enter to select, y/n to confirm."
     }
 
     async fn execute(&self, _args: &str, ctx: &mut CommandContext) -> CommandResult {
@@ -2967,7 +2967,7 @@ impl SlashCommand for StatsCommand {
 
         CommandResult::Message(format!(
             "Session statistics\n\
-             ──────────────────\n\
+             â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€\n\
              Model:          {}\n\
              Messages:       {}\n\
              Input tokens:   {}\n\
@@ -3240,7 +3240,7 @@ impl SlashCommand for RemoteControlCommand {
                 let session_section = if let Some(ref url) = ctx.remote_session_url {
                     format!(
                         "\nActive Session\n\
-                         ──────────────\n\
+                         â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€\n\
                          Session URL:  {url}\n\
                          Share this URL or QR code with others to let them connect\n\
                          to this Pokedex session from the pokedex.ai web UI.\n",
@@ -3256,33 +3256,33 @@ impl SlashCommand for RemoteControlCommand {
 
                 CommandResult::Message(format!(
                     "Remote Control (Bridge)\n\
-                     ═══════════════════════\n\
+                     â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•\n\
                      What it does: lets you connect the pokedex.ai web UI or mobile app\n\
                      to this running Pokedex CLI session on your local machine.\n\
                      All prompts and responses are relayed bidirectionally.\n\
                      \n\
                      Local Machine\n\
-                     ─────────────\n\
+                     â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€\n\
                      Hostname:     {hostname}\n\
                      Device ID:    {fp_short}… (SHA-256 fingerprint)\n\
                      \n\
                      Bridge Configuration\n\
-                     ────────────────────\n\
+                     â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€\n\
                      Bridge server:   {bridge_url}\n\
                      Session token:   {token_status}\n\
                      Startup mode:    {startup_status}\n\
                      {session_section}\n\
                      How to connect\n\
-                     ──────────────\n\
-                     1. Obtain a session token from pokedex.ai (Settings → Remote Control)\n\
+                     â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€\n\
+                     1. Obtain a session token from pokedex.ai (Settings â†’ Remote Control)\n\
                      2. Set it:  export CLAUDE_CODE_BRIDGE_TOKEN=<your-token>\n\
                      3. Enable:  /remote-control start\n\
                      4. Restart Pokedex — the bridge will connect automatically\n\
                      5. Open {bridge_url}/pokedex-code in your browser\n\
                      \n\
                      Note: Full bridge polling requires server-side session infrastructure.\n\
-                     The pokedex-bridge crate implements the complete protocol (register → poll\n\
-                     → events) and is ready to use once a valid session token is provided.\n\
+                     The pokedex-bridge crate implements the complete protocol (register â†’ poll\n\
+                     â†’ events) and is ready to use once a valid session token is provided.\n\
                      \n\
                      Use /remote-control start   to enable bridge at next startup\n\
                      Use /remote-control stop    to disable bridge at startup",
@@ -3308,7 +3308,7 @@ impl SlashCommand for RemoteControlCommand {
                 } else {
                     format!(
                         "No session token found.\n\
-                         Get a token from {bridge_url} (Settings → Remote Control)\n\
+                         Get a token from {bridge_url} (Settings â†’ Remote Control)\n\
                          then run:  export CLAUDE_CODE_BRIDGE_TOKEN=<token>",
                         bridge_url = bridge_url
                     )
@@ -3476,7 +3476,7 @@ impl SlashCommand for ContextCommand {
 
         let bar_width = 40usize;
         let filled = ((pct / 100.0) * bar_width as f64).round() as usize;
-        let bar: String = "█".repeat(filled) + &"░".repeat(bar_width.saturating_sub(filled));
+        let bar: String = "█".repeat(filled) + &"—‘".repeat(bar_width.saturating_sub(filled));
 
         // Estimate approximate message tokens from the message list
         let msg_char_count: usize = ctx.messages.iter().map(|m| m.get_all_text().len()).sum();
@@ -3485,7 +3485,7 @@ impl SlashCommand for ContextCommand {
 
         CommandResult::Message(format!(
             "Context Window Usage\n\
-             ────────────────────\n\
+             â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€\n\
              Model:          {model}\n\
              Context window: {window:>10} tokens\n\
              API tokens used:{used:>10} tokens  ({pct:.1}%)\n\
@@ -3904,7 +3904,7 @@ impl SlashCommand for ReleaseNotesCommand {
                     "Release Notes: Pokedex {tag}\n\
                      Published: {published}\n\
                      URL: {html_url}\n\
-                     ─────────────────────────────────\n\
+                     â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€\n\
                      {body}"
                 ))
             }
@@ -3964,16 +3964,16 @@ impl SlashCommand for RateLimitOptionsCommand {
 
         CommandResult::Message(format!(
             "Rate Limit Status\n\
-             ─────────────────\n\
+             â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€\n\
              {tier_info}\n\n\
              Available tiers:\n\
-             ┌─────────────────────────────────────────────────┐\n\
-             │ Free          │ Limited daily usage             │\n\
-             │ Pro           │ Higher limits, faster resets    │\n\
-             │ Max (5x)      │ 5× Pro limits                   │\n\
-             │ Max (20x)     │ 20× Pro limits (highest tier)   │\n\
-             │ API / Console │ Usage-billed, no hard cap       │\n\
-             └─────────────────────────────────────────────────┘\n\n\
+             â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”\n\
+             â”‚ Free          â”‚ Limited daily usage             â”‚\n\
+             â”‚ Pro           â”‚ Higher limits, faster resets    â”‚\n\
+             â”‚ Max (5x)      â”‚ 5× Pro limits                   â”‚\n\
+             â”‚ Max (20x)     â”‚ 20× Pro limits (highest tier)   â”‚\n\
+             â”‚ API / Console â”‚ Usage-billed, no hard cap       â”‚\n\
+             â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜\n\n\
              To upgrade: /upgrade\n\
              Manage billing: https://pokedex.ai/settings/billing",
             tier_info = tier_info,
@@ -4006,7 +4006,7 @@ impl SlashCommand for StatuslineCommand {
         if args.is_empty() {
             return CommandResult::Message(format!(
                 "Status line configuration\n\
-                 ─────────────────────────\n\
+                 â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€\n\
                  Show cost:   {cost}\n\
                  Show tokens: {tokens}\n\
                  Show model:  {model}\n\
@@ -4192,10 +4192,10 @@ impl SlashCommand for TerminalSetupCommand {
 
         CommandResult::Message(format!(
             "Terminal Setup Diagnostic\n\
-             ─────────────────────────\n\
+             â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€\n\
              {checks}\n\n\
              Recommendations for optimal Pokedex experience:\n\
-             ─────────────────────────────────────────────────\n\
+             â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€\n\
              1. Font: Use a Nerd Font for box-drawing characters and icons\n\
                 {nerd_hint}\n\
                 Download: https://www.nerdfonts.com/\n\
@@ -4265,7 +4265,7 @@ impl SlashCommand for ExtraUsageCommand {
 
         CommandResult::Message(format!(
             "Detailed Usage Statistics\n\
-             ─────────────────────────\n\
+             â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€\n\
              API calls:           {api_calls}\n\
              Avg cost/call:       ${cost_per_call:.4}\n\n\
              Token Breakdown:\n\
@@ -4382,16 +4382,16 @@ impl SlashCommand for InstallSlackAppCommand {
     async fn execute(&self, _args: &str, _ctx: &mut CommandContext) -> CommandResult {
         CommandResult::Message(
             "Pokedex Slack Integration\n\
-             ─────────────────────────────\n\
+             â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€\n\
              To install Pokedex in Slack:\n\n\
              1. Ensure you have a Claude for Enterprise subscription\n\
-             2. Visit your Anthropic Console → Integrations → Slack\n\
+             2. Visit your Anthropic Console â†’ Integrations â†’ Slack\n\
              3. Click \"Add to Slack\" and authorize the app\n\
              4. Invite @Claude to any channel with: /invite @Claude\n\n\
              In Slack, you can then:\n\
-             • Mention @Claude to ask questions in any channel\n\
-             • Use /pokedex for direct commands\n\
-             • Share code snippets for review\n\n\
+             â€¢ Mention @Claude to ask questions in any channel\n\
+             â€¢ Use /pokedex for direct commands\n\
+             â€¢ Share code snippets for review\n\n\
              See: https://docs.anthropic.com/pokedex-code/slack"
                 .to_string(),
         )
@@ -4520,9 +4520,9 @@ impl SlashCommand for ThinkBackCommand {
 
         CommandResult::Message(format!(
             "Thinking trace ({n} of {total} found, from message {msg}):\n\
-             ─────────────────────────────────────\n\
+             â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€\n\
              {trace}\n\
-             ─────────────────────────────────────\n\
+             â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€\n\
              Use /think-back <n> to see older traces.",
             n = n,
             total = total,
@@ -4585,14 +4585,14 @@ impl SlashCommand for ThinkBackPlayCommand {
         let steps: Vec<&str> = trace.split('\n').filter(|l| !l.trim().is_empty()).collect();
         let mut formatted = format!(
             "Thinking Trace Replay ({}/{total})\n\
-             ══════════════════════════════════\n",
+             â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•\n",
             n,
             total = total
         );
         for (i, step) in steps.iter().enumerate() {
             formatted.push_str(&format!("  Step {}: {}\n", i + 1, step));
         }
-        formatted.push_str("══════════════════════════════════\n");
+        formatted.push_str("â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•\n");
         formatted.push_str(&format!(
             "{} steps shown. Use /think-back for raw traces.",
             steps.len()
@@ -4929,16 +4929,16 @@ impl SlashCommand for CtxVizCommand {
 
         let bar_width = 40usize;
         let filled = ((pct / 100.0) * bar_width as f64).round() as usize;
-        let bar = "█".repeat(filled) + &"░".repeat(bar_width.saturating_sub(filled));
+        let bar = "█".repeat(filled) + &"—‘".repeat(bar_width.saturating_sub(filled));
 
         CommandResult::Message(format!(
             "Context Window Usage\n\
-             ────────────────────────────────────────\n\
+             â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€\n\
              Model:            {model}\n\
              System prompt:    ~{sys:>7} tokens\n\
              Conversation:     ~{conv:>7} tokens\n\
              Tool results:     ~{tool:>7} tokens\n\
-             ────────────────────────────────────────\n\
+             â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€\n\
              Total:            ~{total:>7} / {window} tokens ({pct:.1}%)\n\
              [{bar}] {pct:.1}%\n\n\
              Use /compact to reduce context usage.",
@@ -5053,7 +5053,7 @@ impl SlashCommand for HeapdumpCommand {
         let body = lines.join("\n");
         CommandResult::Message(format!(
             "Heap Diagnostic\n\
-             ─────────────────────────────\n\
+             â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€\n\
              {body}"
         ))
     }
@@ -5114,24 +5114,24 @@ impl SlashCommand for InsightsCommand {
 
         CommandResult::Message(format!(
             "Session Insights\n\
-             ──────────────────────────────────────\n\
+             â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€\n\
              Conversation\n\
-             ├─ User turns          : {user_turns}\n\
-             ├─ Assistant turns     : {assistant_turns}\n\
-             └─ Completed exchanges : {total_turns}\n\
+             â”œâ”€ User turns          : {user_turns}\n\
+             â”œâ”€ Assistant turns     : {assistant_turns}\n\
+             â””â”€ Completed exchanges : {total_turns}\n\
              \n\
              Tokens\n\
-             ├─ Input               : {input_tokens}\n\
-             ├─ Output              : {output_tokens}\n\
-             ├─ Total               : {total_tokens}\n\
-             └─ Avg per exchange    : {avg_tokens_per_turn}\n\
+             â”œâ”€ Input               : {input_tokens}\n\
+             â”œâ”€ Output              : {output_tokens}\n\
+             â”œâ”€ Total               : {total_tokens}\n\
+             â””â”€ Avg per exchange    : {avg_tokens_per_turn}\n\
              \n\
              Cost\n\
-             └─ Estimated USD       : ${total_cost:.4}\n\
+             â””â”€ Estimated USD       : ${total_cost:.4}\n\
              \n\
              Tools\n\
-             ├─ Total calls         : {total_tool_calls}\n\
-             └─ Most used           : {most_frequent_tool}",
+             â”œâ”€ Total calls         : {total_tool_calls}\n\
+             â””â”€ Most used           : {most_frequent_tool}",
             user_turns = user_turns,
             assistant_turns = assistant_turns,
             total_turns = total_turns,
@@ -5187,7 +5187,7 @@ impl SlashCommand for UltrareviewCommand {
              - Cryptographic weaknesses (weak algorithms, key reuse, bad IV)\n\
              - Supply chain / dependency confusion risks\n\n\
              ## 2. Performance\n\
-             - Algorithmic complexity: O(n²) or worse in hot paths\n\
+             - Algorithmic complexity: O(nÂ²) or worse in hot paths\n\
              - Unnecessary allocations, copies, or clones\n\
              - Database N+1 query patterns\n\
              - Missing indexes on frequently queried fields\n\
@@ -5634,7 +5634,7 @@ mod tests {
     async fn test_login_command_starts_oauth_flow() {
         let mut ctx = make_ctx();
         let cmd = find_command("login").unwrap();
-        // Default (no --console) → login_with_pokedex_ai = true
+        // Default (no --console) â†’ login_with_pokedex_ai = true
         let result = cmd.execute("", &mut ctx).await;
         assert!(matches!(result, CommandResult::StartOAuthFlow(true)));
     }

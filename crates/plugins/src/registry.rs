@@ -1,4 +1,4 @@
-/// Plugin registry — holds all loaded plugins and provides queries.
+﻿/// Plugin registry — holds all loaded plugins and provides queries.
 ///
 /// Ported from the TS "enabled plugins" concept in `pluginLoader.ts` and the
 /// app-state plugin arrays.

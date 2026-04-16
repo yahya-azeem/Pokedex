@@ -1,0 +1,85 @@
+# Promptfoo Model Evaluation for Pokedex Swarm
+# Benchmarks different LLM models against specific agent roles
+# to drive automatic model selection in the swarm orchestrator.
+
+description: "Pokedex Swarm - Role-Specific Model Evaluation"
+
+providers:
+  # Claude Models
+  - id: anthropic:claude-sonnet-4-20250514
+    label: "Claude Sonnet 4"
+  - id: anthropic:claude-opus-4-20250514
+    label: "Claude Opus 4"
+
+  # OpenAI Models
+  - id: openai:gpt-4o
+    label: "GPT-4o"
+  - id: openai:gpt-4o-mini
+    label: "GPT-4o Mini"
+
+  # Gemini Models
+  - id: google:gemini-2.5-pro
+    label: "Gemini 2.5 Pro"
+  - id: google:gemini-2.5-flash
+    label: "Gemini 2.5 Flash"
+
+prompts:
+  - file://prompts/engineering_task.txt
+  - file://prompts/creative_task.txt
+  - file://prompts/analytical_task.txt
+  - file://prompts/management_task.txt
+
+tests:
+  # Engineering Role Tests
+  - vars:
+      role: "Senior Software Engineer"
+      task: "Design a REST API for a real-time collaboration platform. Include endpoints, data models, and authentication strategy."
+    assert:
+      - type: contains
+        value: "endpoint"
+      - type: contains
+        value: "authentication"
+      - type: llm-rubric
+        value: "Response should be technically detailed, well-structured, and production-ready"
+
+  - vars:
+      role: "Backend Architect"
+      task: "Design the database schema for a multi-tenant SaaS application with role-based access control."
+    assert:
+      - type: contains
+        value: "schema"
+      - type: llm-rubric
+        value: "Response should cover normalization, indexing, and multi-tenancy patterns"
+
+  # Creative Role Tests
+  - vars:
+      role: "UX Designer"
+      task: "Design the user flow for an onboarding experience in a project management tool."
+    assert:
+      - type: llm-rubric
+        value: "Response should be user-centric, mention specific UI patterns, and consider accessibility"
+
+  - vars:
+      role: "Marketing Strategist"
+      task: "Create a go-to-market strategy for a developer-focused AI code review tool."
+    assert:
+      - type: llm-rubric
+        value: "Response should include target audience, channels, messaging, and metrics"
+
+  # Analytical Role Tests
+  - vars:
+      role: "Data Engineer"
+      task: "Design a data pipeline to process 1M events/day from IoT sensors, with real-time dashboards."
+    assert:
+      - type: llm-rubric
+        value: "Response should mention streaming architecture, storage, and visualization tools"
+
+  # Management Role Tests
+  - vars:
+      role: "Project Manager"
+      task: "Break down 'build a mobile app for habit tracking' into a 4-week sprint plan with milestones."
+    assert:
+      - type: llm-rubric
+        value: "Response should have clear milestones, task assignments, and risk assessment"
+
+outputPath: ./results/evaluation_results.json

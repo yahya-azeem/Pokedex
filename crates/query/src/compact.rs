@@ -259,7 +259,7 @@ impl Default for MicroCompactConfig {
 ///
 /// Returns `Some(new_messages)` when compaction occurred, `None` otherwise.
 pub async fn micro_compact_if_needed(
-    client: &pokedex_api::AnthropicClient,
+    client: &pokedex_api::ProviderClient,
     messages: &[Message],
     input_tokens: u64,
     model: &str,
@@ -533,7 +533,7 @@ pub fn should_auto_compact(input_tokens: u64, model: &str, state: &AutoCompactSt
 /// carefully crafted compaction prompt from TypeScript prompt.ts.
 /// Returns a new conversation: [summary user msg] + messages[split_at..].
 async fn summarise_head(
-    client: &pokedex_api::AnthropicClient,
+    client: &pokedex_api::ProviderClient,
     messages: &[Message],
     split_at: usize,
     model: &str,
@@ -609,7 +609,8 @@ async fn summarise_head(
              be important for continuing the work. Follow the structured format exactly."
                 .to_string(),
         ))
-        .build();
+        .build()
+        .map_err(|e| pokedex_core::error::ClaudeError::Api(e.to_string()))?;
 
     // Use a null handler since we just want the final accumulated message.
     let handler: Arc<dyn StreamHandler> = Arc::new(pokedex_api::streaming::NullStreamHandler);
@@ -618,7 +619,7 @@ async fn summarise_head(
 
     while let Some(evt) = rx.recv().await {
         acc.on_event(&evt);
-        if matches!(evt, StreamEvent::MessageStop) {
+        if matches!(evt, StreamEvent::MessageStop { .. }) {
             break;
         }
     }
@@ -650,7 +651,7 @@ async fn summarise_head(
 /// Compact `messages` in-place, replacing the head with a summary.
 /// Returns the new messages vector on success.
 pub async fn compact_conversation(
-    client: &pokedex_api::AnthropicClient,
+    client: &pokedex_api::ProviderClient,
     messages: &[Message],
     model: &str,
 ) -> Result<Vec<Message>, ClaudeError> {
@@ -681,7 +682,7 @@ pub async fn compact_conversation(
 /// Auto-compact `messages` if needed.  Updates `state` in place.
 /// Returns `Some(new_messages)` if compaction ran, `None` otherwise.
 pub async fn auto_compact_if_needed(
-    client: &pokedex_api::AnthropicClient,
+    client: &pokedex_api::ProviderClient,
     messages: &[Message],
     input_tokens: u64,
     model: &str,
@@ -875,7 +876,7 @@ fn strip_images(messages: Vec<pokedex_core::types::Message>) -> Vec<pokedex_core
 /// a long-running compact.
 pub async fn reactive_compact(
     messages: Vec<pokedex_core::types::Message>,
-    client: &pokedex_api::AnthropicClient,
+    client: &pokedex_api::ProviderClient,
     config: &crate::QueryConfig,
     cancel: tokio_util::sync::CancellationToken,
     recently_modified: &[std::path::PathBuf],
@@ -964,7 +965,7 @@ pub async fn reactive_compact(
 /// to free enough space.
 pub async fn context_collapse(
     messages: Vec<pokedex_core::types::Message>,
-    client: &pokedex_api::AnthropicClient,
+    client: &pokedex_api::ProviderClient,
     config: &crate::QueryConfig,
 ) -> Result<CompactResult, pokedex_core::error::ClaudeError> {
     use pokedex_api::{ApiMessage, CreateMessageRequest, StreamAccumulator, StreamEvent, StreamHandler, SystemPrompt};
@@ -1019,7 +1020,8 @@ pub async fn context_collapse(
              summary as instructed. Plain text only."
                 .to_string(),
         ))
-        .build();
+        .build()
+        .map_err(|e| pokedex_core::error::ClaudeError::Api(e.to_string()))?;
 
     let handler: Arc<dyn StreamHandler> = Arc::new(pokedex_api::streaming::NullStreamHandler);
     let mut rx = client.create_message_stream(request, handler).await?;
@@ -1027,7 +1029,7 @@ pub async fn context_collapse(
 
     while let Some(evt) = rx.recv().await {
         acc.on_event(&evt);
-        if matches!(evt, StreamEvent::MessageStop) {
+        if matches!(evt, StreamEvent::MessageStop { .. }) {
             break;
         }
     }

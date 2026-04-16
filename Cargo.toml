@@ -11,7 +11,7 @@ members = [
     "crates/bridge",
     "crates/cli",
     "crates/buddy",
-    "crates/plugins",
+    "crates/plugins", "crates/swarm", "crates/server", "crates/mempalace", "scratch_sse",
 ]
 
 [workspace.package]
@@ -52,7 +52,7 @@ tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
 
 # Utilities
-uuid = { version = "1", features = ["v4"] }
+uuid = { version = "1", features = ["v4", "serde"] }
 chrono = { version = "0.4", features = ["serde"] }
 regex = "1"
 glob = "0.3"
@@ -77,7 +77,9 @@ urlencoding = "2"
 open = "5"
 qrcode = "0.14"
 
-# Text processing
+# Semantic Search & Text Processing
+rust-stemmers = "1"
+rusqlite = { version = "0.32", features = ["bundled", "uuid", "chrono"] }
 similar = "2"
 syntect = { version = "5", default-features = false, features = ["default-syntaxes", "default-themes", "html"] }
 unicode-width = "0.2"
@@ -103,3 +105,6 @@ pokedex-mcp = { path = "crates/mcp" }
 pokedex-bridge = { path = "crates/bridge" }
 pokedex-buddy = { path = "crates/buddy" }
 pokedex-plugins = { path = "crates/plugins" }
+pokedex-swarm = { path = "crates/swarm" }
+pokedex-server = { path = "crates/server" }
+pokedex-mempalace = { path = "crates/mempalace" }

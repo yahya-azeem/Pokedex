@@ -48,7 +48,7 @@ impl Tool for McpToolWrapper {
     }
 
     fn permission_level(&self) -> PermissionLevel {
-        // MCP tools run external processes – treat as Execute.
+        // MCP tools run external processes â€“ treat as Execute.
         PermissionLevel::Execute
     }
 
@@ -458,29 +458,36 @@ async fn main() -> anyhow::Result<()> {
     let (api_key, use_bearer_auth) = match config.resolve_auth_async().await {
         Some(auth) => auth,
         None => {
-            // No credential found — run interactive OAuth login (non-headless) or error.
-            if is_headless {
+            // Multi-provider check: If we have Google or GitHub keys, we don't NEED Anthropic.
+            let has_other_keys = std::env::var("GOOGLE_API_KEY").is_ok() || std::env::var("GITHUB_TOKEN").is_ok();
+            
+            if has_other_keys {
+                // Return an empty key and bypass the login flow.
+                ("missing_anthropic".to_string(), false)
+            } else if is_headless {
                 anyhow::bail!(
-                    "No API key found. Set ANTHROPIC_API_KEY, use --api-key, or run `pokedex login`."
+                    "No API key found. Set ANTHROPIC_API_KEY, GOOGLE_API_KEY, or GITHUB_TOKEN."
                 );
+            } else {
+                eprintln!("No authentication found. Starting login flow...");
+                let result = oauth_flow::run_oauth_login_flow(true)
+                    .await
+                    .context("Login failed")?;
+                println!("Login successful!");
+                (result.credential, result.use_bearer_auth)
             }
-            eprintln!("No authentication found. Starting login flow...");
-            let result = oauth_flow::run_oauth_login_flow(true)
-                .await
-                .context("Login failed")?;
-            println!("Login successful!");
-            (result.credential, result.use_bearer_auth)
         }
     };
 
     let client_config = pokedex_api::client::ClientConfig {
-        api_key: api_key.clone(),
+        api_key: Some(api_key.clone()),
+        google_api_key: std::env::var("GOOGLE_API_KEY").ok(),
+        github_token: std::env::var("GITHUB_TOKEN").ok(),
         api_base: config.resolve_api_base(),
         use_bearer_auth,
-        ..Default::default()
     };
     let client = Arc::new(
-        pokedex_api::AnthropicClient::new(client_config)
+        pokedex_api::ProviderClient::new(client_config)
             .context("Failed to create API client")?,
     );
 
@@ -534,7 +541,7 @@ async fn main() -> anyhow::Result<()> {
     };
 
     // Build the full tool list: built-ins from pokedex-tools plus AgentTool from pokedex-query
-    // (AgentTool lives in pokedex-query to avoid a circular pokedex-tools ↔ pokedex-query dependency).
+    // (AgentTool lives in pokedex-query to avoid a circular pokedex-tools â†” pokedex-query dependency).
     // Wrap in Arc so the list can be shared by the main loop AND the cron scheduler.
     let tools = build_tools_with_mcp(mcp_manager_arc.clone());
 
@@ -672,7 +679,7 @@ fn build_tools_with_mcp(
 
 async fn run_headless(
     cli: &Cli,
-    client: Arc<pokedex_api::AnthropicClient>,
+    client: Arc<pokedex_api::ProviderClient>,
     tools: Arc<Vec<Box<dyn pokedex_tools::Tool>>>,
     tool_ctx: ToolContext,
     query_config: pokedex_query::QueryConfig,
@@ -924,7 +931,7 @@ async fn run_headless(
 async fn run_interactive(
     config: Config,
     settings: pokedex_core::config::Settings,
-    client: Arc<pokedex_api::AnthropicClient>,
+    client: Arc<pokedex_api::ProviderClient>,
     tools: Arc<Vec<Box<dyn pokedex_tools::Tool>>>,
     tool_ctx: ToolContext,
     query_config: pokedex_query::QueryConfig,
@@ -1185,15 +1192,15 @@ async fn run_interactive(
                             let cmd_name = cmd_name.to_string();
                             let cmd_args = cmd_args.to_string();
 
-                            // ── Step 1: TUI-layer intercept (overlays, toggles) ────────
+                            // â”€â”€ Step 1: TUI-layer intercept (overlays, toggles) â”€â”€â”€â”€â”€â”€â”€â”€
                             // Run first so we know whether a UI overlay opened, which
                             // lets us suppress redundant CLI text output below.
                             //
                             // Skip TUI overlay for arg-bearing commands where the user
                             // wants to SET state, not browse a picker:
-                            //   /model pokedex-haiku  → set model, don't open picker
-                            //   /theme dark          → set theme, don't open picker
-                            //   /resume <id>         → load session, don't open browser
+                            //   /model pokedex-haiku  â†’ set model, don't open picker
+                            //   /theme dark          â†’ set theme, don't open picker
+                            //   /resume <id>         â†’ load session, don't open browser
                             // Also skip TUI for /vim, /voice, /fast with explicit
                             // on|off args so the blind-toggle doesn't misfire.
                             let skip_tui_for_args = !cmd_args.is_empty()
@@ -1209,7 +1216,7 @@ async fn run_interactive(
                             };
 
                             // Sync effort level when TUI cycled the visual indicator
-                            // (no-args /effort → cycle Low→Med→High→Max→Low).
+                            // (no-args /effort â†’ cycle Lowâ†’Medâ†’Highâ†’Maxâ†’Low).
                             if handled_by_tui && cmd_name == "effort" && cmd_args.is_empty() {
                                 current_effort = Some(match app.effort_level {
                                     pokedex_tui::EffortLevel::Low =>
@@ -1228,7 +1235,7 @@ async fn run_interactive(
                                 break 'main;
                             }
 
-                            // ── Step 2: CLI-layer (real side effects) ──────────────────
+                            // â”€â”€ Step 2: CLI-layer (real side effects) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
                             // Handles: config changes, session ops, file I/O, OAuth, etc.
                             // Always runs — some commands need BOTH (e.g. /clear clears
                             // app state via TUI AND the messages vec via CLI).
